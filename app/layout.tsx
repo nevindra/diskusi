@@ -2,7 +2,10 @@ import { FooterComponent } from "@/components/home/footer";
 import { NavbarComponent } from "@/components/navbar";
 import { fontSans } from "@/config/fonts";
 import "@/styles/globals.css";
+import { QueryClient } from "@tanstack/react-query";
 import { Providers } from "./providers";
+
+const queryClient = new QueryClient();
 
 export default function RootLayout({
 	children,

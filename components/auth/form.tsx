@@ -7,6 +7,7 @@ import { FcGoogle } from "react-icons/fc";
 import { EyeFilledIcon, EyeSlashFilledIcon } from "../icons";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -32,7 +33,7 @@ export const FormComponent = () => {
 		control,
 		handleSubmit,
 		formState: { errors, isSubmitting },
-		setError
+		setError,
 	} = useForm<RegisterFormData>({
 		resolver: zodResolver(RegisterSchema),
 		defaultValues: {
@@ -43,31 +44,33 @@ export const FormComponent = () => {
 		},
 	});
 
-	const onSubmit = async (data: RegisterFormData) => {
-		try {
-			const response = await fetch("/signup/api/signup", {
+	const signupMutation = useMutation({
+		mutationFn: (data: RegisterFormData) =>
+			fetch("/signup/api/signup", {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
 				},
 				body: JSON.stringify(data),
-			});
+			}).then((res) => {
+				if (!res.ok) {
+					return res.json().then((data) => {
+						throw new Error(data.message);
+					});
+				}
+				return res.json();
+			}),
+		onSuccess: () => {
+			router.push("/account");
+		},
+		onError: (error: Error) => {
+			console.error("Signup failed:", error.message);
+			setError("terms", { type: "manual", message: error.message });
+		},
+	});
 
-			if (response.ok) {
-				// Signup successful
-				router.push("/account"); // Redirect to login page
-			} else {
-				// Handle errors
-				const errorData = await response.json();
-				console.error("Signup failed:", errorData.message);
-				// You might want to show an error message to the user here
-				setError("terms", { type: "manual", message: errorData.message });
-			}
-		} catch (error) {
-			console.error("Signup error:", error);
-			// Handle network errors
-			setError("terms", { type: "manual", message: "Network error, please try again." });
-		}
+	const onSubmit = async (data: RegisterFormData) => {
+		signupMutation.mutate(data);
 	};
 
 	return (
