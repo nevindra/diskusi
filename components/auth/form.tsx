@@ -7,7 +7,8 @@ import { FcGoogle } from "react-icons/fc";
 import { EyeFilledIcon, EyeSlashFilledIcon } from "../icons";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from 'react';
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -23,14 +24,15 @@ const RegisterSchema = z.object({
 type RegisterFormData = z.infer<typeof RegisterSchema>;
 
 export const FormComponent = () => {
+	const router = useRouter();
 	const [isVisible, setIsVisible] = useState(false);
-
 	const toggleVisibility = () => setIsVisible(!isVisible);
 
 	const {
 		control,
 		handleSubmit,
 		formState: { errors, isSubmitting },
+		setError
 	} = useForm<RegisterFormData>({
 		resolver: zodResolver(RegisterSchema),
 		defaultValues: {
@@ -41,9 +43,31 @@ export const FormComponent = () => {
 		},
 	});
 
-	const onSubmit = (data: RegisterFormData) => {
-		console.log("Form submitted", data);
-		// Handle form submission logic here
+	const onSubmit = async (data: RegisterFormData) => {
+		try {
+			const response = await fetch("/signup/api/signup", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(data),
+			});
+
+			if (response.ok) {
+				// Signup successful
+				router.push("/account"); // Redirect to login page
+			} else {
+				// Handle errors
+				const errorData = await response.json();
+				console.error("Signup failed:", errorData.message);
+				// You might want to show an error message to the user here
+				setError("terms", { type: "manual", message: errorData.message });
+			}
+		} catch (error) {
+			console.error("Signup error:", error);
+			// Handle network errors
+			setError("terms", { type: "manual", message: "Network error, please try again." });
+		}
 	};
 
 	return (
@@ -90,7 +114,7 @@ export const FormComponent = () => {
 								{...field}
 								label="Password"
 								placeholder="Enter your password"
-                                type={isVisible ? "text" : "password"}
+								type={isVisible ? "text" : "password"}
 								variant="bordered"
 								endContent={
 									<button
