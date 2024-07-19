@@ -1,11 +1,15 @@
-import { Fira_Code as FontMono, Inter as FontSans } from "next/font/google";
+import { Montserrat, Roboto_Mono } from "next/font/google";
 
-export const fontSans = FontSans({
+export const MontserratFont = Montserrat({
+  weight: "500",
+  style: "normal",
   subsets: ["latin"],
-  variable: "--font-sans",
+  variable: "--font-poppins",
 });
 
-export const fontMono = FontMono({
+export const RobotoMonoFont = Roboto_Mono({
+  weight: "300",
+  style: "normal",
   subsets: ["latin"],
-  variable: "--font-mono",
+  variable: "--font-roboto-mono",
 });

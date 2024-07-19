@@ -8,6 +8,10 @@ module.exports = {
     "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
+    fontFamily: {
+      sans: ["var(--font-poppins)"],
+      mono: ["var(--font-roboto-mono)"],
+    },
     extend: {
       colors: {
         background: "#fffffe",

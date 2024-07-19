@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { title } from "../primitives";
 
 export const Statistics = () => {
-	const [count, setCount] = useState(1);
+	const [_count, setCount] = useState(1);
 	const [isVisible, setIsVisible] = useState(false);
 	const ref = useRef(null);
 
@@ -61,7 +61,7 @@ export const Statistics = () => {
 		<div ref={ref} className="my-8 px-4 lg:max-w-6xl mx-auto">
 			<div className="flex flex-col items-center m-5">
 				<h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-primary text-center mb-6">
-					Active Users:
+					Active Users
 				</h1>
 				<h1
 					className={`text-5xl sm:text-6xl md:text-7xl lg:text-8xl ${title({ color: "orangeToPink" })}`}
@@ -78,7 +78,7 @@ export const Statistics = () => {
 						<h1
 							className={`text-base mb-3 md:text-2xl lg:text-3xl ${title({ color: "whiteToPink" })}`}
 						>
-							Total Answers:
+							Total Answers
 						</h1>
 						<h1
 							className={`text-3xl sm:text-4xl md:text-5xl lg:text-6xl ${title({ color: "orangeToPink" })}`}
@@ -92,7 +92,7 @@ export const Statistics = () => {
 						<h1
 							className={`text-base mb-3 sm:text-xl md:text-2xl lg:text-3xl ${title({ color: "whiteToPink" })}`}
                             >
-							Total Questions:
+							Total Questions
 						</h1>
 						<h1
 							className={`text-3xl sm:text-4xl md:text-5xl lg:text-6xl ${title({ color: "orangeToPink" })}`}
