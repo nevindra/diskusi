@@ -5,7 +5,7 @@ import { FaArrowAltCircleRight } from "react-icons/fa";
 export const HeroComponent = () => {
 	return (
 		<Card 
-        className="flex flex-col items-center mx-3 justify-center gap-4 mt-4 py-8 md:py-10 lg:py-12 lg:mx-3 bg-[#eff0f3]/20 rounded-lg"
+        className="flex flex-col items-center mx-2 justify-center gap-4 mt-4 py-8 md:py-10 lg:py-12 lg:mx-24 bg-[#eff0f3]/20 rounded-lg"
         shadow="lg">
 			<div className="inline-block max-w-lg text-center justify-center px-4 md:px-6 lg:px-8">
 				{/* Find Answers. Share Knowledge. Grow Together. */}

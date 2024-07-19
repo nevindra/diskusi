@@ -12,7 +12,7 @@ export const title = tv({
       orangeFade: "from-[#ff8e3c] to-[#fffffe]"
     },
     size: {
-      sm: "text-3xl lg:text-4xl",
+      sm: "text-2xl lg:text-3xl",
       md: "text-[2.3rem] lg:text-5xl leading-9",
       lg: "text-4xl lg:text-6xl",
     },
@@ -29,7 +29,6 @@ export const title = tv({
         "orangeToWhite",
         "whiteToPink",
         "lightGrayToWhite",
-        "blackToCharcoal",
         "orangeToPink",
         "charcoalToLightGray",
         "orangeFade"

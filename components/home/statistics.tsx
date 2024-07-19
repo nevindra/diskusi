@@ -58,7 +58,7 @@ export const Statistics = () => {
 	}, [isVisible]);
 
 	return (
-		<div ref={ref} className="my-8 max-w-6xl mx-auto px-4">
+		<div ref={ref} className="my-8 px-4 lg:max-w-6xl mx-auto">
 			<div className="flex flex-col items-center m-5">
 				<h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-primary text-center mb-6">
 					Active Users:
@@ -76,7 +76,7 @@ export const Statistics = () => {
 				<Card>
 					<CardBody className="text-center mx-1 my-4">
 						<h1
-							className={`text-base mb-3 sm:text-xl md:text-2xl lg:text-3xl ${title({ color: "whiteToPink" })}`}
+							className={`text-base mb-3 md:text-2xl lg:text-3xl ${title({ color: "whiteToPink" })}`}
 						>
 							Total Answers:
 						</h1>
