@@ -9,7 +9,7 @@ export const LoginSchema = z.object({
 export type LoginFormData = z.infer<typeof LoginSchema>;
 
 export async function login(data: LoginFormData): Promise<void> {
-	const { data: authData, error } = await supabase_client.auth.signInWithPassword({
+	const { data: _authData, error } = await supabase_client.auth.signInWithPassword({
         email: data.email,
         password: data.password,
     });

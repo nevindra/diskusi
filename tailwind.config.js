@@ -12,49 +12,24 @@ module.exports = {
       sans: ["var(--font-poppins)"],
       mono: ["var(--font-roboto-mono)"],
     },
-    extend: {
+    extend: {  // Move 'extend' here
       colors: {
+        // General colors
         background: "#fffffe",
-        cardbg: "#eff0f3",
-        headline: "#0d0d0d",
-        paragraph: "#2a2a2a",
-        primary: "#ff8e3c",
-        secondary: "#d9376e",
-        // Semantic colors
-        text: {
-          DEFAULT: "#0d0d0d",
-          light: "#2a2a2a",
-          dark: "#fffffe", // Add this line for dark mode text color
+        button: {
+          DEFAULT: "#6246ea",
+          text: "#fffffe",
         },
-        surface: {
-          DEFAULT: "#fffffe",
-          card: "#eff0f3",
-        },
-        accent: {
-          primary: "#ff8e3c",
-          secondary: "#d9376e",
-        },
+
+        // Card colors
+        cardBackground: "#d1d1e9",
+        
+        // You can also add these colors with more descriptive names
+        primary: "#2b2c34",
+        secondary: "#6246ea",
+        tertiary: "#d1d1e9",
       },
     },
   },
-  plugins: [
-    nextui({
-      themes: {
-        light: {
-          colors: {
-            background: "#fffffe",
-            foreground: "#0d0d0d",
-            primary: {
-              DEFAULT: "#ff8e3c",
-              foreground: "#fffffe",
-            },
-            secondary: {
-              DEFAULT: "#d9376e",
-              foreground: "#fffffe",
-            },
-          },
-        },
-      },
-    }),
-  ],
+  plugins: [nextui()],
 };

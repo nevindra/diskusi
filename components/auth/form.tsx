@@ -66,7 +66,7 @@ export const FormComponent: React.FC<FormComponentProps> = ({
 		<div className="w-full lg:w-1/2 flex items-center justify-center mr-5">
 			<div className="w-full max-w-md bg-white p-8 rounded-lg shadow-lg">
 				<h2 className="text-2xl font-bold mb-6 text-center">
-					{mode === "signup" ? "Create an account" : "Log in to your account"}
+					{mode === "signup" ? "Buat Akun Baru" : "Login ke Akun Anda"}
 				</h2>
 				<form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
 					{mode === "signup" && (
@@ -77,7 +77,7 @@ export const FormComponent: React.FC<FormComponentProps> = ({
 								<Input
 									{...field}
 									label="Username"
-									placeholder="Enter your username"
+									placeholder="Masukkan nama pengguna Anda"
 									variant="bordered"
 									isInvalid={!!errors.name}
 									errorMessage={errors.name?.message}
@@ -92,7 +92,7 @@ export const FormComponent: React.FC<FormComponentProps> = ({
 							<Input
 								{...field}
 								label="E-mail address"
-								placeholder="Enter your email"
+								placeholder="Masukkan alamat email Anda"
 								type="email"
 								variant="bordered"
 								isInvalid={!!errors.email}
@@ -107,7 +107,7 @@ export const FormComponent: React.FC<FormComponentProps> = ({
 							<Input
 								{...field}
 								label="Password"
-								placeholder="Enter your password"
+								placeholder="Masukkan kata sandi Anda"
 								type={isVisible ? "text" : "password"}
 								variant="bordered"
 								endContent={
@@ -139,13 +139,13 @@ export const FormComponent: React.FC<FormComponentProps> = ({
 									isInvalid={!!errors.terms}
 								>
 									<p className="text-xs text-gray-500">
-										By creating an account you agree to our{" "}
+										Dengan membuat akun Anda, Anda menyetujui{" "}
 										<a href="#" className="text-blue-500">
-											Terms of Use
+											Syarat Penggunaan
 										</a>{" "}
 										and{" "}
 										<a href="#" className="text-blue-500">
-											Privacy Policy
+											Kebijakan Privasi
 										</a>
 										.
 									</p>
@@ -158,16 +158,17 @@ export const FormComponent: React.FC<FormComponentProps> = ({
 					)}
 					<Button
 						type="submit"
-						color="primary"
+						color="secondary"
+						variant="shadow"
 						className="w-full"
 						isLoading={isSubmitting}
 					>
-						{mode === "signup" ? "Sign Up" : "Log In"}
+						{mode === "signup" ? "Daftar" : "Masuk"}
 					</Button>
 				</form>
 				<div className="mt-6">
 					<p className="text-center text-sm text-gray-600 mb-4">
-						{mode === "signup" ? "or sign up with" : "or log in with"}
+						{mode === "signup" ? "atau daftar dengan" : "atau masuk dengan"}
 					</p>
 					<div className="flex justify-center space-x-4">
 						<Button variant="bordered" className="w-1/2">
@@ -181,17 +182,17 @@ export const FormComponent: React.FC<FormComponentProps> = ({
 					</div>
 				</div>
 				{mode === "signup" ? (
-					<p className="text-center mt-6 text-sm text-gray-600">
-						Already have an account?{" "}
-						<a href="/login" className="text-blue-500">
-							Sign in
+					<p className="text-center mt-6 text-sm text-primary">
+						Sudah punya akun?{" "}
+						<a href="/login" className="text-secondary">
+							Masuk dengan akun
 						</a>
 					</p>
 				): (
-					<p className="text-center mt-6 text-sm text-gray-600">
-						Don't have an account?{" "}
-						<a href="/signup" className="text-blue-500">
-							Sign up
+					<p className="text-center mt-6 text-sm text-primary">
+						Belum punya akun?{" "}
+						<a href="/signup" className="text-secondary">
+							Daftar Baru
 						</a>
 					</p>
 				)}

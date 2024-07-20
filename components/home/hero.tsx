@@ -1,42 +1,36 @@
-import { subtitle, title } from '@/components/primitives';
-import { Card } from '@nextui-org/card';
-import { Link } from '@nextui-org/link';
-import { FaArrowAltCircleRight } from 'react-icons/fa';
+import heroSVG from '@/public/hero.svg';
+import { Button } from '@nextui-org/button';
+import Image from 'next/image';
+
 export const HeroComponent = () => {
 	return (
-		<Card
-			className="flex flex-col items-center mx-2 sm:mx-4 md:mx-8 lg:mx-24 justify-center gap-4 mt-4 py-4 sm:py-6 md:py-8 lg:py-12 bg-background/20 rounded-lg"
-			shadow="lg"
-		>
-			<div className="inline-block max-w-lg text-center justify-center px-4 md:px-6 lg:px-8">
-				{/* Find Answers. Share Knowledge. Grow Together. */}
-				<h1 className={title()}>Find </h1>
-				<h1 className={title({ color: 'orangeFade' })}>Answers.&nbsp;</h1>
-				<br />
-				<h1 className={title()}>Share </h1>
-				<h1 className={title({ color: 'orangeFade' })}>Knowledge.&nbsp;</h1>
-				<br />
-				<h1 className={title()}>Grow </h1>
-				<h1 className={title({ color: 'orangeFade' })}>Together.&nbsp;</h1>
-				<br />
-				<h2
-					className={subtitle({
-						class: 'mt-4 text-sm md:text-base lg:text-lg',
-					})}
-				>
-					Get the insights you need, anonymously or publicly. Share your
-					expertise and help others.{' '}
-				</h2>
+		<div className="flex flex-col lg:flex-row items-center justify-between gap-8 py-12 px-4 md:px-12">
+			<div className="w-full lg:w-1/2">
+				<Image
+					src={heroSVG}
+					alt="hero"
+					width={500}
+					height={500}
+					className="w-full h-auto max-w-[500px] mx-auto"
+				/>
 			</div>
-			<Link
-				className="text-primary text-sm md:text-base lg:text-lg"
-				href="/signup"
-			>
-				Join the conversation{' '}
-				<span className="ml-1">
-					<FaArrowAltCircleRight />
-				</span>
-			</Link>
-		</Card>
+			<div className="w-full lg:w-1/2 space-y-4 text-center lg:text-left">
+				<h1 className="text-3xl md:text-4xl font-bold">
+					Temukan <span className="text-secondary">Jawaban</span>, Bagikan{' '}
+					<span className="text-secondary">Pengetahuan</span>!
+				</h1>
+				<p className="text-sm md:text-base lg:text-xl py-1 max-w-[50rem]">
+					Platform untuk bertanya dan mendapatkan jawaban dari berbagai topik.
+					Jelajahi pengetahuan baru setiap hari.{' '}
+				</p>
+				<Button 
+					className="mt-4 text-sm md:text-base lg:text-lg px-4 py-2 md:px-6 md:py-3" 
+					color="secondary" 
+					variant="bordered"
+				>
+					Gabung Sekarang
+				</Button>
+			</div>
+		</div>
 	);
 };

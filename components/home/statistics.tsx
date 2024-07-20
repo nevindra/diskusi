@@ -1,8 +1,6 @@
-"use client";
-import Counter from "@/components/home/counter";
-import { Card, CardBody } from "@nextui-org/card";
-import { useEffect, useRef, useState } from "react";
-import { title } from "../primitives";
+'use client';
+import Counter from '@/components/home/counter';
+import { useEffect, useRef, useState } from 'react';
 
 export const Statistics = () => {
 	const [_count, setCount] = useState(1);
@@ -59,49 +57,42 @@ export const Statistics = () => {
 
 	return (
 		<div ref={ref} className="my-8 px-4 lg:max-w-6xl mx-auto">
-			<div className="flex flex-col items-center m-5">
-				<h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-primary text-center mb-6">
-					Active Users
-				</h1>
-				<h1
-					className={`text-5xl sm:text-6xl md:text-7xl lg:text-8xl ${title({ color: "orangeToPink" })}`}
-				>
-					<Counter targetCount={100} duration={2000} delay={500} isVisible={isVisible} />
-				</h1>
-				<p className="text-secondary/80 font-semibold mt-4 text-base sm:text-xl md:text-2xl lg:text-3xl">
-					Total User Base
-				</p>
-			</div>
-			<div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-2">
-				<Card>
-					<CardBody className="text-center mx-1 my-4">
-						<h1
-							className={`text-base mb-3 md:text-2xl lg:text-3xl ${title({ color: "whiteToPink" })}`}
-						>
-							Total Answers
-						</h1>
-						<h1
-							className={`text-3xl sm:text-4xl md:text-5xl lg:text-6xl ${title({ color: "orangeToPink" })}`}
-						>
-							<Counter targetCount={100} duration={2000} delay={500} isVisible={isVisible} />
-						</h1>
-					</CardBody>
-				</Card>
-				<Card>
-					<CardBody className="text-center mx-1 my-4">
-						<h1
-							className={`text-base mb-3 sm:text-xl md:text-2xl lg:text-3xl ${title({ color: "whiteToPink" })}`}
-                            >
-							Total Questions
-						</h1>
-						<h1
-							className={`text-3xl sm:text-4xl md:text-5xl lg:text-6xl ${title({ color: "orangeToPink" })}`}
-						>
-							<Counter targetCount={100} duration={2000} delay={500} isVisible={isVisible} />
-						</h1>
-					</CardBody>
-				</Card>
-			</div>
+			<h1 className="font-bold text-4xl md:text-5xl lg:text-6xl text-center mb-8">
+				Statistik Aplikasi
+			</h1>
+			<h1 className="font-bold text-5xl sm:text-6xl md:text-7xl lg:text-8xl text-secondary text-center">
+				<Counter
+					targetCount={100}
+					duration={2000}
+					delay={500}
+					isVisible={isVisible}
+				/>
+			</h1>
+			<h1 className="text-xl mt-4 sm:text-2xl md:text-3xl lg:text-4xl font-bold text-primary text-center mb-6">
+				Pengguna Aktif
+			</h1>
+			<h1 className="font-bold text-5xl sm:text-6xl md:text-7xl lg:text-8xl text-secondary text-center">
+				<Counter
+					targetCount={20}
+					duration={2000}
+					delay={500}
+					isVisible={isVisible}
+				/>
+			</h1>
+			<h1 className="text-xl mt-4 sm:text-2xl md:text-3xl lg:text-4xl font-bold text-primary text-center mb-6">
+				Jumlah Pertanyaan
+			</h1>
+			<h1 className="font-bold text-5xl sm:text-6xl md:text-7xl lg:text-8xl text-secondary text-center">
+				<Counter
+					targetCount={200}
+					duration={2000}
+					delay={500}
+					isVisible={isVisible}
+				/>
+			</h1>
+			<h1 className="text-xl mt-4 sm:text-2xl md:text-3xl lg:text-4xl font-bold text-primary text-center mb-6">
+				Pertanyaan Terjawab
+			</h1>
 		</div>
 	);
 };

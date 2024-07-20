@@ -1,14 +1,17 @@
 "use client";
 import { Navbar as NextUINavbar } from "@nextui-org/navbar";
-import { usePathname } from "next/navigation";
-import { useState } from "react";
+
 import { AuthenticatedNavbar } from "./authNavbar";
 import { HomeNavbar } from "./homeNavbar";
-
 import { NavbarLeftComponent } from "./navbar-left";
+
+import { usePathname } from "next/navigation";
+import { useState } from "react";
+
 
 export const NavigationTop = () => {
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
+	const closeMenu = () => setIsMenuOpen(false);
 
 	const pathname = usePathname();
 	let isHomePage = true;
@@ -20,10 +23,12 @@ export const NavigationTop = () => {
 			maxWidth="xl"
 			position="sticky"
 			isBordered
+			isBlurred
+			isMenuOpen={isMenuOpen}
 			onMenuOpenChange={setIsMenuOpen}
 		>
 			
-			<NavbarLeftComponent isMenuOpen={isMenuOpen} />
+			<NavbarLeftComponent isMenuOpen={isMenuOpen} closeMenu={closeMenu} />
 			{isHomePage ? <HomeNavbar /> : <AuthenticatedNavbar />}
 		</NextUINavbar>
 	);
