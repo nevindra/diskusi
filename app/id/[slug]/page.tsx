@@ -1,8 +1,8 @@
 'use client';
 
 import { QuestionBox } from '@/components/profile/questionBox';
-import { QuestionList } from '@/components/profile/questionList';
-import { UserBio } from '@/components/profile/userBio';
+import { QuestionsList } from '@/components/profile/questionsList';
+import { UserProfileBox } from '@/components/profile/userProfile';
 import { useSession } from '@/hooks/useSession';
 import { getQuestions } from '@/service/questionService';
 import { Card } from '@nextui-org/card';
@@ -56,21 +56,21 @@ export default function ProfilePage() {
 	return (
 		<div className="flex flex-col items-center justify-center md:m-8 lg:m-10">
 			{/* Main Card */}
-			<Card className="flex flex-col w-full xl:w-[70%] lg:flex-row m-2 lg:space-x-8 p-4 lg:p-8">
-				{/* Left Side - Account Info */}
-				<UserBio />
-				{/* Right Side - Ask Question Box */}
+			<div className="w-full xl:w-[70%] px-3 lg:px-0">
+				<UserProfileBox />
+			</div>
+			<div className="w-full xl:w-[70%] px-3 lg:px-0">
 				<QuestionBox />
-			</Card>
+			</div>
 			<h1 className="text-primary items-start text-left text-xl font-semibold mb-3">
 				Questions
 			</h1>
 			{/* Question List Box */}
-			<div className="flex flex-col w-full xl:w-[70%] space-y-4 px-2 mt-1 lg:px-4">
+			<div className="flex flex-col w-full xl:w-[70%] space-y-4 px-2 mt-1">
 				{isLoading
 					? [1, 2, 3].map((i) => <Skeleton key={i} className="w-full h-24" />)
 					: sortedQuestions.map((question) => (
-							<QuestionList key={question.questionId} question={question} />
+							<QuestionsList key={question.questionId} question={question} />
 						))}
 			</div>
 		</div>

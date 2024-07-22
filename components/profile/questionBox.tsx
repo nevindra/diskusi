@@ -23,7 +23,6 @@ export const QuestionBox: React.FC = () => {
 		usernameId: pathname.split('/')[2],
 		posterId: '',
 		isAnonymous: false,
-		
 	};
 
 	const {
@@ -52,7 +51,6 @@ export const QuestionBox: React.FC = () => {
 		onSuccess: () => {
 			queryClient.invalidateQueries(['questions', user?.id]);
 			reset(defaultValues); // Reset the form to default values
-
 		},
 		onError: (error: Error) => {
 			console.error('error:', error.message);
@@ -64,7 +62,7 @@ export const QuestionBox: React.FC = () => {
 		mutation.mutate(data);
 	};
 	return (
-		<div className="flex flex-col w-full lg:w-3/4">
+		<div className="w-full py-2">
 			<form onSubmit={handleSubmit(onSubmit)}>
 				<div className="mb-3">
 					<Controller

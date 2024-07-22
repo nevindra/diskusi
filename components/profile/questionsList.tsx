@@ -8,11 +8,12 @@ import { formatDistanceToNow, parseISO } from 'date-fns';
 import { useState } from 'react';
 import { BiLike, BiRepost } from "react-icons/bi";
 import { MdOutlineComment } from "react-icons/md";
+import { CommentBox } from './comment';
 
 
-
-export const QuestionList: React.FC = ({question: questionData}) => {
+export const QuestionsList: React.FC = ({question: questionData}) => {
     const [showComments, setShowComments] = useState(false);
+	const id = questionData.questionId;
 
     return (
         <Card key={questionData.questionId} className="p-4">
@@ -30,7 +31,7 @@ export const QuestionList: React.FC = ({question: questionData}) => {
 							</div>
 						</CardHeader>
 						<CardBody className="py-2">
-							<p className="text-base">{questionData.content}</p>
+							<p className="text-base line-clamp-3">{questionData.content}</p>
 						</CardBody>
 						<CardFooter className="flex flex-col items-start pt-2">
 							<div className="flex items-center justify-start w-full mb-2">
@@ -67,16 +68,7 @@ export const QuestionList: React.FC = ({question: questionData}) => {
 									<Divider className="my-2" />
 									<div className="w-full space-y-2">
 										{/* Existing comments would go here */}
-										<div className="flex items-start  space-x-2">
-											<Avatar
-												size="sm"
-												src="https://nextui.org/avatars/avatar-2.png"
-											/>
-											<div className="bg-default-100 rounded-lg p-2">
-												<p className="font-semibold text-small">Commenter</p>
-												<p className="text-small">This is a comment.</p>
-											</div>
-										</div>
+										<CommentBox comment={{id}} />
 										{/* Add comment input */}
 										<div className="flex items-center space-x-2 mt-2">
 											<Avatar
