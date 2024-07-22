@@ -28,7 +28,7 @@ export const NavbarLeftComponent = ({
 							width={40}
 							height={40}
 						/>
-						<p className="text-2xl font-bold text-primary">Diskusi</p>
+						<p className="text-2xl font-bold text-primary">Komunal</p>
 					</NextLink>
 				</NavbarBrand>
 			</NavbarContent>
@@ -42,7 +42,7 @@ export const NavbarLeftComponent = ({
 							width={40}
 							height={40}
 						/>
-						<p className="text-2xl font-bold text-primary">Diskusi</p>
+						<p className="text-2xl font-bold text-primary">Komunal</p>
 					</NextLink>
 				</NavbarBrand>
 			</NavbarContent>

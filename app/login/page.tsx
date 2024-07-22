@@ -1,7 +1,7 @@
 'use client';
 import { FormComponent } from "@/components/auth/form";
 import { LeftSideComponent } from "@/components/auth/left-side";
-import { useSession } from "@/libs/hooks/useSession";
+import { useSession } from "@/hooks/useSession";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
@@ -24,7 +24,7 @@ export default function Login() {
 				{/* Left side - Product info */}
 				<LeftSideComponent />
 				{/* Right side - Login form */}
-				<FormComponent mode="login" redirectPath="/account/1" />
+				<FormComponent mode="login" redirectPath={`/id/${user?.user_metadata.display_name}`} />
 			</div>
 		</div>
 	);

@@ -1,4 +1,4 @@
-import { supabase_client } from "@/libs/supabase/client";
+import { supabase_client } from "@/database/client";
 import type { UserResponse } from "@supabase/supabase-js";
 import { useEffect, useState } from "react";
 

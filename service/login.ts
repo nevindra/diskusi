@@ -1,4 +1,4 @@
-import { supabase_client } from "@/libs/supabase/client";
+import { supabase_client } from "@/database/client";
 import { z } from "zod";
 
 export const LoginSchema = z.object({

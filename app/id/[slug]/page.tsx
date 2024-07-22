@@ -1,16 +1,20 @@
 'use client';
 
-import { useSession } from '@/libs/hooks/useSession';
-import { Avatar } from '@nextui-org/avatar';
-import { Button } from '@nextui-org/button';
-import { Card, CardBody, CardFooter, CardHeader } from '@nextui-org/card';
-import { Textarea } from '@nextui-org/input';
-import { useRouter } from 'next/navigation';
+import { QuestionBox } from '@/components/profile/questionBox';
+import { QuestionList } from '@/components/profile/questionList';
+import { UserBio } from '@/components/profile/userBio';
+import { useSession } from '@/hooks/useSession';
+import { getQuestions } from '@/service/questionService';
+import { Card } from '@nextui-org/card';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { usePathname, useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
-export default function AccountHome() {
-	const { user, isLoading, isUnauthenticated } = useSession();
+export default function ProfilePage() {
+	const { user, isLoading, isUnauthenticated, isAuthenticated } = useSession();
 	const router = useRouter();
+	const pathname = usePathname();
+	const _queryClient = useQueryClient();
 
 	useEffect(() => {
 		if (isUnauthenticated) {
@@ -18,84 +22,55 @@ export default function AccountHome() {
 		}
 	}, [isUnauthenticated, router]);
 
+	const { data: questions = [] } = useQuery({
+		queryKey: ['questions', user?.id],
+		queryFn: () => getQuestions(pathname.split('/')[2]),
+		enabled: isAuthenticated && !!user,
+	});
+
+	// useEffect(() => {
+	// 	if (isLoading) return; // Skip if loading
+	// 	if (isAuthenticated && user) {
+	// 		const fetchQuestions = async () => {
+	// 			const questionsList = await getQuestions(user.id);
+	// 			setQuestions(
+	// 				questionsList.map((q) => ({
+	// 					questionId: q.questionId,
+	// 					question: q.question,
+	// 					userId: q.userId,
+	// 					posterId: q.posterId, // Optional
+	// 				}))
+	// 			);
+	// 		};
+	// 		fetchQuestions();
+	// 	}
+	// }, [isAuthenticated, isLoading, user]); // Depend on isAuthenticated, isLoading, and user
+
 	if (isLoading) {
 		return <div>Loading...</div>;
 	}
-
+	// Sort questions by createdAt in descending order (newest first)
+	const sortedQuestions = [...questions].sort(
+		(a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+	);
 	return (
-		<div className="flex flex-col items-center justify-center mx-20 p-4 lg:p-8">
+		<div className="flex flex-col items-center justify-center md:m-8 lg:m-10">
 			{/* Main Card */}
-			<Card className="flex flex-col max-w-[70%]  lg:flex-row lg:space-x-8 p-4 lg:p-8">
-					{/* Left Side - Account Info */}
-					<Card className="w-full lg:max-w-[45%] mb-6 lg:mb-0">
-						<CardHeader className="justify-between">
-							<div className="flex gap-5">
-								<Avatar
-									isBordered
-									radius="full"
-									size="md"
-									src="https://nextui.org/avatars/avatar-1.png"
-								/>
-								<div className="flex flex-col gap-1 items-start justify-center">
-									<h4 className="text-small font-semibold leading-none text-default-600">
-										Nevindra
-									</h4>
-									<h5 className="text-small tracking-tight text-default-400">
-										@nezhifi
-									</h5>
-								</div>
-							</div>
-							<Button
-								className={'bg-secondary text-white border-default-200'}
-								color="primary"
-								radius="full"
-								size="sm"
-								variant={'bordered'}
-							>
-								Follow
-							</Button>
-						</CardHeader>
-						<CardBody className="px-3 py-0 text-sm text-primary">
-							<p>
-							AI Product Manager that do little bit of everything. Join me on this coding adventure! AI Product Manager that do little bit of everything. Join me on this coding adventure
-							</p>
-						</CardBody>
-						<CardFooter className="gap-3">
-							<div className="flex gap-1">
-								<p className="font-semibold text-default-400 text-small">4</p>
-								<p className=" text-default-400 text-small">Following</p>
-							</div>
-							<div className="flex gap-1">
-								<p className="font-semibold text-default-400 text-small">
-									97.1K
-								</p>
-								<p className="text-default-400 text-small">Followers</p>
-							</div>
-						</CardFooter>
-					</Card>
-					{/* Right Side - Question Box */}
-					<div className="flex flex-col w-full lg:w-2/3">
-						<div className="mb-3">
-							<Textarea
-								key={1}
-								variant={'bordered'}
-								label="Pertanyaan"
-								labelPlacement="inside"
-								placeholder="Masukan pertanyaan kamu"
-								className="w-full"
-							/>
-						</div>
-						<div className='flex justify-end'>
-						<Button
-							className="w-2"
-							color="secondary"
-							variant="bordered"
-						>
-							Kirim
-						</Button>
-						</div>
-					</div>
-				</Card>
+			<Card className="flex flex-col w-full xl:w-[70%] lg:flex-row m-2 lg:space-x-8 p-4 lg:p-8">
+				{/* Left Side - Account Info */}
+				<UserBio />
+				{/* Right Side - Ask Question Box */}
+				<QuestionBox />
+			</Card>
+			<h1 className="text-primary items-start text-left text-xl font-semibold mb-3">
+				Questions
+			</h1>
+			{/* Question List Box */}
+			<div className="flex flex-col w-full xl:w-[70%] space-y-4 px-2 mt-1 lg:px-4">
+				{sortedQuestions.map((question) => (
+					<QuestionList key={question.questionId} question={question} />
+				))}
+			</div>
 		</div>
 	);
 }

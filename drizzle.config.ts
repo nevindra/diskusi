@@ -1,10 +1,10 @@
 import type { Config } from "drizzle-kit";
 
 export default {
-	schema: "./db/schema/*",
-	out: "./db/migrations",
-	dialect:"sqlite",
+	schema: "./database/dbSchema.ts",
+	out: "./supabase/migrations",
+	dialect:"postgresql",
 	dbCredentials: {
-		url:'sqlite.db',
+		url:'postgresql://postgres.acbxjfkgfvesimpavkio:tnNKSumHMs1GnvZK@aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres',
 	}
 } satisfies Config;

@@ -1,10 +1,10 @@
-import { useSession } from "@/libs/hooks/useSession";
+import { useSession } from "@/hooks/useSession";
 import { Avatar } from "@nextui-org/avatar";
 import {
-    Dropdown,
-    DropdownItem,
-    DropdownMenu,
-    DropdownTrigger,
+	Dropdown,
+	DropdownItem,
+	DropdownMenu,
+	DropdownTrigger,
 } from "@nextui-org/dropdown";
 import { NavbarContent } from "@nextui-org/navbar";
 import { useRouter } from "next/navigation";
