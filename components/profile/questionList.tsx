@@ -6,11 +6,13 @@ import { Divider } from '@nextui-org/divider';
 import { Textarea } from '@nextui-org/input';
 import { formatDistanceToNow, parseISO } from 'date-fns';
 import { useState } from 'react';
+import { BiLike, BiRepost } from "react-icons/bi";
+import { MdOutlineComment } from "react-icons/md";
+
 
 
 export const QuestionList: React.FC = ({question: questionData}) => {
     const [showComments, setShowComments] = useState(false);
-	console.log('QUESTION DATA:', questionData);
 
     return (
         <Card key={questionData.questionId} className="p-4">
@@ -24,8 +26,7 @@ export const QuestionList: React.FC = ({question: questionData}) => {
 							<div>
 								<p className="font-semibold">{questionData.username}</p>
 								<p className="text-small text-default-500">                        
-								{formatDistanceToNow(parseISO(questionData.createdAt), { addSuffix: true })}
-	</p>
+							{formatDistanceToNow(parseISO(questionData.createdAt), { addSuffix: true, unit: 'hour' })}</p>
 							</div>
 						</CardHeader>
 						<CardBody className="py-2">
@@ -39,24 +40,24 @@ export const QuestionList: React.FC = ({question: questionData}) => {
 							<Divider className="my-2" />
 							<div className="flex items-center justify-around w-full">
 								<Button
-									size="sm"
+									size="md"
 									variant="light"
-									// startContent={<HeartIcon />}
+									startContent={<BiLike />}
 								>
 									Like
 								</Button>
 								<Button
-									size="sm"
+									size="md"
 									variant="light"
-									// startContent={<CommentIcon />}
+									startContent={<MdOutlineComment />}
 									onClick={() => setShowComments(!showComments)}
 								>
 									Comment
 								</Button>
 								<Button
-									size="sm"
+									size="md"
 									variant="light"
-									// startContent={<ShareIcon />}
+									startContent={<BiRepost />}
 								>
 									Share
 								</Button>

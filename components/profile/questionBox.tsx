@@ -50,7 +50,6 @@ export const QuestionBox: React.FC = () => {
 	const mutation = useMutation({
 		mutationFn: postQuestion,
 		onSuccess: () => {
-			console.log('success');
 			queryClient.invalidateQueries(['questions', user?.id]);
 			reset(defaultValues); // Reset the form to default values
 

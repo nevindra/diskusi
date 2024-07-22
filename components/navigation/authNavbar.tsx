@@ -9,6 +9,9 @@ import {
 import { NavbarContent } from "@nextui-org/navbar";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import { BiLogOut } from "react-icons/bi";
+import { GrUserSettings } from "react-icons/gr";
+
 
 export const AuthenticatedNavbar = () => {
 	const { user, logout, isUnauthenticated } = useSession();
@@ -35,12 +38,12 @@ export const AuthenticatedNavbar = () => {
 					/>
 				</DropdownTrigger>
 				<DropdownMenu aria-label="Profile Actions" variant="flat">
-					<DropdownItem key="profile" className="h-14 gap-2">
+					<DropdownItem isReadOnly showDivider key="profile" className="h-14 gap-2">
 						<p className="font-semibold">Signed in as</p>
-						<p className="font-semibold">{user?.user_metadata.display_name}</p>
+						<p className=" text-secondary">{user?.user_metadata.display_name}</p>
 					</DropdownItem>
-					<DropdownItem key="settings">My Settings</DropdownItem>
-					<DropdownItem key="logout" onClick={logout}>
+					<DropdownItem key="settings" startContent={<GrUserSettings />}>My Settings</DropdownItem>
+					<DropdownItem key="logout" startContent={<BiLogOut />} onClick={logout}>
 						<p className="font-semibold text-secondary">Log Out</p>
 					</DropdownItem>
 				</DropdownMenu>

@@ -6,7 +6,7 @@ import { NextResponse } from 'next/server';
 
 export async function POST(request: Request) {
 	const { question, usernameId, posterId } = await request.json();
-	console.log('DATA:', question, usernameId, posterId);
+
 	if (!question) {
 		return NextResponse.json(
 			{ message: 'Missing required fields' },
@@ -18,7 +18,6 @@ export async function POST(request: Request) {
 		10
 	);
 	const questionId = nanoid();
-	console.log('QUESTION ID:', questionId);
 
 	const userId = await db
 		.select()
