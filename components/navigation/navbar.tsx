@@ -5,7 +5,7 @@ import { AuthenticatedNavbar } from "./authNavbar";
 import { HomeNavbar } from "./homeNavbar";
 import { NavbarLeftComponent } from "./navbar-left";
 
-import { usePathname } from "next/navigation";
+import { useSession } from "@/hooks/useSession";
 import { useState } from "react";
 
 
@@ -13,11 +13,7 @@ export const NavigationTop = () => {
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
 	const closeMenu = () => setIsMenuOpen(false);
 
-	const pathname = usePathname();
-	let isHomePage = true;
-	if (pathname !== "/" && pathname !== "/signup" && pathname !== "/login") {
-		isHomePage = false;
-	}
+	const { user, isUnauthenticated, logout } = useSession();
 	return (
 		<NextUINavbar
 			maxWidth="xl"
@@ -29,7 +25,7 @@ export const NavigationTop = () => {
 		>
 			
 			<NavbarLeftComponent isMenuOpen={isMenuOpen} closeMenu={closeMenu} />
-			{isHomePage ? <HomeNavbar /> : <AuthenticatedNavbar />}
+			{isUnauthenticated ? <HomeNavbar /> : <AuthenticatedNavbar user={user} logout={logout} />}
 		</NextUINavbar>
 	);
 };

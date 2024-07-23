@@ -9,11 +9,12 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from '@nextui-org/button';
 import { Textarea } from '@nextui-org/input';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import type { AxiosError } from 'axios';
 import { usePathname } from 'next/navigation';
 import { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
-export const QuestionBox: React.FC = () => {
+export const QuestionBox = () => {
 	const { user } = useSession();
 	const pathname = usePathname();
 	const queryClient = useQueryClient();
@@ -37,8 +38,6 @@ export const QuestionBox: React.FC = () => {
 		defaultValues,
 	});
 
-	// console.log(errors)
-
 	// Set the posterId. PosterID is to identify the user who posted the question
 	// PosterID is optional, so we need to check if the user is authenticated
 	// If the user is authenticated, we set the posterId to their ID else it remains empty (anonymous question)
@@ -49,12 +48,13 @@ export const QuestionBox: React.FC = () => {
 	const mutation = useMutation({
 		mutationFn: postQuestion,
 		onSuccess: () => {
-			queryClient.invalidateQueries(['questions', user?.id]);
-			reset(defaultValues); // Reset the form to default values
+			queryClient.invalidateQueries(['questions', user?.userId]);
+			reset(defaultValues);
 		},
-		onError: (error: Error) => {
+		onError: (error: AxiosError) => {
 			console.error('error:', error.message);
-			setError('root', { type: 'manual', message: error.message });
+			const errorMessage = error.response?.data?.message || error.message;
+			setError('root', { type: 'manual', message: errorMessage }); // Ensure error is set
 		},
 	});
 
@@ -86,13 +86,15 @@ export const QuestionBox: React.FC = () => {
 				{errors.root && (
 					<div className="text-red-500 mb-3">{errors.root.message}</div>
 				)}
+
 				<div className="flex justify-end mt-1">
 					<Button
-						isLoading={isSubmitting}
+						isLoading={mutation.isLoading}
 						type="submit"
 						color="secondary"
 						size="sm"
 						variant="bordered"
+						disabled={mutation.isLoading}
 					>
 						Kirim
 					</Button>

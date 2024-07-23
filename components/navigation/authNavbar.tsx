@@ -1,4 +1,4 @@
-import { useSession } from "@/hooks/useSession";
+import type { UserType } from '@/types/userType';
 import { Avatar } from "@nextui-org/avatar";
 import {
 	Dropdown,
@@ -7,21 +7,10 @@ import {
 	DropdownTrigger,
 } from "@nextui-org/dropdown";
 import { NavbarContent } from "@nextui-org/navbar";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
 import { BiLogOut } from "react-icons/bi";
 import { GrUserSettings } from "react-icons/gr";
 
-
-export const AuthenticatedNavbar = () => {
-	const { user, logout, isUnauthenticated } = useSession();
-	const router = useRouter();
-
-	useEffect(() => {
-		if (isUnauthenticated) {
-			router.push("/login");
-		}
-	}, [isUnauthenticated, router]);
+export const AuthenticatedNavbar = ({ user, logout }: { user: UserType, logout: () => void }) => {
 
 	return (
 		<NavbarContent as="div" justify="end">
@@ -40,7 +29,7 @@ export const AuthenticatedNavbar = () => {
 				<DropdownMenu aria-label="Profile Actions" variant="flat">
 					<DropdownItem isReadOnly showDivider key="profile" className="h-14 gap-2">
 						<p className="font-semibold">Signed in as</p>
-						<p className=" text-secondary">{user?.user_metadata.display_name}</p>
+						<p className=" text-secondary">{user?.username}</p>
 					</DropdownItem>
 					<DropdownItem key="settings" startContent={<GrUserSettings />}>My Settings</DropdownItem>
 					<DropdownItem key="logout" startContent={<BiLogOut />} onClick={logout}>

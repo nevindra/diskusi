@@ -1,11 +1,13 @@
 export async function getUserByUsername({ username }: { username: string }) {
-    const response = await fetch(`/api/users?username=${encodeURIComponent(username)}`, {
-        // Add this line
-        headers: { 'Content-Type': 'application/json' },
-    });
-    if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message);
+    try {
+        const response = await fetch(`/api/users?username=${username}`);
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || 'Failed to fetch user');
+        }
+        return await response.json();
+    } catch (error) {
+        throw error instanceof Error ? error : new Error('An unknown error occurred');
     }
-    return response.json();
 }

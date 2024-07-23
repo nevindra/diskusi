@@ -29,9 +29,7 @@ export const CommentsTable = pgTable('comments', {
   commentId: varchar('comment_id', { length: 36 }).primaryKey(), // nanoid default length
   questionId: varchar('question_id', { length: 36 }).references(() => QuestionsTable.questionId),
   userId: uuid('user_id').notNull().references(() => UsersTable.id),
-  posterId: varchar('poster_id', { length: 36 }),
   content: text('content').notNull(),
-  isAnonymous: boolean('is_anonymous').notNull().default(false),
   createdAt: timestamp('created_at').defaultNow()
 });
 

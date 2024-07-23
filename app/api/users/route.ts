@@ -4,7 +4,6 @@ import { eq } from 'drizzle-orm';
 import { NextResponse } from 'next/server';
 
 export async function GET(request: Request) {
-	console.log('Request URL:', request.url);
 	const url = new URL(request.url);
 	const username = url.searchParams.get('username'); // Accessing the userId from query parameters
 

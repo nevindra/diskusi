@@ -13,7 +13,7 @@ export default function Login() {
 	useEffect(() => {
 		if (isAuthenticated && user) {
 			setTimeout(() => {
-				router.push(`/id/${user?.user_metadata.display_name}`);
+				router.push(`/id/${user?.username}`);
 			}, 300);
 		}
 	}, [isAuthenticated, router, user]);
@@ -24,7 +24,7 @@ export default function Login() {
 				{/* Left side - Product info */}
 				<LeftSideComponent />
 				{/* Right side - Login form */}
-				<FormComponent mode="login" redirectPath={`/id/${user?.user_metadata.display_name}`} />
+				<FormComponent mode="login" redirectPath={`/id/${user?.username}`} />
 			</div>
 		</div>
 	);
