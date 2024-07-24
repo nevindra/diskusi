@@ -3,35 +3,35 @@
 import { QuestionBox } from '@/components/profile/questionBox';
 import { QuestionsList } from '@/components/profile/questionsList';
 import { UserProfileBox } from '@/components/profile/userProfile';
-import { useSession } from '@/hooks/useSession';
-import { getQuestions } from '@/service/questionService';
-import type { QuestionType } from '@/types/questionType';
-import type { UserType } from '@/types/userType';
 import { Card } from '@nextui-org/card';
 import { Skeleton } from '@nextui-org/skeleton';
+
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { usePathname } from 'next/navigation';
 
+import { useSession } from '@/hooks/useSession';
+import { getQuestions } from '@/service/questionService';
+import type { QuestionWithPosterUsernameType } from '@/types/questionType';
+import type { UserType } from '@/types/userType';
+
 export default function ProfilePage() {
-	const {
-		user,
-		isLoading,
-		isAuthenticated,
-	}: { user: UserType; isLoading: boolean; isAuthenticated: boolean } =
+	const { user, isLoading }: { user: UserType | null; isLoading: boolean } =
 		useSession();
-	const queryClient = useQueryClient();
+	const _queryClient = useQueryClient();
 
 	const pathname = usePathname();
 	const username = pathname.split('/')[2];
-
-	const { data: questions = [] }: { data: QuestionType[] } = useQuery({
+	const {
+		data: questions = [],
+		refetch,
+	}: { data: QuestionWithPosterUsernameType[] | undefined; refetch: () => void } = useQuery({
 		queryKey: ['questions', username],
 		queryFn: () => getQuestions(username),
 		enabled: !!username,
 		staleTime: 5 * 60 * 1000, // Data will be considered fresh for 5 minutes
 		gcTime: 30 * 60 * 1000, // Cache data for 30 minutes
 		refetchOnWindowFocus: false,
-		refetchOnMount: false,
+		refetchOnMount: true,
 		refetchOnReconnect: false,
 		retry: 3,
 	});
@@ -56,8 +56,7 @@ export default function ProfilePage() {
 	}
 	// Sort questions by createdAt in descending order (newest first)
 	const sortedQuestions = [...questions].sort(
-		(a, b) =>
-			new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+		(a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
 	);
 
 	return (
@@ -67,7 +66,7 @@ export default function ProfilePage() {
 				<UserProfileBox username={username} />
 			</div>
 			<div className="w-full xl:w-[70%] px-3 lg:px-0">
-				<QuestionBox />
+				<QuestionBox onQuestionAdded={() => refetch()} />
 			</div>
 			<h1 className="text-primary items-start text-left text-xl font-semibold mb-3">
 				Questions
@@ -76,7 +75,7 @@ export default function ProfilePage() {
 			<div className="flex flex-col w-full xl:w-[70%] space-y-4 px-2 mt-1">
 				{isLoading
 					? [1, 2, 3].map((i) => <Skeleton key={i} className="w-full h-24" />)
-					: sortedQuestions.map((question: QuestionType) => (
+					: sortedQuestions.map((question: QuestionWithPosterUsernameType) => (
 							<QuestionsList
 								key={question.questionId}
 								question={question}

@@ -1,5 +1,4 @@
 import {
-  boolean,
   pgTable,
   text,
   timestamp,
@@ -21,7 +20,6 @@ export const QuestionsTable = pgTable('questions', {
   userId: uuid('user_id').notNull().references(() => UsersTable.id),
   posterId: varchar('poster_id', { length: 36 }),
   content: text('content').notNull(),
-  isAnonymous: boolean('is_anonymous').notNull().default(false),
   createdAt: timestamp('created_at').defaultNow()
 });
 
@@ -66,7 +64,7 @@ export type SelectShare = typeof SharesTable.$inferSelect;
 const authUsers = pgTable('users', {
   id: uuid('id').primaryKey(),
   // other fields in auth.users...
-}, (table) => {
+}, (_table) => {
   return {
     tableName: 'users',
     schema: 'auth',

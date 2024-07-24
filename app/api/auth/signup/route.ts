@@ -4,15 +4,14 @@ import { NextResponse } from 'next/server';
 export async function GET() {
 	const isConnected = checkSupabaseConnection();
 	if (!isConnected) {
-		console.log("Supabase connection not established");
+		console.log('Supabase connection not established');
 	} else {
-		console.log("Supabase connection established");
+		console.log('Supabase connection established');
 	}
-	return NextResponse.json({ message: "API is working" }, { status: 200 });
+	return NextResponse.json({ message: 'API is working' }, { status: 200 });
 }
 
 export async function POST(request: Request) {
-
 	try {
 		const { username, email, password } = await request.json();
 

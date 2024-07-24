@@ -43,7 +43,7 @@ export const LeftSideComponent = () => {
 				</div>
 			</div>
 			<div className="mt-12">
-				<h2 className="text-3xl font-bold">Diskusi</h2>
+				<h2 className="text-3xl font-bold">Komunal.id</h2>
 			</div>
 		</div>
 	);

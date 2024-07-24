@@ -7,3 +7,4 @@ export type CommentType = {
 	content: string;
 	createdAt: string;
 };
+

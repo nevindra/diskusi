@@ -8,3 +8,14 @@ export type QuestionType = {
     likeCount: number;
     commentCount: number;
 }
+export type QuestionWithPosterUsernameType = {
+	commentId: string;
+	questionId: string;
+	userId: string;
+	posterId: string;
+	posterUsername: string;
+	content: string;
+	createdAt: string;
+	likeCount: number;
+	commentCount: number;
+};

@@ -1,5 +1,5 @@
-import { FormComponent } from "@/components/auth/form";
 import { LeftSideComponent } from "@/components/auth/left-side";
+import { FormComponent } from "@/components/auth/registerForm";
 
 export default function SignUp() {
 	return (
@@ -8,7 +8,7 @@ export default function SignUp() {
 				{/* Left side - Product info */}
 				<LeftSideComponent />
 				{/* Right side - Sign up form */}
-				<FormComponent mode="signup" redirectPath="/login" />
+				<FormComponent redirectPath="/login" />
 			</div>
 		</div>
 	);

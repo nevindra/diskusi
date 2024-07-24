@@ -3,7 +3,7 @@ import { useSession } from '@/hooks/useSession';
 import {
 	QuestionSchema,
 	postQuestion,
-	type QuestionFormData,
+	type QuestionFormData
 } from '@/service/questionService';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from '@nextui-org/button';
@@ -14,7 +14,7 @@ import { usePathname } from 'next/navigation';
 import { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
-export const QuestionBox = () => {
+export const QuestionBox = ({ onQuestionAdded }: { onQuestionAdded: () => void }) => {
 	const { user } = useSession();
 	const pathname = usePathname();
 	const queryClient = useQueryClient();
@@ -23,13 +23,12 @@ export const QuestionBox = () => {
 		question: '',
 		usernameId: pathname.split('/')[2],
 		posterId: '',
-		isAnonymous: false,
 	};
 
 	const {
 		control,
 		handleSubmit,
-		formState: { errors, isSubmitting },
+		formState: { errors, isLoading },
 		setError,
 		setValue,
 		reset, // Add this
@@ -48,12 +47,13 @@ export const QuestionBox = () => {
 	const mutation = useMutation({
 		mutationFn: postQuestion,
 		onSuccess: () => {
-			queryClient.invalidateQueries(['questions', user?.userId]);
+			queryClient.invalidateQueries({queryKey: ['questions', user?.id]}); // Updated to use queryKey
 			reset(defaultValues);
+			onQuestionAdded(); // Call this function after successful question addition
 		},
 		onError: (error: AxiosError) => {
 			console.error('error:', error.message);
-			const errorMessage = error.response?.data?.message || error.message;
+			const errorMessage = (error.response?.data as { message?: string })?.message || error.message; // Type assertion added
 			setError('root', { type: 'manual', message: errorMessage }); // Ensure error is set
 		},
 	});
@@ -89,12 +89,12 @@ export const QuestionBox = () => {
 
 				<div className="flex justify-end mt-1">
 					<Button
-						isLoading={mutation.isLoading}
+						isLoading={isLoading}
 						type="submit"
 						color="secondary"
 						size="sm"
 						variant="bordered"
-						disabled={mutation.isLoading}
+						disabled={isLoading}
 					>
 						Kirim
 					</Button>

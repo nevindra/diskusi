@@ -18,7 +18,7 @@ export const CommentBox = ({ id }: { id: string }) => {
 	return (
 		<>
 			{comments.map((comment: CommentType) => (
-				<div key={comment.commentId} className="flex items-start space-x-2">
+				<div key={comment.commentId} className="flex items-start space-x-2 shadow-none">
 					<Avatar
 						size="sm"
 						src="/user.png"
@@ -32,7 +32,6 @@ export const CommentBox = ({ id }: { id: string }) => {
 							<span className="text-small text-default-400">
 								{formatDistanceToNow(parseISO(comment.createdAt), {
 									addSuffix: true,
-									unit: 'hour',
 								})}
 							</span>
 						</p>

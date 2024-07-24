@@ -10,9 +10,11 @@ import { NextResponse } from 'next/server';
 export async function POST(request: Request) {
     const { searchParams } = new URL(request.url);
     const questionId = searchParams.get('question_id');
-
 	const { content, poster_id } = await request.json();
-	if (!content) {
+    console.log ("questionId", questionId);
+    console.log ('poster_id', poster_id);
+
+    if (!content || !questionId) {
 		return NextResponse.json(
 			{ message: 'Missing required fields' },
 			{ status: 400 }
@@ -49,7 +51,6 @@ export async function POST(request: Request) {
 export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
     const questionId = searchParams.get('question_id');
-
     if (!questionId) {
         return NextResponse.json(
             { message: 'Missing required fields' },

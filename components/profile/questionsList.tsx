@@ -1,5 +1,5 @@
 'use client';
-import type { QuestionType } from '@/types/questionType';
+import type { QuestionWithPosterUsernameType } from '@/types/questionType';
 import type { UserType } from '@/types/userType';
 import { Avatar } from '@nextui-org/avatar';
 import { Button } from '@nextui-org/button';
@@ -15,7 +15,7 @@ import { CommentBox } from './commentList';
 export const QuestionsList = ({
 	question: questionData,
 	user,
-}: { question: QuestionType; user: UserType }) => {
+}: { question: QuestionWithPosterUsernameType; user: UserType | null }) => {
 	const [showComments, setShowComments] = useState(false);
 	
 		return (
@@ -30,12 +30,11 @@ export const QuestionsList = ({
 					/>
 					<div>
 						<p className="font-semibold text-secondary">
-							{questionData.posterId === "" ? 'Anonymous' : questionData.username}
+							{questionData.posterId === "" ? 'Anonymous' : questionData.posterUsername}
 						</p>
 						<p className="text-small text-default-500">
 							{formatDistanceToNow(parseISO(questionData.createdAt), {
 								addSuffix: true,
-								unit: 'hour',
 							})}
 						</p>
 					</div>
@@ -79,7 +78,6 @@ export const QuestionsList = ({
 								<CommentInput
 									question_id={questionData.questionId}
 									user={user}
-									isAnonymous={questionData.posterId === ""}
 								/>
 							</div>
 						</>

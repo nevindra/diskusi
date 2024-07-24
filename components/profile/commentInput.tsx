@@ -16,12 +16,11 @@ import { Controller, useForm } from 'react-hook-form';
 export const CommentInput = ({
 	question_id,
 	user,
-	isAnonymous,
-}: { question_id: string; user: UserType; isAnonymous: boolean }) => {
+}: { question_id: string; user: UserType | null }) => {
 	const defaultValues = {
 		content: '',
-		poster_id: '',
-		question_id: '',
+		question_id: question_id,
+		poster_id: user?.id || '',
 	};
 
 	const queryClient = useQueryClient();
@@ -48,12 +47,13 @@ export const CommentInput = ({
 	const mutation = useMutation({
 		mutationFn: postComment,
 		onSuccess: () => {
-			queryClient.invalidateQueries(['comments', question_id]);
+			queryClient.invalidateQueries({ queryKey: ['comments', question_id] }); // Updated to use queryKey
+			queryClient.invalidateQueries({ queryKey: ['questions'] });
 			reset(defaultValues);
 		},
 		onError: (error: AxiosError) => {
 			console.error('error:', error.message);
-			const errorMessage = error.response?.data?.message || error.message;
+			const errorMessage = (error.response?.data as { message?: string })?.message || error.message; // Type assertion added
 			setError('root', { type: 'manual', message: errorMessage }); // Ensure error is set
 		},
 	});
@@ -67,7 +67,7 @@ export const CommentInput = ({
 			onSubmit={handleSubmit(onSubmit)}
 		>
 			<Avatar size="sm" src={'/user.png'} />
-			{isAnonymous ? (
+			{!user ? (
 				<Textarea
 					variant={'bordered'}
 					label="Comment"
@@ -86,7 +86,8 @@ export const CommentInput = ({
 					render={({ field }) => (
 						<Textarea
 							{...field}
-							variant={'bordered'}
+							variant='bordered'
+							color='secondary'
 							label="Comment"
 							labelPlacement="inside"
 							placeholder="Write a comment..."
@@ -101,14 +102,12 @@ export const CommentInput = ({
 			{errors.root && (
 				<div className="text-red-500 mb-3">{errors.root.message}</div>
 			)}
-			{isAnonymous ? (
+			{user ? (
 				<Button
-					isLoading={isSubmitting}
-					type="button"
-					color="secondary"
-					size="sm"
-					variant="ghost"
-					disabled={isSubmitting}
+					type='submit'
+					variant='bordered'
+					color='secondary'
+					size='sm'
 				>
 					Post
 				</Button>
