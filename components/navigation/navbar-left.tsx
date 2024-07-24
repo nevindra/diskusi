@@ -23,12 +23,12 @@ export const NavbarLeftComponent = ({
 				<NavbarBrand>
 					<NextLink className="flex justify-start items-center gap-1" href="/">
 						<Image
-							src="/diskusi-logo.png"
+							src="/komunal-logo.svg"
 							alt="Tanyakan.io"
 							width={40}
 							height={40}
 						/>
-						<p className="text-2xl font-bold text-primary">Komunal</p>
+						<p className="text-2xl font-bold text-secondary">Komunal</p>
 					</NextLink>
 				</NavbarBrand>
 			</NavbarContent>
@@ -37,12 +37,12 @@ export const NavbarLeftComponent = ({
 				<NavbarBrand as="li" className="gap-3 max-w-fit">
 					<NextLink className="flex justify-start items-center gap-1" href="/">
 						<Image
-							src="/diskusi-logo.png"
+							src="/komunal-logo.svg"
 							alt="Tanyakan.io"
 							width={40}
 							height={40}
 						/>
-						<p className="text-2xl font-bold text-primary">Komunal</p>
+						<p className="text-2xl font-bold text-secondary">Komunal</p>
 					</NextLink>
 				</NavbarBrand>
 			</NavbarContent>
