@@ -24,7 +24,7 @@ export const NavbarLeftComponent = ({
 					<NextLink className="flex justify-start items-center gap-1" href="/">
 						<Image
 							src="/komunal-logo.svg"
-							alt="Tanyakan.io"
+							alt="Komunal ID"
 							width={40}
 							height={40}
 						/>
@@ -38,7 +38,7 @@ export const NavbarLeftComponent = ({
 					<NextLink className="flex justify-start items-center gap-1" href="/">
 						<Image
 							src="/komunal-logo.svg"
-							alt="Tanyakan.io"
+							alt="Komunal ID"
 							width={40}
 							height={40}
 						/>

@@ -1,6 +1,6 @@
 export async function getUserByUsername({ username }: { username: string }) {
     try {
-        const response = await fetch(`/api/users?username=${username}`);
+        const response = await fetch(`/api/users/${username}`);
 
         if (!response.ok) {
             const errorData = await response.json();

@@ -3,10 +3,11 @@ import { db } from '@/database/initDB';
 import { eq } from 'drizzle-orm';
 import { NextResponse } from 'next/server';
 
-export async function GET(request: Request) {
-	const url = new URL(request.url);
-	const username = url.searchParams.get('username'); // Accessing the userId from query parameters
-
+export async function GET(
+    request: Request,
+    { params }: { params: { username: string } }
+) {
+	const username = params.username;
 	if (!username) {
 		return NextResponse.json(
 			{ message: 'Username is required' },

@@ -18,4 +18,5 @@ export type QuestionWithPosterUsernameType = {
 	createdAt: string;
 	likeCount: number;
 	commentCount: number;
+	isLiked: boolean;
 };

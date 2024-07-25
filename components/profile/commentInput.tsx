@@ -1,7 +1,7 @@
 import {
+	type CommentFormData,
 	commentSchema,
 	postComment,
-	type CommentFormData,
 } from '@/service/commentService';
 import type { UserType } from '@/types/userType';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -47,7 +47,7 @@ export const CommentInput = ({
 	const mutation = useMutation({
 		mutationFn: postComment,
 		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: ['comments', question_id] }); // Updated to use queryKey
+			queryClient.invalidateQueries({ queryKey: ['comments', question_id] });
 			queryClient.invalidateQueries({ queryKey: ['questions'] });
 			reset(defaultValues);
 		},
