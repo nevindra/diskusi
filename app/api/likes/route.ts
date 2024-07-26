@@ -1,6 +1,6 @@
 import { LikesTable, QuestionsTable } from '@/database/dbSchema';
 import { db } from '@/database/initDB';
-import { eq } from 'drizzle-orm';
+import { and, eq } from 'drizzle-orm';
 import { NextResponse } from 'next/server';
 
 // Url: /api/likes?username=username&userId=userId
@@ -78,7 +78,10 @@ export async function DELETE(request: Request) {
     try {
         const like = await db
             .delete(LikesTable)
-            .where(eq(LikesTable.questionId, questionId) && eq(LikesTable.userId, userId))
+            .where(and(
+                eq(LikesTable.questionId, questionId!),
+                eq(LikesTable.userId, userId!)
+            ))
             .execute();
 
         return NextResponse.json(like, { status: 200 });
