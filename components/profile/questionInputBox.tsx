@@ -11,23 +11,23 @@ import { Button } from '@nextui-org/button';
 import { Textarea } from '@nextui-org/input';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import type { AxiosError } from 'axios';
-import { usePathname } from 'next/navigation';
 import { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
 export const QuestionBox = ({
+	username,
 	onQuestionAdded,
-}: { onQuestionAdded: () => void }) => {
+}: {username: string; onQuestionAdded: () => void }) => {
 	const { user } = useSession();
-	const pathname = usePathname();
+	
 	const queryClient = useQueryClient();
-	const userId = pathname.split('/')[2];
+	
 
 	const { setQuestion, getQuestion } = useTempQuestionStore();
 
 	const defaultValues = {
-		question: getQuestion(userId),
-		usernameId: userId,
+		question: getQuestion(username),
+		usernameId: username,
 		posterId: '',
 	};
 
@@ -49,8 +49,8 @@ export const QuestionBox = ({
 
 	// Update the temporary store when the question changes
 	useEffect(() => {
-		setQuestion(userId, questionValue);
-	}, [userId, questionValue, setQuestion]);
+		setQuestion(username, questionValue);
+	}, [username, questionValue, setQuestion]);
 
 	// Set the posterId. PosterID is to identify the user who posted the question
 	// PosterID is optional, so we need to check if the user is authenticated

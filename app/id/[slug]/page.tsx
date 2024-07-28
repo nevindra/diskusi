@@ -17,7 +17,7 @@ import { useProfileData } from '@/hooks/useQuestions';
 import type { QuestionsType } from '@/types/questionType';
 import { useQueryClient } from '@tanstack/react-query';
 
-export default function ProfilePage() {
+export default function ProfilePage({ params }: { params: { slug: string } }) {
 	const queryClient = useQueryClient();
 	const { user, isLoading, questions, refetchQuestions, username } =
 		useProfileData();
@@ -52,7 +52,7 @@ export default function ProfilePage() {
 				<UserProfileBox username={username} />
 			</div>
 			<div className="w-full xl:w-[70%] px-3 lg:px-0">
-				<QuestionBox onQuestionAdded={refetchQuestions} />
+				<QuestionBox onQuestionAdded={refetchQuestions} username={username} />
 			</div>
 			<h1 className="text-primary items-start text-left text-xl font-semibold mb-3">
 				Pertanyaan
@@ -77,6 +77,8 @@ export default function ProfilePage() {
 									<QuestionStats
 										likeCount={question.likeCount}
 										commentCount={question.commentCount}
+										questionId={question.questionId}
+										username={username}
 									/>
 									<Divider className="my-1 sm:my-2" />
 									<QuestionActions

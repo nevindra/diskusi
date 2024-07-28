@@ -7,7 +7,8 @@ type Props = {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
 	const question = await getQuestionById(params.questionId);
-	const title = `Question: ${question.content}`;
+	console.log(question);
+	const title = `${question.posterUsername}'s question`;
 	const description = `Answer this question: ${question.content}`;
 	const image = `${process.env.NEXT_PUBLIC_BASE_URL}/og?question=${encodeURIComponent(question.content)}`;
 

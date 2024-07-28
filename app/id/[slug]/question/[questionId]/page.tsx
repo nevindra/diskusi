@@ -53,6 +53,8 @@ export default function QuestionPage({
 						<QuestionStats
 							likeCount={question.likeCount}
 							commentCount={question.commentCount}
+							questionId={question.questionId}
+							username={question.posterUsername}
 						/>
 						<Divider className="my-1 sm:my-2" />
 						{/* Question Actions is for the like, comment, and share buttons. In this file, Like is handled. */}
