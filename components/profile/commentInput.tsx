@@ -2,7 +2,7 @@ import {
 	type CommentFormData,
 	commentSchema,
 	postComment,
-} from '@/service/commentService';
+} from '@/handlers/commentHandlers';
 import type { UserType } from '@/types/userType';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Avatar } from '@nextui-org/avatar';
@@ -16,7 +16,12 @@ import { Controller, useForm } from 'react-hook-form';
 export const CommentInput = ({
 	question_id,
 	user,
-}: { question_id: string; user: UserType | null }) => {
+	onCommentAdded,
+}: {
+	question_id: string;
+	user: UserType | null;
+	onCommentAdded: () => void;
+}) => {
 	const defaultValues = {
 		content: '',
 		question_id: question_id,
@@ -47,13 +52,16 @@ export const CommentInput = ({
 	const mutation = useMutation({
 		mutationFn: postComment,
 		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: ['comments', question_id] });
 			queryClient.invalidateQueries({ queryKey: ['questions'] });
+			queryClient.invalidateQueries({ queryKey: ['comments', question_id] });
 			reset(defaultValues);
+			onCommentAdded();
 		},
 		onError: (error: AxiosError) => {
 			console.error('error:', error.message);
-			const errorMessage = (error.response?.data as { message?: string })?.message || error.message; // Type assertion added
+			const errorMessage =
+				(error.response?.data as { message?: string })?.message ||
+				error.message; // Type assertion added
 			setError('root', { type: 'manual', message: errorMessage }); // Ensure error is set
 		},
 	});
@@ -86,8 +94,8 @@ export const CommentInput = ({
 					render={({ field }) => (
 						<Textarea
 							{...field}
-							variant='bordered'
-							color='secondary'
+							variant="bordered"
+							color="secondary"
 							label="Comment"
 							labelPlacement="inside"
 							placeholder="Write a comment..."
@@ -103,12 +111,7 @@ export const CommentInput = ({
 				<div className="text-red-500 mb-3">{errors.root.message}</div>
 			)}
 			{user ? (
-				<Button
-					type='submit'
-					variant='bordered'
-					color='secondary'
-					size='sm'
-				>
+				<Button type="submit" variant="bordered" color="secondary" size="sm">
 					Post
 				</Button>
 			) : (

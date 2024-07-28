@@ -1,4 +1,4 @@
-import { getComments } from '@/service/commentService';
+import { getComments } from '@/handlers/commentHandlers';
 import type { CommentType } from '@/types/commentType';
 import { Avatar } from '@nextui-org/avatar';
 import { Card } from '@nextui-org/card';

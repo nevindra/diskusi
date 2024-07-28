@@ -1,34 +1,32 @@
-import { getUserByUsername } from '@/service/userService';
 import { Avatar } from '@nextui-org/avatar';
 import { Card, CardBody } from '@nextui-org/card';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
 import Image from 'next/image';
 export const UserProfileBox = ({ username }: { username: string }) => {
-	const queryClient = useQueryClient();
-	const {
-		data: userProfile,
-		isLoading,
-		error,
-	} = useQuery({
-		queryKey: ['users', username],
-		queryFn: async () => {
-			try {
-				return await getUserByUsername({ username });
-			} catch (error) {
-				console.error('Error fetching user profile:', error);
-				throw error;
-			}
-		},
-		staleTime: 5 * 60 * 1000, // Data will be considered fresh for 5 minutes
-		gcTime: 30 * 60 * 1000, // Cache data for 30 minutes (formerly cacheTime)
-		refetchOnWindowFocus: true, // Enable refetch on window focus for up-to-date data
-		refetchOnMount: false, // Disable refetch on component mount
-		retry: 3, // Retry failed requests up to 3 times
-		initialData: () => {
-			// Check if we have cached data
-			return queryClient.getQueryData(['users', username]);
-		},
-	});
+	// const queryClient = useQueryClient();
+	// const {
+	// 	data: userProfile,
+	// 	isLoading,
+	// 	error,
+	// } = useQuery({
+	// 	queryKey: ['users', username],
+	// 	queryFn: async () => {
+	// 		try {
+	// 			return await getUserByUsername({ username });
+	// 		} catch (error) {
+	// 			console.error('Error fetching user profile:', error);
+	// 			throw error;
+	// 		}
+	// 	},
+	// 	staleTime: 5 * 60 * 1000, // Data will be considered fresh for 5 minutes
+	// 	gcTime: 30 * 60 * 1000, // Cache data for 30 minutes (formerly cacheTime)
+	// 	refetchOnWindowFocus: true, // Enable refetch on window focus for up-to-date data
+	// 	refetchOnMount: false, // Disable refetch on component mount
+	// 	retry: 3, // Retry failed requests up to 3 times
+	// 	initialData: () => {
+	// 		// Check if we have cached data
+	// 		return queryClient.getQueryData(['users', username]);
+	// 	},
+	// });
 
 	return (
 		<Card className="w-full p-0 overflow-hidden">

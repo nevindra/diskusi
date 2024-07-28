@@ -12,8 +12,8 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
-import type { SignupFormData } from '@/service/signupService';
-import { SignupSchema, signUp } from '@/service/signupService';
+import type { SignupFormData } from '@/handlers/signupHandler';
+import { SignupSchema, signUp } from '@/handlers/signupHandler';
 
 type FormComponentProps = {
 	redirectPath: string;

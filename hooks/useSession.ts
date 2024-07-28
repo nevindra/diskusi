@@ -1,4 +1,5 @@
 import { supabase_client } from '@/database/client';
+import { useTempQuestionStore } from '@/state/questionState';
 import type { UserType } from '@/types/userType';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 
@@ -43,6 +44,7 @@ export function useSession() {
 		await supabase_client.auth.signOut();
 		queryClient.setQueryData(['session'], null);
 		queryClient.setQueryData(['user', session?.user?.id], null);
+		useTempQuestionStore.getState().clearAllQuestions();
 	};
 
 	const isLoading = isSessionLoading || isUserLoading;

@@ -5,7 +5,8 @@ import {
   UsersTable,
 } from "@/database/dbSchema";
 import { db } from "@/database/initDB";
-import { eq, inArray, sql } from "drizzle-orm";
+import { desc, eq, sql } from 'drizzle-orm';
+import { alias } from "drizzle-orm/pg-core";
 import { NextResponse } from "next/server";
 
 export async function GET(
@@ -20,60 +21,37 @@ export async function GET(
       { status: 400 },
     );
   }
+
   try {
-    // First query: Get questions
+    const PosterUsers = alias(UsersTable, "poster_users");
+
     const questions = await db
-      .select({
-        questionId: QuestionsTable.questionId,
-        content: QuestionsTable.content,
-        createdAt: QuestionsTable.createdAt,
-        userId: QuestionsTable.userId,
-        posterId: QuestionsTable.posterId,
-        likeCount: sql<number>`CAST(COUNT(DISTINCT ${LikesTable.questionId}) AS INTEGER)`,
-        commentCount: sql<number>`CAST(COUNT(DISTINCT ${CommentsTable.commentId}) AS INTEGER)`,
-      })
-      .from(QuestionsTable)
-      .innerJoin(UsersTable, eq(QuestionsTable.userId, UsersTable.id))
-      .leftJoin(
-        LikesTable,
-        eq(QuestionsTable.questionId, LikesTable.questionId),
-      )
-      .leftJoin(
-        CommentsTable,
-        eq(QuestionsTable.questionId, CommentsTable.questionId),
-      )
-      .where(eq(UsersTable.username, username))
-      .groupBy(QuestionsTable.questionId, UsersTable.username);
+    .select({
+      questionId: QuestionsTable.questionId,
+      posterId: QuestionsTable.posterId,
+      posterUsername: PosterUsers.username,
+      content: QuestionsTable.content,
+      createdAt: QuestionsTable.createdAt,
+      likeCount: sql<number>`COALESCE(COUNT(DISTINCT ${LikesTable.userId}), 0)`,
+      commentCount: sql<number>`COALESCE(COUNT(DISTINCT ${CommentsTable.commentId}), 0)`,
+      likedUserIds: sql<string[]>`ARRAY_REMOVE(ARRAY_AGG(DISTINCT ${LikesTable.userId}), NULL)`,
+    })
+    .from(QuestionsTable)
+    .innerJoin(UsersTable, eq(QuestionsTable.userId, UsersTable.id))
+    .leftJoin(PosterUsers, eq(QuestionsTable.posterId, PosterUsers.id))
+    .leftJoin(LikesTable, eq(QuestionsTable.questionId, LikesTable.questionId))
+    .leftJoin(CommentsTable, eq(QuestionsTable.questionId, CommentsTable.questionId))
+    .where(eq(UsersTable.username, username))
+    .groupBy(
+      QuestionsTable.questionId,
+      QuestionsTable.posterId,
+      QuestionsTable.content,
+      QuestionsTable.createdAt,
+      PosterUsers.username
+    )
+    .orderBy(desc(QuestionsTable.createdAt));
 
-    // Extract unique posterIds
-    const posterIds = [
-      ...new Set(questions.map((q) => q.posterId).filter(Boolean)),
-    ];
-
-    // Second query: Get usernames for posterIds
-    const posters =
-      posterIds.length > 0
-        ? await db
-            .select({
-              id: UsersTable.id,
-              username: UsersTable.username,
-            })
-            .from(UsersTable)
-            .where(inArray(UsersTable.id, posterIds as string[]))
-        : [];
-
-    // Create a map of posterId to username
-    const posterUsernameMap = new Map(posters.map((p) => [p.id, p.username]));
-
-    // Combine the results
-    const questionsWithPosterUsernames = questions.map((q) => ({
-      ...q,
-      posterUsername: q.posterId
-        ? posterUsernameMap.get(q.posterId) || null
-        : null,
-    }));
-
-    return NextResponse.json(questionsWithPosterUsernames);
+  return NextResponse.json(questions);
   } catch (error) {
     console.error("Error fetching questions:", error);
     return NextResponse.json(

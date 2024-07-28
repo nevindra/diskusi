@@ -1,3 +1,4 @@
+import type { QuestionsType } from '@/types/questionType';
 import { z } from 'zod';
 
 export const QuestionSchema = z.object({
@@ -35,7 +36,7 @@ export async function postQuestion(
 	}
 }
 
-export async function getQuestions(username: string) {
+export async function getQuestions(username: string): Promise<QuestionsType[]> {
 	try {
 		const response = await fetch(
 			`/api/users/${username}/questions`
@@ -44,6 +45,22 @@ export async function getQuestions(username: string) {
 		if (!response.ok) {
 			const errorData = await response.json();
 			throw new Error(errorData.message || 'Failed to fetch questions');
+		}
+		return await response.json();
+	} catch (error) {
+		throw error instanceof Error ? error : new Error('An unknown error occurred');
+	}
+}
+
+export async function getQuestionById(questionId: string): Promise<QuestionsType> {
+	try {
+		const baseUrl = process.env.NEXT_PUBLIC_API_URL || '';
+
+		const response = await fetch(`${baseUrl}/api/questions/${questionId}`);
+
+		if (!response.ok) {
+			const errorData = await response.json();
+			throw new Error(errorData.message || 'Failed to fetch question');
 		}
 		return await response.json();
 	} catch (error) {

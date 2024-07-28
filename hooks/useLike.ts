@@ -1,4 +1,4 @@
-import { deleteLike, postLike } from '@/service/likeService';
+import { deleteLike, postLike } from '@/handlers/likeHandlers';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 export function useLike() {

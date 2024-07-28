@@ -11,9 +11,8 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
+import { type LoginFormData, LoginSchema, login } from '@/handlers/loginHandler';
 import { useSession } from '@/hooks/useSession';
-import type { LoginFormData } from '@/service/login';
-import { LoginSchema, login } from '@/service/login';
 import { useEffect } from 'react';
 
 

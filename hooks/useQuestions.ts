@@ -1,16 +1,15 @@
+import { getQuestionById, getQuestions } from '@/handlers/questionHandlers';
 import { useSession } from '@/hooks/useSession';
-import { getLikes } from '@/service/likeService';
-import { getQuestions } from '@/service/questionService';
 import type { UserType } from '@/types/userType';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { usePathname } from 'next/navigation';
+import { useMemo } from 'react';
 
 export function useProfileData() {
 	const {
 		user,
 		isLoading: isSessionLoading,
 	}: { user: UserType | null; isLoading: boolean } = useSession();
-	const _queryClient = useQueryClient();
 	const pathname = usePathname();
 	const username = pathname.split('/')[2];
 
@@ -30,14 +29,41 @@ export function useProfileData() {
 		retry: 3,
 	});
 
+	const isLoading = isSessionLoading || isQuestionsLoading;
+
+	// Sort questions and add isLiked property
+	const sortedQuestionsWithLikes = useMemo(() => {
+		return questions
+			.map((question) => ({
+				...question,
+				isLiked: user ? question.likedUserIds.includes(user.id) : false,
+			}))
+	}, [questions, user]);
+
+	return {
+		user,
+		isLoading,
+		questions: sortedQuestionsWithLikes,
+		refetchQuestions,
+		username,
+	};
+}
+export function useQuestionData(questionId: string) {
+	const queryClient = useQueryClient();
 	const {
-		data: likes = [],
-		refetch: refetchLikes,
-		isLoading: isLikesLoading,
+		user,
+		isLoading: isSessionLoading,
+	}: { user: UserType | null; isLoading: boolean } = useSession();
+
+	const {
+		data: question,
+		isLoading: isQuestionLoading,
+		error,
+		refetch,
 	} = useQuery({
-		queryKey: ['likes', user?.id],
-		queryFn: () => getLikes(user?.id || ''),
-		enabled: !!user?.id,
+		queryKey: ['question', questionId],
+		queryFn: () => getQuestionById(questionId),
+		enabled: !!questionId,
 		staleTime: 5 * 60 * 1000,
 		gcTime: 30 * 60 * 1000,
 		refetchOnWindowFocus: false,
@@ -46,33 +72,22 @@ export function useProfileData() {
 		retry: 3,
 	});
 
-	const isLoading = isSessionLoading || isQuestionsLoading || isLikesLoading;
+	const isLoading = isSessionLoading || isQuestionLoading;
 
-	// Sort questions by createdAt in descending order (newest first)
-	const sortedQuestions = [...questions].sort(
-		(a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-	);
+	const refetchQuestion = async () => {
+		queryClient.invalidateQueries({ queryKey: ['questions', questionId] });
+		await refetch();
+	};
 
-	// Combine questions with likes only when both data are available
-	const questionsWithLikes =
-		!isLoading && questions.length > 0 && likes.length > 0
-			? sortedQuestions.map((question) => ({
-					...question,
-					isLiked: likes.some(
-						(like) => like.questionId === question.questionId
-					),
-				}))
-			: sortedQuestions.map((question) => ({
-					...question,
-					isLiked: false,
-				}));
+	const isLiked = useMemo(() => {
+		return user ? question?.likedUserIds.includes(user.id) : false;
+	}, [question, user]);
 
 	return {
 		user,
 		isLoading,
-		questionsWithLikes,
-		refetchQuestions,
-		refetchLikes,
-		username,
+		question: question ? { ...question, isLiked } : null,
+		error,
+		refetchQuestion,
 	};
 }

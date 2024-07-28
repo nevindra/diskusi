@@ -1,22 +1,12 @@
-export type QuestionType = {
-    questionId: string;
-    content: string;
-    createdAt: string;
-    userId: string;
-    posterId: string;
-    username: string;
-    likeCount: number;
-    commentCount: number;
-}
-export type QuestionWithPosterUsernameType = {
-	commentId: string;
+export type QuestionsType = {
+	// commentId: string;
 	questionId: string;
-	userId: string;
-	posterId: string;
+	posterId: string | null;
 	posterUsername: string;
 	content: string;
 	createdAt: string;
 	likeCount: number;
 	commentCount: number;
 	isLiked: boolean;
+	likedUserIds: string[];
 };

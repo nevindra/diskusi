@@ -1,10 +1,10 @@
 import {
-  pgTable,
-  text,
-  timestamp,
-  uniqueIndex,
-  uuid,
-  varchar,
+	pgTable,
+	text,
+	timestamp,
+	uniqueIndex,
+	uuid,
+	varchar,
 } from 'drizzle-orm/pg-core';
 
 export const UsersTable = pgTable('users', {
@@ -22,7 +22,7 @@ export const QuestionsTable = pgTable('questions', {
 	userId: uuid('user_id')
 		.notNull()
 		.references(() => UsersTable.id),
-	posterId: varchar('poster_id', { length: 36 }),
+	posterId: uuid('poster_id').references(() => UsersTable.id),
 	content: text('content').notNull(),
 	createdAt: timestamp('created_at').defaultNow(),
 });
@@ -39,13 +39,14 @@ export const CommentsTable = pgTable('comments', {
 	createdAt: timestamp('created_at').defaultNow(),
 });
 
-export const LikesTable = pgTable('likes',
+export const LikesTable = pgTable(
+	'likes',
 	{
 		likeId: uuid('like_id').defaultRandom().primaryKey(),
 		userId: uuid('user_id')
 			.notNull()
 			.references(() => UsersTable.id),
-		questionId: varchar('question_id', { length: 21 }).references(
+		questionId: varchar('question_id', { length: 36 }).references(
 			() => QuestionsTable.questionId
 		),
 		createdAt: timestamp('created_at').defaultNow(),

@@ -3,7 +3,7 @@ import { db } from '@/database/initDB';
 import { and, eq } from 'drizzle-orm';
 import { NextResponse } from 'next/server';
 
-// Url: /api/likes?username=username&userId=userId
+// Url: /api/likes?serId=userId
 export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
     const userId = searchParams.get('userId');

@@ -1,10 +1,11 @@
 'use client';
-import { useSession } from '@/hooks/useSession';
 import {
+	type QuestionFormData,
 	QuestionSchema,
 	postQuestion,
-	type QuestionFormData
-} from '@/service/questionService';
+} from '@/handlers/questionHandlers';
+import { useSession } from '@/hooks/useSession';
+import { useTempQuestionStore } from '@/state/questionState';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from '@nextui-org/button';
 import { Textarea } from '@nextui-org/input';
@@ -14,14 +15,19 @@ import { usePathname } from 'next/navigation';
 import { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
-export const QuestionBox = ({ onQuestionAdded }: { onQuestionAdded: () => void }) => {
+export const QuestionBox = ({
+	onQuestionAdded,
+}: { onQuestionAdded: () => void }) => {
 	const { user } = useSession();
 	const pathname = usePathname();
 	const queryClient = useQueryClient();
+	const userId = pathname.split('/')[2];
+
+	const { setQuestion, getQuestion } = useTempQuestionStore();
 
 	const defaultValues = {
-		question: '',
-		usernameId: pathname.split('/')[2],
+		question: getQuestion(userId),
+		usernameId: userId,
 		posterId: '',
 	};
 
@@ -32,10 +38,19 @@ export const QuestionBox = ({ onQuestionAdded }: { onQuestionAdded: () => void }
 		setError,
 		setValue,
 		reset, // Add this
+		watch,
 	} = useForm<QuestionFormData>({
 		resolver: zodResolver(QuestionSchema),
 		defaultValues,
 	});
+
+	// Watch for changes in the question field
+	const questionValue = watch('question');
+
+	// Update the temporary store when the question changes
+	useEffect(() => {
+		setQuestion(userId, questionValue);
+	}, [userId, questionValue, setQuestion]);
 
 	// Set the posterId. PosterID is to identify the user who posted the question
 	// PosterID is optional, so we need to check if the user is authenticated
@@ -47,13 +62,15 @@ export const QuestionBox = ({ onQuestionAdded }: { onQuestionAdded: () => void }
 	const mutation = useMutation({
 		mutationFn: postQuestion,
 		onSuccess: () => {
-			queryClient.invalidateQueries({queryKey: ['questions', user?.id]}); // Updated to use queryKey
+			queryClient.invalidateQueries({ queryKey: ['questions', user?.id] }); // Updated to use queryKey
 			reset(defaultValues);
 			onQuestionAdded(); // Call this function after successful question addition
 		},
 		onError: (error: AxiosError) => {
 			console.error('error:', error.message);
-			const errorMessage = (error.response?.data as { message?: string })?.message || error.message; // Type assertion added
+			const errorMessage =
+				(error.response?.data as { message?: string })?.message ||
+				error.message; // Type assertion added
 			setError('root', { type: 'manual', message: errorMessage }); // Ensure error is set
 		},
 	});

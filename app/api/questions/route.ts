@@ -7,6 +7,8 @@ import { eq } from 'drizzle-orm';
 import { customAlphabet } from 'nanoid';
 import { NextResponse } from 'next/server';
 
+// POST API to create a new question
+// The Url is /api/questions
 export async function POST(request: Request) {
 	const { question, usernameId, posterId } = await request.json();
 
@@ -54,4 +56,3 @@ export async function POST(request: Request) {
 		);
 	}
 }
-
