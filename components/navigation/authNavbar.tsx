@@ -60,8 +60,11 @@ export const AuthenticatedNavbar = ({
 							<p className="font-semibold">Signed in as</p>
 							<p className=" text-secondary">{user?.username}</p>
 						</DropdownItem>
-						<DropdownItem key="settings" startContent={<MdOutlineQuestionAnswer />
-}>
+						<DropdownItem
+							key="settings"
+							startContent={<MdOutlineQuestionAnswer />}
+							href={`${process.env.NEXT_PUBLIC_BASE_URL}/id/${user?.username}`}
+						>
 							My Profile
 						</DropdownItem>
 						<DropdownItem key="settings" startContent={<GrUserSettings />}>

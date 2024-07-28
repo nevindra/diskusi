@@ -5,6 +5,7 @@ import { QuestionHeader } from '@/components/profile/questionHeader';
 import { QuestionActions } from '@/components/profile/questionLike';
 import { ShareModal } from '@/components/profile/questionShare';
 import { QuestionStats } from '@/components/profile/questionStats';
+import { SkeltonProfile } from '@/components/profile/skeleton';
 import { UserProfileBox } from '@/components/profile/userProfile';
 import { useQuestionData } from '@/hooks/useQuestions';
 import { Card, CardBody, CardFooter } from '@nextui-org/card';
@@ -21,7 +22,7 @@ export default function QuestionPage({
 	const [showComments, setShowComments] = useState(false);
 	const [isShareModalOpen, setIsShareModalOpen] = useState(false);
 
-	if (isLoading) return <div>Loading...</div>;
+	if (isLoading) return <SkeltonProfile />;
 	if (error) return <div>Error: {(error as Error).message}</div>;
 	if (!question) return <div>Question not found</div>;
 
@@ -71,6 +72,7 @@ export default function QuestionPage({
 								questionId={question.questionId}
 								user={user}
 								refetchQuestion={refetchQuestion}
+								
 							/>
 						)}
 					</CardFooter>

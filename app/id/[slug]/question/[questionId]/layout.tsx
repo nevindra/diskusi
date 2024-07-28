@@ -9,9 +9,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 	const question = await getQuestionById(params.questionId);
 	console.log(question);
 	const title = `${question.posterUsername}'s question`;
-	const description = `Answer this question: ${question.content}`;
+	const description = `Someone asked ${question.posterUsername} a question: ${question.content}`;
 	const image = `${process.env.NEXT_PUBLIC_BASE_URL}/og?question=${encodeURIComponent(question.content)}`;
-
+	const url = `${process.env.NEXT_PUBLIC_BASE_URL}/id/${question.posterUsername}/question/${question.questionId}`;
 	return {
 		title,
 		description,
@@ -21,6 +21,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 			title,
 			description,
 			images: [image],
+		},
+		robots: {
+			index: true,
+			follow: true,
+			googleBot: {
+				index: true,
+				follow: true,
+			},
 		},
 	};
 }
