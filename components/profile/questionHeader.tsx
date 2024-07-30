@@ -3,7 +3,7 @@ import { Avatar } from '@nextui-org/avatar';
 import { CardHeader } from '@nextui-org/card';
 import { formatDistanceToNow, parseISO } from 'date-fns';
 
-export const QuestionHeader = ({posterId, posterUsername, createdAt, }: {posterId: string, posterUsername: string, createdAt: string}) => {
+export const QuestionHeader = ({posterId, posterUsername, createdAt, }: {posterId: string | null; posterUsername: string; createdAt: string}) => {
 	return (
 		<CardHeader className="flex items-center space-x-2 sm:space-x-4 pb-2">
 		<Avatar

@@ -4,8 +4,8 @@ import {
 	QuestionSchema,
 	postQuestion,
 } from '@/handlers/questionHandlers';
-import { useSession } from '@/hooks/useSession';
 import { useTempQuestionStore } from '@/state/questionState';
+import type { UserType } from '@/types/userType';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from '@nextui-org/button';
 import { Textarea } from '@nextui-org/input';
@@ -17,12 +17,10 @@ import { Controller, useForm } from 'react-hook-form';
 export const QuestionBox = ({
 	username,
 	onQuestionAdded,
-}: {username: string; onQuestionAdded: () => void }) => {
-	const { user } = useSession();
-	
+	user,
+}: {username: string; onQuestionAdded: () => void; user: UserType | null }) => {
 	const queryClient = useQueryClient();
 	
-
 	const { setQuestion, getQuestion } = useTempQuestionStore();
 
 	const defaultValues = {

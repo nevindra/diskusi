@@ -37,7 +37,7 @@ export async function GET(req: Request) {
 						borderRadius: '15px',
 					}}
 				>
-					Question:
+					Pertanyaan
 				</h1>
 				<p
 					style={{

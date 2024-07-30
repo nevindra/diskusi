@@ -1,8 +1,8 @@
 'use client';
 
 import { CommentSection } from '@/components/profile/commentSection';
+import { QuestionActions } from '@/components/profile/questionActions';
 import { QuestionHeader } from '@/components/profile/questionHeader';
-import { QuestionActions } from '@/components/profile/questionLike';
 import { ShareModal } from '@/components/profile/questionShare';
 import { QuestionStats } from '@/components/profile/questionStats';
 import { SkeltonProfile } from '@/components/profile/skeleton';
@@ -10,6 +10,7 @@ import { UserProfileBox } from '@/components/profile/userProfile';
 import { useQuestionData } from '@/hooks/useQuestions';
 import { Card, CardBody, CardFooter } from '@nextui-org/card';
 import { Divider } from '@nextui-org/divider';
+import Link from 'next/link';
 import { useState } from 'react';
 
 export default function QuestionPage({
@@ -17,8 +18,9 @@ export default function QuestionPage({
 }: {
 	params: { questionId: string; slug: string };
 }) {
-	const { user, isLoading, question, error, refetchQuestion } =
-		useQuestionData(params.questionId);
+	const { user, isLoading, question, error, refetchQuestion } = useQuestionData(
+		params.questionId
+	);
 	const [showComments, setShowComments] = useState(false);
 	const [isShareModalOpen, setIsShareModalOpen] = useState(false);
 
@@ -32,9 +34,16 @@ export default function QuestionPage({
 			<div className="w-full xl:w-[70%] px-3 lg:px-0">
 				<UserProfileBox username={params.slug} />
 			</div>
-			<h1 className="text-primary items-start text-left text-xl font-semibold mb-3">
-				Detail Pertanyaan
-			</h1>
+			<div className="w-full xl:w-[70%] px-3 lg:px-0 flex justify-start">
+				<button
+					className="text-secondary text-left text-sm lg:text-base font-thin my-3 px-4 py-2 rounded-lg"
+					type="button"
+				>
+					<Link href={`${process.env.NEXT_PUBLIC_BASE_URL}/id/${params.slug}`}>
+						Kembali
+					</Link>
+				</button>
+			</div>
 			{/* Question List Box */}
 			<div className="flex flex-col w-full xl:w-[70%] space-y-4 px-2 mt-1">
 				<Card key={question.questionId} className="p-2 sm:p-4">
@@ -61,20 +70,18 @@ export default function QuestionPage({
 						{/* Question Actions is for the like, comment, and share buttons. In this file, Like is handled. */}
 						<QuestionActions
 							questionId={question.questionId}
-							isLiked={question.isLiked? question.isLiked : false}
+							isLiked={question.isLiked ? question.isLiked : false}
 							user={user}
 							onCommentToggle={() => setShowComments(!showComments)}
 							onShare={() => setIsShareModalOpen(true)}
 							refetchQuestion={refetchQuestion}
 						/>
-						{showComments && (
-							<CommentSection
-								questionId={question.questionId}
-								user={user}
-								refetchQuestion={refetchQuestion}
-								
-							/>
-						)}
+
+						<CommentSection
+							questionId={question.questionId}
+							user={user}
+							refetchQuestion={refetchQuestion}
+						/>
 					</CardFooter>
 					{/* Share Modal is for the share button */}
 					<ShareModal

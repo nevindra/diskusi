@@ -7,7 +7,6 @@ type Props = {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
 	const question = await getQuestionById(params.questionId);
-	console.log(question);
 	const title = `${question.posterUsername}'s question`;
 	const description = `Someone asked ${question.posterUsername} a question: ${question.content}`;
 	const image = `${process.env.NEXT_PUBLIC_BASE_URL}/og?question=${encodeURIComponent(question.content)}`;
@@ -15,7 +14,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 	return {
 		title,
 		description,
-		openGraph: { title, description, images: [image] },
+		openGraph: { title, description, images: [image], siteName: 'Komunal', url },
 		twitter: {
 			card: 'summary_large_image',
 			title,

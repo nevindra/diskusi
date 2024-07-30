@@ -47,7 +47,7 @@ export const UserProfileBox = ({ username }: { username: string }) => {
 					radius="full"
 					size="lg"
 					src="/user.png"
-					className="absolute border-4 border-primary"
+					className="absolute border-1 border-secondary"
 				/>
 
 				{/* User Info */}

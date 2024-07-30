@@ -1,9 +1,9 @@
 'use client';
 
 import { CommentSection } from '@/components/profile/commentSection';
+import { QuestionActions } from '@/components/profile/questionActions';
 import { QuestionHeader } from '@/components/profile/questionHeader';
 import { QuestionBox } from '@/components/profile/questionInputBox';
-import { QuestionActions } from '@/components/profile/questionLike';
 import { ShareModal } from '@/components/profile/questionShare';
 import { QuestionStats } from '@/components/profile/questionStats';
 import { UserProfileBox } from '@/components/profile/userProfile';
@@ -19,14 +19,15 @@ import { useQueryClient } from '@tanstack/react-query';
 
 export default function ProfilePage({ params }: { params: { slug: string } }) {
 	const queryClient = useQueryClient();
-	const { user, isLoading, questions, refetchQuestions, username } =
-		useProfileData();
+	const { user, isLoading, questions, refetchQuestions, username } = useProfileData();
+
 	const [showComments, setShowComments] = useState<{ [key: string]: boolean }>(
 		{}
 	);
 	const [isShareModalOpen, setIsShareModalOpen] = useState<{
 		[key: string]: boolean;
 	}>({});
+	
 	const toggleComments = (questionId: string) => {
 		setShowComments((prev) => ({ ...prev, [questionId]: !prev[questionId] }));
 	};
@@ -37,7 +38,7 @@ export default function ProfilePage({ params }: { params: { slug: string } }) {
 			[questionId]: !prev[questionId],
 		}));
 	};
-		const refetchQuestion = (questionId: string) => {
+	const refetchQuestion = (questionId: string) => {
 		queryClient.invalidateQueries({ queryKey: ['questions', questionId] });
 		refetchQuestions();
 	};
@@ -52,11 +53,17 @@ export default function ProfilePage({ params }: { params: { slug: string } }) {
 				<UserProfileBox username={username} />
 			</div>
 			<div className="w-full xl:w-[70%] px-3 lg:px-0">
-				<QuestionBox onQuestionAdded={refetchQuestions} username={username} />
+				<QuestionBox
+					onQuestionAdded={refetchQuestions}
+					username={username}
+					user={user}
+				/>
 			</div>
-			<h1 className="text-primary items-start text-left text-xl font-semibold mb-3">
-				Pertanyaan
-			</h1>
+			<div className="w-full xl:w-[70%] px-3 lg:px-0 flex justify-center">
+				<p className="text-white bg-secondary text-left text-sm lg:text-base font-semibold mb-3 px-4 py-2 rounded-lg">
+					Pertanyaan
+				</p>
+			</div>
 			{/* Question List Box */}
 			<div className="flex flex-col w-full xl:w-[70%] space-y-4 px-2 mt-1">
 				{isLoading
@@ -64,7 +71,7 @@ export default function ProfilePage({ params }: { params: { slug: string } }) {
 					: questions.map((question: QuestionsType) => (
 							<Card key={question.questionId} className="p-2 sm:p-4">
 								<QuestionHeader
-									posterId={question.posterId || ''}
+									posterId={question.posterId || null}
 									posterUsername={question.posterUsername}
 									createdAt={question.createdAt}
 								/>
