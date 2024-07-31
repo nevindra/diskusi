@@ -57,10 +57,10 @@ export const Statistics = () => {
 
 	return (
 		<div ref={ref} className="my-8 px-4 lg:max-w-6xl mx-auto">
-			<h1 className="font-bold text-4xl md:text-5xl lg:text-6xl text-center mb-8">
+			<h1 className="font-bold text-xl md:text-2xl lg:text-3xl text-center mb-8">
 				Statistik Aplikasi
 			</h1>
-			<h1 className="font-bold text-5xl sm:text-6xl md:text-7xl lg:text-8xl text-secondary text-center">
+			<h1 className="font-bold text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-secondary text-center">
 				<Counter
 					targetCount={100}
 					duration={2000}
@@ -68,10 +68,10 @@ export const Statistics = () => {
 					isVisible={isVisible}
 				/>
 			</h1>
-			<h1 className="text-xl mt-4 sm:text-2xl md:text-3xl lg:text-4xl font-bold text-primary text-center mb-6">
+			<h1 className="text-lg mt-4 sm:text-xl md:text-2xl lg:text-3xl font-bold text-primary text-center mb-6">
 				Pengguna Aktif
 			</h1>
-			<h1 className="font-bold text-5xl sm:text-6xl md:text-7xl lg:text-8xl text-secondary text-center">
+			<h1 className="font-bold text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-secondary text-center">
 				<Counter
 					targetCount={20}
 					duration={2000}
@@ -79,10 +79,10 @@ export const Statistics = () => {
 					isVisible={isVisible}
 				/>
 			</h1>
-			<h1 className="text-xl mt-4 sm:text-2xl md:text-3xl lg:text-4xl font-bold text-primary text-center mb-6">
+			<h1 className="text-lg mt-4 sm:text-xl md:text-2xl lg:text-3xl font-bold text-primary text-center mb-6">
 				Jumlah Pertanyaan
 			</h1>
-			<h1 className="font-bold text-5xl sm:text-6xl md:text-7xl lg:text-8xl text-secondary text-center">
+			<h1 className="font-bold text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-secondary text-center">
 				<Counter
 					targetCount={200}
 					duration={2000}
@@ -90,7 +90,7 @@ export const Statistics = () => {
 					isVisible={isVisible}
 				/>
 			</h1>
-			<h1 className="text-xl mt-4 sm:text-2xl md:text-3xl lg:text-4xl font-bold text-primary text-center mb-6">
+			<h1 className="text-lg mt-4 sm:text-xl md:text-2xl lg:text-3xl font-bold text-primary text-center mb-6">
 				Pertanyaan Terjawab
 			</h1>
 		</div>

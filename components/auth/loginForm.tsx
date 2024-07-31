@@ -1,8 +1,7 @@
 'use client';
 import { Button } from '@nextui-org/button';
 import { Input } from '@nextui-org/input';
-import { FaGithub } from 'react-icons/fa';
-import { FcGoogle } from 'react-icons/fc';
+import { GithubLogo, GoogleLogo } from '@phosphor-icons/react';
 import { EyeFilledIcon, EyeSlashFilledIcon } from '../icons';
 
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -129,12 +128,12 @@ export const LoginFormComponent = () => {
 						atau masuk dengan
 					</p>
 					<div className="flex justify-center space-x-4">
-						<Button variant="bordered" className="w-1/2">
-							<FaGithub className="mr-2" />
+						<Button variant="bordered" className="w-1/2 bg-black text-white">
+							<GithubLogo className="mr-2" />
 							Github
 						</Button>
-						<Button variant="bordered" className="w-1/2">
-							<FcGoogle className="mr-2" />
+						<Button variant="bordered" className="w-1/2 bg-[#0F9D58] text-white">
+							<GoogleLogo className="mr-2" />
 							Google
 						</Button>
 					</div>

@@ -1,9 +1,8 @@
 import { deleteLike, postLike } from '@/handlers/likeHandlers';
 import type { UserType } from '@/types/userType';
 import { Button } from '@nextui-org/button';
+import { Chats, Share, ThumbsUp } from '@phosphor-icons/react/dist/ssr';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { BiLike, BiRepost, BiSolidLike } from 'react-icons/bi';
-import { MdOutlineComment } from 'react-icons/md';
 
 export const QuestionActions = ({
 	questionId,
@@ -56,7 +55,7 @@ export const QuestionActions = ({
 				size="sm"
 				variant="light"
 				onClick={handleLike}
-				startContent={isLiked ? <BiSolidLike /> : <BiLike />}
+				startContent={isLiked ? <ThumbsUp weight="fill" /> : <ThumbsUp />}
 				color={isLiked ? 'secondary' : 'default'}
 				className="text-xs sm:text-sm"
 			>
@@ -65,7 +64,7 @@ export const QuestionActions = ({
 			<Button
 				size="sm"
 				variant="light"
-				startContent={<MdOutlineComment />}
+				startContent={<Chats />}
 				onClick={onCommentToggle}
 				className="text-xs sm:text-sm"
 			>
@@ -74,7 +73,7 @@ export const QuestionActions = ({
 			<Button
 				size="sm"
 				variant="light"
-				startContent={<BiRepost />}
+				startContent={<Share />}
 				onClick={onShare}
 				className="text-xs sm:text-sm"
 			>

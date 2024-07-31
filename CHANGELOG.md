@@ -1,3 +1,11 @@
+## 1.1.1 (01-08-2024)
+
+Updates:
+
+  - Update the hero image
+  - Improve the performance of the home page
+  - Update icons
+
 ## 1.1.1 (30-07-2024)
 
 Features:

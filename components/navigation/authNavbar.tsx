@@ -7,10 +7,8 @@ import {
 	DropdownTrigger,
 } from '@nextui-org/dropdown';
 import { NavbarContent } from '@nextui-org/navbar';
+import { SignOut, UserCircle, UserCircleGear } from '@phosphor-icons/react/dist/ssr';
 import { useRouter } from 'next/navigation';
-import { BiLogOut } from 'react-icons/bi';
-import { GrUserSettings } from 'react-icons/gr';
-import { MdOutlineQuestionAnswer } from 'react-icons/md';
 export const AuthenticatedNavbar = ({
 	user,
 	logout,
@@ -24,19 +22,6 @@ export const AuthenticatedNavbar = ({
 	}
 	return (
 		<>
-			{/* <NavbarContent className="hidden sm:flex gap-4" justify="center">
-				<NavbarItem>
-					<Button as="a" color="secondary" variant="bordered">
-						<Link
-							color="secondary"
-							href={user?.username ? `/id/${user.username}` : '/login'}
-						>
-							Questions
-						</Link>
-					</Button>
-				</NavbarItem>
-			</NavbarContent> */}
-
 			<NavbarContent as="div" justify="end">
 				<Dropdown placement="bottom-end">
 					<DropdownTrigger>
@@ -61,18 +46,18 @@ export const AuthenticatedNavbar = ({
 							<p className=" text-secondary">{user?.username}</p>
 						</DropdownItem>
 						<DropdownItem
-							key="settings"
-							startContent={<MdOutlineQuestionAnswer />}
+							key="user"
+							startContent={<UserCircle />}
 							href={`${process.env.NEXT_PUBLIC_BASE_URL}/id/${user?.username}`}
 						>
 							My Profile
 						</DropdownItem>
-						<DropdownItem key="settings" startContent={<GrUserSettings />}>
+						<DropdownItem key="settings" href={`${process.env.NEXT_PUBLIC_BASE_URL}/id/${user?.username}/setting`} startContent={<UserCircleGear />}>
 							My Settings
 						</DropdownItem>
 						<DropdownItem
 							key="logout"
-							startContent={<BiLogOut />}
+							startContent={<SignOut />}
 							onClick={handleLogout}
 						>
 							<p className="font-semibold text-secondary">Log Out</p>
