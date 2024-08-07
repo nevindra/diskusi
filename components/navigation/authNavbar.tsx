@@ -12,7 +12,7 @@ import { useRouter } from 'next/navigation';
 export const AuthenticatedNavbar = ({
 	user,
 	logout,
-}: { user: UserType | null; logout: () => void }) => {
+}: { user: UserType | null | undefined; logout: () => void }) => {
 	const router = useRouter();
 	async function handleLogout() {
 		await logout();
@@ -29,10 +29,8 @@ export const AuthenticatedNavbar = ({
 							isBordered
 							as="button"
 							className="transition-transform"
-							color="secondary"
-							name="Jason Hughes"
 							size="sm"
-							src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
+							src="/user.png"
 						/>
 					</DropdownTrigger>
 					<DropdownMenu aria-label="Profile Actions" variant="flat">
@@ -43,7 +41,7 @@ export const AuthenticatedNavbar = ({
 							className="h-14 gap-2"
 						>
 							<p className="font-semibold">Signed in as</p>
-							<p className=" text-secondary">{user?.username}</p>
+							<p className=" text-primary">{user?.username}</p>
 						</DropdownItem>
 						<DropdownItem
 							key="user"
@@ -60,7 +58,7 @@ export const AuthenticatedNavbar = ({
 							startContent={<SignOut />}
 							onClick={handleLogout}
 						>
-							<p className="font-semibold text-secondary">Log Out</p>
+							<p className="font-semibold text-primary">Log Out</p>
 						</DropdownItem>
 					</DropdownMenu>
 				</Dropdown>

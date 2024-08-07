@@ -1,12 +1,6 @@
 import { siteConfig } from "@/config/site";
-import type { Metadata, Viewport } from "next";
+import type { Metadata } from "next";
 
-export const viewport: Viewport = {
-	themeColor: [
-		// { media: "(prefers-color-scheme: light)", color: "white" },
-		// { media: "(prefers-color-scheme: dark)", color: "black" },
-	],
-};
 
 export const metadata: Metadata = {
   title: {

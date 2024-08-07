@@ -1,39 +1,37 @@
 import { deleteLike, postLike } from '@/handlers/likeHandlers';
+import type { UserType } from '@/types/userType';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-export function useLike() {
+export const useLikeMutation = (
+	user: UserType | null | undefined,
+	questionId: string,
+	isLiked: boolean,
+	refetchQuestion: () => void
+) => {
 	const queryClient = useQueryClient();
 
 	const likeMutation = useMutation({
-		mutationFn: ({
-			userId,
-			questionId,
-			isLiked,
-		}: { userId: string; questionId: string; isLiked: boolean }) =>
+		mutationFn: () =>
 			isLiked
-				? deleteLike(userId,questionId)
-				: postLike({ userId, questionId }),
-		onSuccess: (data, variables) => {
+				? deleteLike(questionId, user?.id ?? '')
+				: postLike({ userId: user?.id ?? '', questionId }),
+		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ['questions'] });
-			queryClient.invalidateQueries({ queryKey: ['likes', variables.userId] });
+			queryClient.invalidateQueries({ queryKey: ['likes', user?.id] });
+			refetchQuestion();
 		},
 		onError: (error) => {
 			console.error('Error liking/unliking:', error);
 		},
 	});
 
-	const handleLike = (userId: string, questionId: string, isLiked: boolean) => {
-		if (!userId) {
-			console.log('User must be logged in to like/unlike a post');
-			return;
+	const handleLike = () => {
+		if (!user?.id) {
+			return false;
 		}
-
-		likeMutation.mutate({ userId, questionId, isLiked });
+		likeMutation.mutate();
+		return true;
 	};
 
-	return {
-		handleLike,
-		isLoading: likeMutation.isPending,
-		error: likeMutation.error,
-	};
-}
+	return { handleLike, isLoggedIn: !!user?.id };
+};

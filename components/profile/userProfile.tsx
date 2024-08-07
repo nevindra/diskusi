@@ -3,7 +3,7 @@ import { Card, CardBody } from '@nextui-org/card';
 import Image from 'next/image';
 export const UserProfileBox = ({ username }: { username: string }) => {
 	return (
-		<Card className="w-full p-0 overflow-hidden">
+		<Card className="w-full p-0overflow-hidden">
 			{/* Background Image */}
 			<div className="relative h-32">
 				<Image
@@ -22,7 +22,7 @@ export const UserProfileBox = ({ username }: { username: string }) => {
 					radius="full"
 					size="lg"
 					src="/user.png"
-					className="absolute border-1 border-secondary"
+					className="absolute border-1 border-primary"
 				/>
 
 				{/* User Info */}

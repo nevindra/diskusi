@@ -4,7 +4,7 @@ import { MontserratFont as FontSans } from '@/config/fonts';
 import '@/styles/globals.css';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 
 import { clsx } from 'clsx';
 import { Providers } from './providers';
@@ -37,6 +37,13 @@ export const metadata: Metadata = {
 		images: ['https://yourwebsite.com/twitter-image.jpg'],
 	},
 };
+
+export const viewport: Viewport = {
+	themeColor: [
+	  { media: "(prefers-color-scheme: light)", color: "white" },
+	  { media: "(prefers-color-scheme: dark)", color: "black" },
+	],
+  };
 
 export default function RootLayout({
 	children,

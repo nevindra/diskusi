@@ -6,6 +6,7 @@ export const QuestionSchema = z.object({
 	question: z.string().min(5, 'Question must be at least 5 characters'),
 	usernameId: z.string(),
 	posterId: z.string().optional(),
+	images: z.array(z.string()).optional(),
 });
 
 export type QuestionFormData = z.infer<typeof QuestionSchema>;
@@ -14,16 +15,13 @@ export async function postQuestion(
 	data: Omit<QuestionFormData, 'question_id'>
 ): Promise<void> {
 	try {
-		const response = await fetch(
-			'/api/questions',
-			{
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify(data),
-			}
-		);
+		const response = await fetch('/api/questions', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(data),
+		});
 
 		// Check if the response status is not 2xx
 		if (!response.ok) {
@@ -32,15 +30,15 @@ export async function postQuestion(
 		}
 		return await response.json(); // Assuming the response contains data
 	} catch (error) {
-		throw error instanceof Error ? error : new Error('An unknown error occurred');
+		throw error instanceof Error
+			? error
+			: new Error('An unknown error occurred');
 	}
 }
 
 export async function getQuestions(username: string): Promise<QuestionsType[]> {
 	try {
-		const response = await fetch(
-			`/api/users/${username}/questions`
-		);
+		const response = await fetch(`/api/users/${username}/questions`);
 
 		if (!response.ok) {
 			const errorData = await response.json();
@@ -48,11 +46,15 @@ export async function getQuestions(username: string): Promise<QuestionsType[]> {
 		}
 		return await response.json();
 	} catch (error) {
-		throw error instanceof Error ? error : new Error('An unknown error occurred');
+		throw error instanceof Error
+			? error
+			: new Error('An unknown error occurred');
 	}
 }
 
-export async function getQuestionById(questionId: string): Promise<QuestionsType> {
+export async function getQuestionById(
+	questionId: string
+): Promise<QuestionsType> {
 	try {
 		const baseUrl = process.env.NEXT_PUBLIC_API_URL || '';
 
@@ -64,6 +66,25 @@ export async function getQuestionById(questionId: string): Promise<QuestionsType
 		}
 		return await response.json();
 	} catch (error) {
-		throw error instanceof Error ? error : new Error('An unknown error occurred');
+		throw error instanceof Error
+			? error
+			: new Error('An unknown error occurred');
+	}
+}
+
+export async function deleteQuestion(questionId: string): Promise<void> {
+	try {
+		const response = await fetch(`/api/questions?questionId=${questionId}`, {
+			method: 'DELETE',
+		});
+		// Check if the response status is not 2xx
+		if (!response.ok) {
+			const errorData = await response.json();
+			throw new Error(errorData.message || 'Failed to delete question');
+		}
+	} catch (error) {
+		throw error instanceof Error
+			? error
+			: new Error('An unknown error occurred');
 	}
 }

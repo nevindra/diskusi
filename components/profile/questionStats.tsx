@@ -1,4 +1,6 @@
+import { Button } from '@nextui-org/button';
 import { Link } from '@nextui-org/link';
+
 export const QuestionStats = ({
 	likeCount,
 	commentCount,
@@ -15,12 +17,9 @@ export const QuestionStats = ({
 			</p>
 		</div>
 		<div>
-			<Link
-				href={`${process.env.NEXT_PUBLIC_BASE_URL}/id/${username}/question/${questionId}`}
-				className="text-xs sm:text-sm text-default-500"
-			>
-				View More <span className="ml-1">→</span>
-			</Link>
+			<Button as={Link} color="primary" href={`/id/${username}/question/${questionId}`} variant="light" className='text-xs sm:text-sm'>
+				See More
+			</Button>
 		</div>
 	</div>
 );

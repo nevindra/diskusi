@@ -11,8 +11,7 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
-import type { SignupFormData } from '@/handlers/signupHandler';
-import { SignupSchema, signUp } from '@/handlers/signupHandler';
+import { type SignupFormData, SignupSchema, signUp } from '@/actions/signupAction';
 
 type FormComponentProps = {
 	redirectPath: string;
@@ -147,7 +146,7 @@ export const FormComponent: React.FC<FormComponentProps> = ({
 					)}
 					<Button
 						type="submit"
-						color="secondary"
+						color="primary"
 						variant="shadow"
 						className="w-full"
 						isLoading={isSubmitting}
@@ -172,7 +171,7 @@ export const FormComponent: React.FC<FormComponentProps> = ({
 				</div>
 				<p className="text-center mt-6 text-sm text-primary">
 					Sudah punya akun?{' '}
-					<a href="/login" className="text-secondary">
+					<a href="/login" className="text-primary">
 						Masuk dengan akun
 					</a>
 				</p>

@@ -1,4 +1,5 @@
 import {
+	jsonb,
 	pgTable,
 	text,
 	timestamp,
@@ -24,6 +25,7 @@ export const QuestionsTable = pgTable('questions', {
 		.references(() => UsersTable.id),
 	posterId: uuid('poster_id').references(() => UsersTable.id),
 	content: text('content').notNull(),
+	imageUrls: jsonb('image_urls'), // Add this line
 	createdAt: timestamp('created_at').defaultNow(),
 });
 

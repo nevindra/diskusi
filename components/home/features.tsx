@@ -11,7 +11,7 @@ export const Features = () => {
 			</p>
 			<div className=" justify-center mx-auto gap-4 grid grid-cols-1 sm:grid-cols-2 my-2 p-4 md:p-6 lg:p-8 md:max-w-[72rem]">
 				{benefitsCopy.map((benefit, _index) => (
-					<Card key={benefit.index} className="p-4 bg-secondary shadow-lg rounded-lg ">
+					<Card key={benefit.index} className="p-4 bg-primary shadow-lg rounded-lg ">
 						<CardHeader className="text-white font-bold text-lg lg:text-xl">
 							{benefit.header}
 						</CardHeader>

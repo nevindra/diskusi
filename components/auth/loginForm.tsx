@@ -10,7 +10,7 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
-import { type LoginFormData, LoginSchema, login } from '@/handlers/loginHandler';
+import { type LoginFormData, LoginSchema, login } from '@/actions/loginAction';
 import { useSession } from '@/hooks/useSession';
 import { useEffect } from 'react';
 
@@ -49,9 +49,7 @@ export const LoginFormComponent = () => {
 	});
 
     useEffect(() => {
-        console.log('useEffect running, user:', user?.username, 'isLoading:', isLoading);
         if (user?.username && !isLoading) {
-            console.log('Conditions met, redirecting to:', `/id/${user.username}`);
             router.push(`/id/${user.username}`);
         }
     }, [user, isLoading, router]);
@@ -115,7 +113,7 @@ export const LoginFormComponent = () => {
 					)}
 					<Button
 						type="submit"
-						color="secondary"
+						color="primary"
 						variant="shadow"
 						className="w-full"
 						isLoading={isSubmitting}
@@ -140,7 +138,7 @@ export const LoginFormComponent = () => {
 				</div>
 				<p className="text-center mt-6 text-sm text-primary">
 					Belum punya akun?{' '}
-					<a href="/signup" className="text-secondary">
+					<a href="/signup" className="text-primary">
 						Daftar Baru
 					</a>
 				</p>

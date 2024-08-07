@@ -24,7 +24,7 @@ export const LeftSideComponent = () => {
 					<div>
 						<h3 className="text-xl font-semibold">Nurture Knowledge</h3>
 						<p className="text-base xl:text-lg opacity-80 text-justify">
-							Di <span className="text-secondary">Diskusi</span>, pengetahuan
+							Di Komunal, pengetahuan
 							mengalir bebas. Jadilah sumber inspirasi sekaligus penikmat
 							kebijaksanaan kolektif komunitas kami.
 						</p>

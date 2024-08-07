@@ -2,16 +2,13 @@ import { getQuestionById, getQuestions } from '@/handlers/questionHandlers';
 import { useSession } from '@/hooks/useSession';
 import type { UserType } from '@/types/userType';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { usePathname } from 'next/navigation';
 import { useMemo } from 'react';
 
-export function useProfileData() {
+export function useProfileData(username: string) {
 	const {
 		user,
 		isLoading: isSessionLoading,
-	}: { user: UserType | null; isLoading: boolean } = useSession();
-	const pathname = usePathname();
-	const username = pathname.split('/')[2];
+	}: { user: UserType | null | undefined; isLoading: boolean } = useSession();
 
 	const {
 		data: questions = [],
@@ -53,8 +50,8 @@ export function useQuestionData(questionId: string) {
 	const {
 		user,
 		isLoading: isSessionLoading,
-	}: { user: UserType | null; isLoading: boolean } = useSession();
-
+	}: { user: UserType | null | undefined; isLoading: boolean } = useSession();
+	
 	const {
 		data: question,
 		isLoading: isQuestionLoading,
@@ -89,5 +86,5 @@ export function useQuestionData(questionId: string) {
 		question: question ? { ...question, isLiked } : null,
 		error,
 		refetchQuestion,
-	};
+	  };
 }

@@ -6,20 +6,23 @@ if (!process.env.NEXT_PUBLIC_SUPABASE_URL) {
 	throw new Error("DATABASE_URL is not set");
 }
 
-if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
-	throw new Error("SUPABASE_URL or SUPABASE_ANON_KEY is not set");
+if (!process.env.NEXT_PUBLIC_SUPABASE_URL) {
+	throw new Error("SUPABASE_URL is not set");
 }
 
-const connectionString = 'postgresql://postgres.acbxjfkgfvesimpavkio:tnNKSumHMs1GnvZK@aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres'
+if (!process.env.SUPABASE_SERVICE_ROLE_KEY) {
+	throw new Error("SUPABASE_SERVICE_ROLE_KEY is not set");
+}
+
+const connectionString = `postgresql://${process.env.NEXT_SUPABASE_USERNAME}:${process.env.NEXT_SUPABASE_PASSWORD}@${process.env.NEXT_SUPABASE_HOST}/${process.env.NEXT_SUPABASE_DBNAME}`
 // Disable prefetch as it is not supported for "Transaction" pool mode 
 export const client = postgres(connectionString, { prepare: false })
 export const db = drizzle(client);
 
 export const supabase = createClient(
 	process.env.NEXT_PUBLIC_SUPABASE_URL,
-	process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+	process.env.SUPABASE_SERVICE_ROLE_KEY
 );
-
 export async function checkSupabaseConnection() {
 	try {
 		const { data, error } = await supabase.auth.getSession();

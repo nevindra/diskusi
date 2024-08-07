@@ -9,7 +9,7 @@ export const CommentSection = ({
 	refetchQuestion 
 }: { 
 	questionId: string, 
-	user: UserType | null,
+	user: UserType | null | undefined,
 	refetchQuestion: () => void
 }) => {
 	return (

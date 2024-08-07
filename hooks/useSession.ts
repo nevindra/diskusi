@@ -20,11 +20,12 @@ export function useSession() {
 		staleTime: 5 * 60 * 1000, // 5 minutes
 	});
 
+	
 	const {
 		data: user,
 		isLoading: isUserLoading,
 		isError: isUserError,
-	} = useQuery({
+	} = useQuery<UserType | null, Error>({
 		queryKey: ['user', session?.user?.id],
 		queryFn: async () => {
 			if (!session?.user?.id) return null;
@@ -33,7 +34,13 @@ export function useSession() {
 				.select('*')
 				.eq('id', session.user.id)
 				.single();
-			if (error) throw error;
+			if (error) {
+				if (error.code === 'PGRST116') {
+					// User not found
+					return null;
+				}
+				throw error;
+			}
 			return data as UserType;
 		},
 		enabled: !!session?.user?.id,
@@ -54,7 +61,7 @@ export function useSession() {
 		isLoading,
 		isAuthenticated: !!session,
 		isUnauthenticated: isError || (!isLoading && !session),
-		user: user || null,
+		user: user,
 		logout,
 	};
 }

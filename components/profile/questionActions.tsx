@@ -1,9 +1,8 @@
-import { deleteLike, postLike } from '@/handlers/likeHandlers';
+import { useLikeMutation } from '@/hooks/useLike';
 import type { UserType } from '@/types/userType';
 import { Button } from '@nextui-org/button';
+import { Popover, PopoverContent, PopoverTrigger } from '@nextui-org/popover';
 import { Chats, Share, ThumbsUp } from '@phosphor-icons/react/dist/ssr';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-
 export const QuestionActions = ({
 	questionId,
 	isLiked,
@@ -11,60 +10,62 @@ export const QuestionActions = ({
 	onCommentToggle,
 	onShare,
 	refetchQuestion,
+	isCommentsShown,
 }: {
 	questionId: string;
 	isLiked: boolean;
-	user: UserType | null;
+	user: UserType | null | undefined;
 	onCommentToggle: () => void;
 	onShare: () => void;
 	refetchQuestion: () => void;
+	isCommentsShown: boolean;
 }) => {
-	const queryClient = useQueryClient();
-
-	const likeMutation = useMutation({
-		mutationFn: ({ userId, questionId, isLiked }: { userId: string; questionId: string; isLiked: boolean }) =>
-			isLiked
-				? deleteLike(questionId, userId)
-				: postLike({ userId, questionId }),
-		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: ['questions'] });
-			queryClient.invalidateQueries({ queryKey: ['likes', user?.id] });
-			refetchQuestion();
-		},
-		onError: (error) => {
-			console.error('Error liking/unliking:', error);
-		},
-	});
-
-	const handleLike = () => {
-		if (!user?.id) {
-			console.log('User must be logged in to like/unlike a post');
-			return;
-		}
-
-		likeMutation.mutate({
-			userId: user.id,
-			questionId: questionId,
-			isLiked: isLiked,
-		});
-	};
+	const { handleLike, isLoggedIn } = useLikeMutation(
+		user,
+		questionId,
+		isLiked,
+		refetchQuestion
+	);
 
 	return (
 		<div className="flex items-center justify-around w-full">
+			{isLoggedIn ? (
+				<Button
+					size="sm"
+					variant="light"
+					onClick={handleLike}
+					startContent={isLiked ? <ThumbsUp weight="fill" /> : <ThumbsUp />}
+					color={isLiked ? 'primary' : 'default'}
+					className="text-xs sm:text-sm"
+				>
+					{isLiked ? 'Unlike' : 'Like'}
+				</Button>
+			) : (
+				<Popover>
+					<PopoverTrigger>
+						<Button
+							size="sm"
+							variant="light"
+							startContent={<ThumbsUp />}
+							className="text-xs sm:text-sm"
+						>
+							Like
+						</Button>
+					</PopoverTrigger>
+					<PopoverContent>
+						<div className="px-1 py-2">
+							<div className="text-xs">Login Required</div>
+							<div className="text-xs">
+								Please <span className='text-primary font-semibold'>log in</span> to like this question.
+							</div>
+						</div>
+					</PopoverContent>
+				</Popover>
+			)}
 			<Button
 				size="sm"
 				variant="light"
-				onClick={handleLike}
-				startContent={isLiked ? <ThumbsUp weight="fill" /> : <ThumbsUp />}
-				color={isLiked ? 'secondary' : 'default'}
-				className="text-xs sm:text-sm"
-			>
-				{isLiked ? 'Unlike' : 'Like'}
-			</Button>
-			<Button
-				size="sm"
-				variant="light"
-				startContent={<Chats />}
+				startContent={isCommentsShown ? <Chats weight="fill" /> : <Chats />}
 				onClick={onCommentToggle}
 				className="text-xs sm:text-sm"
 			>

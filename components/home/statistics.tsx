@@ -60,7 +60,7 @@ export const Statistics = () => {
 			<h1 className="font-bold text-xl md:text-2xl lg:text-3xl text-center mb-8">
 				Statistik Aplikasi
 			</h1>
-			<h1 className="font-bold text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-secondary text-center">
+			<h1 className="font-bold text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-primary text-center">
 				<Counter
 					targetCount={100}
 					duration={2000}
@@ -71,7 +71,7 @@ export const Statistics = () => {
 			<h1 className="text-lg mt-4 sm:text-xl md:text-2xl lg:text-3xl font-bold text-primary text-center mb-6">
 				Pengguna Aktif
 			</h1>
-			<h1 className="font-bold text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-secondary text-center">
+			<h1 className="font-bold text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-primary text-center">
 				<Counter
 					targetCount={20}
 					duration={2000}
@@ -82,7 +82,7 @@ export const Statistics = () => {
 			<h1 className="text-lg mt-4 sm:text-xl md:text-2xl lg:text-3xl font-bold text-primary text-center mb-6">
 				Jumlah Pertanyaan
 			</h1>
-			<h1 className="font-bold text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-secondary text-center">
+			<h1 className="font-bold text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-primary text-center">
 				<Counter
 					targetCount={200}
 					duration={2000}

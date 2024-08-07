@@ -5,6 +5,7 @@ type TempQuestionState = {
 	questions: Record<string, string>;
 	setQuestion: (userId: string, question: string) => void;
 	getQuestion: (userId: string) => string;
+	clearQ: (userId: string) => void;
     clearAllQuestions: () => void;
 
 };
@@ -18,6 +19,10 @@ export const useTempQuestionStore = create<TempQuestionState>()(
 					questions: { ...state.questions, [userId]: question },
 				})),
 			getQuestion: (userId) => get().questions[userId] || '',
+			clearQ: (userId) => set((state) => {
+				const { [userId]: _, ...rest } = state.questions;
+				return { questions: rest };
+			  }),
             clearAllQuestions: () => set({ questions: {} }),
 		}),
 		{

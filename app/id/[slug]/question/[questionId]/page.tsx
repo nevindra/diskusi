@@ -23,7 +23,7 @@ export default function QuestionPage({
 	);
 	const [showComments, setShowComments] = useState(false);
 	const [isShareModalOpen, setIsShareModalOpen] = useState(false);
-
+	console.log(user);
 	if (isLoading) return <SkeltonProfile />;
 	if (error) return <div>Error: {(error as Error).message}</div>;
 	if (!question) return <div>Question not found</div>;
@@ -36,11 +36,11 @@ export default function QuestionPage({
 			</div>
 			<div className="w-full xl:w-[70%] px-3 lg:px-0 flex justify-start">
 				<button
-					className="text-secondary text-left text-sm lg:text-base font-thin my-3 px-4 py-2 rounded-lg"
+					className="text-primary text-left text-sm lg:text-base font-thin my-3 px-4 py-2 rounded-lg"
 					type="button"
 				>
 					<Link href={`${process.env.NEXT_PUBLIC_BASE_URL}/id/${params.slug}`}>
-						Kembali
+						Back
 					</Link>
 				</button>
 			</div>
@@ -52,6 +52,9 @@ export default function QuestionPage({
 						posterId={question.posterId || ''}
 						posterUsername={question.posterUsername}
 						createdAt={question.createdAt}
+						questionId={question.questionId}
+						user={user?.username}
+						username={params.slug}
 					/>
 					<CardBody className="py-1 sm:py-2">
 						<p className="text-sm sm:text-base line-clamp-3">
@@ -75,6 +78,7 @@ export default function QuestionPage({
 							onCommentToggle={() => setShowComments(!showComments)}
 							onShare={() => setIsShareModalOpen(true)}
 							refetchQuestion={refetchQuestion}
+							isCommentsShown={true}
 						/>
 
 						<CommentSection

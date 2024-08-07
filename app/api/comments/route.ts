@@ -11,9 +11,6 @@ export async function POST(request: Request) {
     const { searchParams } = new URL(request.url);
     const questionId = searchParams.get('question_id');
 	const { content, poster_id } = await request.json();
-    console.log ("questionId", questionId);
-    console.log ('poster_id', poster_id);
-
     if (!content || !questionId) {
 		return NextResponse.json(
 			{ message: 'Missing required fields' },

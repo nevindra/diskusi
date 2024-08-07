@@ -17,9 +17,11 @@ import { useProfileData } from '@/hooks/useQuestions';
 import type { QuestionsType } from '@/types/questionType';
 import { useQueryClient } from '@tanstack/react-query';
 
+
 export default function ProfilePage({ params }: { params: { slug: string } }) {
+	const currentUsername = params.slug;
 	const queryClient = useQueryClient();
-	const { user, isLoading, questions, refetchQuestions, username } = useProfileData();
+	const { user, isLoading, questions, refetchQuestions, username } = useProfileData(currentUsername);
 
 	const [showComments, setShowComments] = useState<{ [key: string]: boolean }>(
 		{}
@@ -49,7 +51,7 @@ export default function ProfilePage({ params }: { params: { slug: string } }) {
 	return (
 		<div className="flex flex-col items-center justify-center md:m-8 lg:m-10">
 			{/* Main Card */}
-			<div className="w-full xl:w-[70%] px-3 lg:px-0">
+			<div className="w-full xl:w-[70%] 2xs:mt-1 px-3 lg:px-0">
 				<UserProfileBox username={username} />
 			</div>
 			<div className="w-full xl:w-[70%] px-3 lg:px-0">
@@ -60,20 +62,32 @@ export default function ProfilePage({ params }: { params: { slug: string } }) {
 				/>
 			</div>
 			<div className="w-full xl:w-[70%] px-3 lg:px-0 flex justify-center">
-				<p className="text-white bg-secondary text-left text-sm lg:text-base font-semibold mb-3 px-4 py-2 rounded-lg">
-					Pertanyaan
+				<p className="text-white bg-primary text-left text-sm lg:text-base font-semibold mb-3 px-4 py-2 rounded-lg">
+					Questions List
 				</p>
 			</div>
 			{/* Question List Box */}
 			<div className="flex flex-col w-full xl:w-[70%] space-y-4 px-2 mt-1">
 				{isLoading
 					? [1, 2, 3].map((i) => <Skeleton key={i} className="w-full h-24" />)
-					: questions.map((question: QuestionsType) => (
+					: questions.length === 0 ? (
+							<Card className="flex flex-col items-center justify-center py-4 px-4">
+								<p className="text-secondary text-center text-lg font-semibold mb-2">
+									No questions created yet
+								</p>
+								<p className="text-secondary text-center text-sm">
+									You can become the first one to create a question for them
+								</p>
+							</Card>
+						) : (questions.map((question: QuestionsType) => (
 							<Card key={question.questionId} className="p-2 sm:p-4">
 								<QuestionHeader
-									posterId={question.posterId || null}
+									posterId={question.posterId}
+									questionId={question.questionId}
 									posterUsername={question.posterUsername}
 									createdAt={question.createdAt}
+									username={username}
+									user={user?.username}
 								/>
 								<CardBody className="py-1 sm:py-2">
 									<p className="text-sm sm:text-base line-clamp-3">
@@ -95,6 +109,7 @@ export default function ProfilePage({ params }: { params: { slug: string } }) {
 										onCommentToggle={() => toggleComments(question.questionId)}
 										onShare={() => toggleShareModal(question.questionId)}
 										refetchQuestion={() => refetchQuestion(question.questionId)}
+										isCommentsShown={showComments[question.questionId] || false}
 									/>
 									{showComments[question.questionId] && (
 										<CommentSection
@@ -114,7 +129,7 @@ export default function ProfilePage({ params }: { params: { slug: string } }) {
 									username={question.posterUsername}
 								/>
 							</Card>
-						))}
+						)))}
 			</div>
 		</div>
 	);

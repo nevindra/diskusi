@@ -1,10 +1,18 @@
-## 1.1.1 (01-08-2024)
+## 1.2.1 (01-08-2024)
 
 Updates:
 
-  - Update the hero image
-  - Improve the performance of the home page
-  - Update icons
+  - Update some backend logic
+  - Add delete feature for question
+  - Add popover for like button when user is not logged in
+  - Add capabilities for copy and paste image
+  - Add feature to add image to question
+  - Change language to full English
+  - Create proper UI for setting account
+
+Bug Fixes:
+
+  - Fix the bug that the user's name is not showing in the question page
 
 ## 1.1.1 (30-07-2024)
 

@@ -6,12 +6,12 @@ export const HomeNavbar = () => {
 	return (
 		<NavbarContent className="hidden sm:flex" justify="end">
 			<NavbarItem>
-				<Button as={Link} color="secondary" href="/login" variant="bordered">
+				<Button as={Link} color="primary" href="/login" variant="bordered">
 					Login
 				</Button>
 			</NavbarItem>
 			<NavbarItem>
-				<Button as={Link} color="secondary" href="/signup" variant="solid">
+				<Button as={Link} color="primary" href="/signup" variant="solid">
 					Sign Up
 				</Button>
 			</NavbarItem>

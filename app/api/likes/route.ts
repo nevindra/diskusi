@@ -25,7 +25,6 @@ export async function GET(request: Request) {
             .from(LikesTable)
             .innerJoin(QuestionsTable, eq(LikesTable.questionId, QuestionsTable.questionId))
             .where(eq(LikesTable.userId, userId))
-        console.log(questions);
         return NextResponse.json(questions);
     } catch (error) {
         console.error("Error fetching likes:", error);
