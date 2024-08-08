@@ -58,7 +58,7 @@ export const FormComponent: React.FC<FormComponentProps> = ({
 		<div className="w-full lg:w-1/2 flex items-center justify-center mr-5">
 			<div className="w-full max-w-md bg-white p-8 rounded-lg shadow-lg">
 				<h2 className="text-2xl font-bold mb-6 text-center">
-					Buat Akun Baru
+					Create an Account
 				</h2>
 				<form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
 					<Controller
@@ -68,7 +68,7 @@ export const FormComponent: React.FC<FormComponentProps> = ({
 							<Input
 								{...field}
 								label="Username"
-								placeholder="Masukkan nama pengguna Anda"
+								placeholder="Enter your username"
 								variant="bordered"
 								isInvalid={!!errors.username}
 								errorMessage={errors.username?.message as string | undefined}
@@ -82,7 +82,7 @@ export const FormComponent: React.FC<FormComponentProps> = ({
 							<Input
 								{...field}
 								label="E-mail address"
-								placeholder="Masukkan alamat email Anda"
+								placeholder="Enter your email address"
 								type="email"
 								variant="bordered"
 								isInvalid={!!errors.email}
@@ -128,13 +128,13 @@ export const FormComponent: React.FC<FormComponentProps> = ({
 								isInvalid={!!errors.terms}
 							>
 								<p className="text-xs text-gray-500">
-									Dengan membuat akun Anda, Anda menyetujui{' '}
+									By creating your account, you agree to the{' '}
 									<a href="#" className="text-blue-500">
-										Syarat Penggunaan
+										Terms of Use
 									</a>{' '}
 									and{' '}
 									<a href="#" className="text-blue-500">
-										Kebijakan Privasi
+										Privacy Policy
 									</a>
 									.
 								</p>
@@ -151,12 +151,12 @@ export const FormComponent: React.FC<FormComponentProps> = ({
 						className="w-full"
 						isLoading={isSubmitting}
 					>
-						Daftar
+						Sign up
 					</Button>
 				</form>
 				<div className="mt-6">
 					<p className="text-center text-sm text-gray-600 mb-4">
-						atau daftar dengan
+						or sign up with
 					</p>
 					<div className="flex justify-center space-x-4">
 						<Button variant="bordered" className="w-1/2 bg-black text-white">
@@ -169,10 +169,10 @@ export const FormComponent: React.FC<FormComponentProps> = ({
 						</Button>
 					</div>
 				</div>
-				<p className="text-center mt-6 text-sm text-primary">
-					Sudah punya akun?{' '}
+				<p className="text-center mt-6 text-sm text-secondary">
+					Already have an account?{' '}
 					<a href="/login" className="text-primary">
-						Masuk dengan akun
+						Login
 					</a>
 				</p>
 			</div>

@@ -30,6 +30,7 @@ export const UserProfileBox = ({ username }: { username: string }) => {
 					alt="Profile background"
 					fill
 					style={{ objectFit: 'cover' }}
+					priority={true}
 					sizes="100vw"
 				/>
 			</div>

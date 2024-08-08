@@ -72,7 +72,7 @@ export const LoginFormComponent = () => {
 							<Input
 								{...field}
 								label="E-mail address"
-								placeholder="Masukkan alamat email Anda"
+								placeholder="Enter your email address"
 								type="email"
 								variant="bordered"
 								isInvalid={!!errors.email}
@@ -87,7 +87,7 @@ export const LoginFormComponent = () => {
 							<Input
 								{...field}
 								label="Password"
-								placeholder="Masukkan kata sandi Anda"
+								placeholder="Enter your password"
 								type={isVisible ? 'text' : 'password'}
 								variant="bordered"
 								endContent={
@@ -112,34 +112,35 @@ export const LoginFormComponent = () => {
 						<p className="text-red-500 text-xs">{errors.root.message}</p>
 					)}
 					<Button
+						name='login'
 						type="submit"
 						color="primary"
 						variant="shadow"
 						className="w-full"
 						isLoading={isSubmitting}
 					>
-						Masuk
+						Login
 					</Button>
 				</form>
 				<div className="mt-6">
 					<p className="text-center text-sm text-gray-600 mb-4">
-						atau masuk dengan
+						or login with
 					</p>
 					<div className="flex justify-center space-x-4">
-						<Button variant="bordered" className="w-1/2 bg-black text-white">
+						<Button variant="bordered" name='github' className="w-1/2 bg-black text-white">
 							<GithubLogo className="mr-2" />
 							Github
 						</Button>
-						<Button variant="bordered" className="w-1/2 bg-[#0F9D58] text-white">
+						<Button variant="bordered" name='google' className="w-1/2 bg-[#0F9D58] text-white">
 							<GoogleLogo className="mr-2" />
 							Google
 						</Button>
 					</div>
 				</div>
-				<p className="text-center mt-6 text-sm text-primary">
-					Belum punya akun?{' '}
+				<p className="text-center mt-6 text-sm text-secondary">
+					Don't have an account?{' '}
 					<a href="/signup" className="text-primary">
-						Daftar Baru
+						Sign up
 					</a>
 				</p>
 			</div>

@@ -1,4 +1,10 @@
-## 1.2.2 (02-08-2024)
+## 1.2.3 (09-08-2024)
+Minor changes:
+ - Add favicon
+ - Add new banner image
+ - Improve SEO and performance in landing page
+
+## 1.2.2 (08-08-2024)
 
 Updates:
 

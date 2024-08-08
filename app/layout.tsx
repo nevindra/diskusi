@@ -4,24 +4,24 @@ import { MontserratFont as FontSans } from '@/config/fonts';
 import '@/styles/globals.css';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
-import type { Metadata, Viewport } from 'next';
+import type { Metadata } from 'next';
 
 import { clsx } from 'clsx';
 import { Providers } from './providers';
 
 export const metadata: Metadata = {
-	title: 'Komunal ID',
+	title: 'Komunal App',
 	description:
-		'Platform untuk bertanya dan mendapatkan jawaban dari berbagai topik. Jelajahi pengetahuan baru setiap hari.',
+		'Platform to ask and get answers on various topics. Explore new knowledge every day.',
 	openGraph: {
-		title: 'Komunal ID',
+		title: 'Komunal App',
 		description:
-			'Platform untuk bertanya dan mendapatkan jawaban dari berbagai topik. Jelajahi pengetahuan baru setiap hari.',
-		url: 'https://komunal-seven.vercel.app/',
-		siteName: 'Komunal ID',
+			'Platform to ask and get answers on various topics. Explore new knowledge every day.',
+		url: 'https://komunal.club',
+		siteName: 'Komunal App',
 		images: [
 			{
-				url: '/bg.jpg',
+				url: '/banner.png',
 				width: 1200,
 				height: 630,
 			},
@@ -29,21 +29,31 @@ export const metadata: Metadata = {
 		locale: 'en_US',
 		type: 'website',
 	},
+	robots: {
+		index: false,
+		follow: true,
+		nocache: true,
+		googleBot: {
+			index: true,
+			follow: false,
+			noimageindex: true,
+			'max-video-preview': -1,
+			'max-image-preview': 'large',
+			'max-snippet': -1,
+		},
+	},
 	twitter: {
 		card: 'summary_large_image',
-		title: 'Komunal ID',
+		title: 'Komunal App',
 		description:
-			'Platform untuk bertanya dan mendapatkan jawaban dari berbagai topik. Jelajahi pengetahuan baru setiap hari.',
-		images: ['https://yourwebsite.com/twitter-image.jpg'],
+			'Platform to ask and get answers on various topics. Explore new knowledge every day.',
+		images: ['https://komunal.club/banner.png'],
+	},
+	icons: {
+		apple: '/apple-touch-icon.png',
+		icon: '/favicon.ico',
 	},
 };
-
-export const viewport: Viewport = {
-	themeColor: [
-	  { media: "(prefers-color-scheme: light)", color: "white" },
-	  { media: "(prefers-color-scheme: dark)", color: "black" },
-	],
-  };
 
 export default function RootLayout({
 	children,

@@ -7,18 +7,19 @@ const Image = dynamic(() => import('next/image'), { ssr: false });
 
 export const HeroComponent = () => {
 	return (
-		<div className="flex flex-col lg:flex-row items-center justify-between gap-8 mx-10 py-12 px-4 md:px-12 ">
+		<div className="flex flex-col lg:flex-row items-center justify-between gap-8 py-12 px-4 md:px-12 lg:max-w-4xl mx-auto">
 			<div className="w-full lg:w-1/2">
 				<Image
 					src={heroSVG}
-					alt="hero"
+					alt="Hero image for Komunal App"
 					width={300}
 					height={300}
+					priority={true}  // Added to prioritize loading
 					className="w-full h-auto max-w-[500px] mx-auto"
 				/>
 			</div>
 			<div className="w-full lg:w-1/2 space-y-4 text-center lg:text-left lg:mr-[3rem]">
-				<h1 className="text-2xl md:text-3xl lg:text-5xl font-bold">
+				<h1 className="text-2xl md:text-3xl lg:text-4xl font-bold">
 					Find <span className="text-primary">Answers</span>,
 					<br />
 					Share <span className="text-primary">Knowledge</span>!

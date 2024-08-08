@@ -23,7 +23,7 @@ export const NavbarLeftComponent = ({
 				<NavbarBrand>
 					<NextLink className="flex justify-start items-center gap-1" href="/">
 						<Image
-							src="/komunal-logo.svg"
+							src="/komunal.png"
 							alt="Komunal ID"
 							width={40}
 							height={40}
@@ -37,7 +37,7 @@ export const NavbarLeftComponent = ({
 				<NavbarBrand as="li" className="gap-3 max-w-fit">
 					<NextLink className="flex justify-start items-center gap-1" href="/">
 						<Image
-							src="/komunal-logo.svg"
+							src="/komunal.png"
 							alt="Komunal ID"
 							width={40}
 							height={40}

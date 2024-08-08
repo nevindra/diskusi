@@ -1,21 +1,19 @@
+import Image from "next/image";
+
 export const LeftSideComponent = () => {
 	return (
 		<div className="hidden lg:flex lg:w-1/2 flex-col justify-center p-12 text-white">
 			<h1 className="text-3xl xl:text-5xl font-bold mb-6">
-				Tanyakan. Pelajari.
-				Belajar Bersama.
+				Ask. Learn. Grow Together.
 			</h1>
 			<div className="space-y-6">
 				<div className="flex items-start space-x-4">
 					<div className="text-3xl">🧠</div>
 					<div>
-						<h3 className="text-xl font-semibold">
-							Kembangkan Rasa Ingin Tahu
-						</h3>
+						<h3 className="text-xl font-semibold">Nurture Knowledge</h3>
 						<p className="text-base xl:text-lg opacity-80 text-justify">
-							Bergabunglah dengan komunitas yang menghargai pertanyaan
-							berkualitas. Jelajahi topik secara mendalam dan ciptakan diskusi
-							bermakna yang menghasilkan wawasan nyata.
+							Join a community that values ​​quality questions. Explore topics
+							deeply and create meaningful discussions that yield real insights.
 						</p>
 					</div>
 				</div>
@@ -24,26 +22,25 @@ export const LeftSideComponent = () => {
 					<div>
 						<h3 className="text-xl font-semibold">Nurture Knowledge</h3>
 						<p className="text-base xl:text-lg opacity-80 text-justify">
-							Di Komunal, pengetahuan
-							mengalir bebas. Jadilah sumber inspirasi sekaligus penikmat
-							kebijaksanaan kolektif komunitas kami.
+							At Komunal, knowledge flows freely. Be a source of inspiration and
+							a connoisseur of the collective wisdom of our community.
 						</p>
 					</div>
 				</div>
 				<div className="flex items-start space-x-4">
 					<div className="text-3xl">🤝</div>
 					<div>
-						<h3 className="text-xl font-semibold">Buat Hubungan</h3>
+						<h3 className="text-xl font-semibold">Create Connections</h3>
 						<p className="text-base xl:text-lg opacity-80 text-justify">
-							Temukan teman diskusi yang sepaham, mentor yang menginspirasi,
-							bahkan mitra bisnis masa depan. Bersama, kita lebih dari sekadar
-							komunitas - kita adalah katalis perubahan.
+							Find like-minded discussion partners, inspiring mentors, even
+							future business partners. Together, we are more than just a
+							community - we are catalysts for change.
 						</p>
 					</div>
 				</div>
 			</div>
 			<div className="mt-12">
-				<h2 className="text-3xl font-bold">Komunal.id</h2>
+				<h2 className="text-3xl font-bold"><Image src="/komunal.png" width={100} height={100} alt="Komunal App" /></h2>
 			</div>
 		</div>
 	);
