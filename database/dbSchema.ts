@@ -5,7 +5,7 @@ import {
 	timestamp,
 	uniqueIndex,
 	uuid,
-	varchar,
+	varchar
 } from 'drizzle-orm/pg-core';
 
 export const UsersTable = pgTable('users', {
@@ -15,7 +15,7 @@ export const UsersTable = pgTable('users', {
 	username: varchar('username', { length: 21 }).notNull(),
 	email: varchar('email', { length: 36 }).notNull(),
 	bio: text('bio'),
-	avatarUrl: varchar('avatar_url', { length: 36 }),
+	avatarUrl: varchar('avatarUrl', { length: 64 }),
 });
 
 export const QuestionsTable = pgTable('questions', {
@@ -25,7 +25,7 @@ export const QuestionsTable = pgTable('questions', {
 		.references(() => UsersTable.id),
 	posterId: uuid('poster_id').references(() => UsersTable.id),
 	content: text('content').notNull(),
-	imageUrls: jsonb('image_urls'), // Add this line
+	imageUrls: jsonb('image_urls'),
 	createdAt: timestamp('created_at').defaultNow(),
 });
 

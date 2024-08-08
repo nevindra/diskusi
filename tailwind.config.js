@@ -12,27 +12,30 @@ module.exports = {
       sans: ["var(--font-poppins)"],
       mono: ["var(--font-roboto-mono)"],
     },
-    extend: {  // Move 'extend' here
+    extend: {
+      backgroundImage: {
+        "hero-pattern": "url('/pattern.png')",
+      },
       colors: {
         // General colors
         background: "#fffffe",
 
         // Card colors
         cardBackground: "#d1d1e9",
-        
+
         // You can also add these colors with more descriptive names
         primary: {
-          50: '#edbcff',
-          100: '#d2a4ff',
-          200: '#b68bff',
-          300: '#9b74ff',
-          400: '#7f5dff',
-          DEFAULT: '#6246ea', // Primary color
-          600: '#4330d0',
-          700: '#1819b6',
-          800: '#00009d',
-          900: '#000085',
-          950: '#00006e',
+          50: "#edbcff",
+          100: "#d2a4ff",
+          200: "#b68bff",
+          300: "#9b74ff",
+          400: "#7f5dff",
+          DEFAULT: "#6246ea", // Primary color
+          600: "#4330d0",
+          700: "#1819b6",
+          800: "#00009d",
+          900: "#000085",
+          950: "#00006e",
         },
         secondary: "#2b2c34",
         tertiary: "#d1d1e9",

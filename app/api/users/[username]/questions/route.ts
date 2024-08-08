@@ -32,6 +32,7 @@ export async function GET(
       posterUsername: PosterUsers.username,
       content: QuestionsTable.content,
       createdAt: QuestionsTable.createdAt,
+      avatarUrl: PosterUsers.avatarUrl,
       likeCount: sql<number>`COALESCE(COUNT(DISTINCT ${LikesTable.userId}), 0)`,
       commentCount: sql<number>`COALESCE(COUNT(DISTINCT ${CommentsTable.commentId}), 0)`,
       likedUserIds: sql<string[]>`ARRAY_REMOVE(ARRAY_AGG(DISTINCT ${LikesTable.userId}), NULL)`,
@@ -47,6 +48,7 @@ export async function GET(
       QuestionsTable.posterId,
       QuestionsTable.content,
       QuestionsTable.createdAt,
+      PosterUsers.avatarUrl,
       PosterUsers.username
     )
     .orderBy(desc(QuestionsTable.createdAt));

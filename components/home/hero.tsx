@@ -7,7 +7,7 @@ const Image = dynamic(() => import('next/image'), { ssr: false });
 
 export const HeroComponent = () => {
 	return (
-		<div className="flex flex-col lg:flex-row items-center justify-between gap-8 mx-10 py-12 px-4 md:px-12">
+		<div className="flex flex-col lg:flex-row items-center justify-between gap-8 mx-10 py-12 px-4 md:px-12 ">
 			<div className="w-full lg:w-1/2">
 				<Image
 					src={heroSVG}
@@ -18,23 +18,23 @@ export const HeroComponent = () => {
 				/>
 			</div>
 			<div className="w-full lg:w-1/2 space-y-4 text-center lg:text-left lg:mr-[3rem]">
-				<h1 className="text-3xl md:text-4xl font-bold">
-					Temukan <span className="text-primary">Jawaban</span>,
+				<h1 className="text-2xl md:text-3xl lg:text-5xl font-bold">
+					Find <span className="text-primary">Answers</span>,
 					<br />
-					Bagikan <span className="text-primary">Pengetahuan</span>!
+					Share <span className="text-primary">Knowledge</span>!
 				</h1>
 				<p className="text-base md:text-lg py-1 w-full text-center lg:text-left">
-					Platform untuk bertanya dan mendapatkan jawaban dari berbagai topik.
-					Jelajahi pengetahuan baru setiap hari.{' '}
+					A platform to ask and get answers from various topics.
+					Explore new knowledge every day.{' '}
 				</p>
 				<Button
 					className="mt-4 text-sm md:text-base lg:text-lg px-4 py-2 md:px-6 md:py-3"
 					color="primary"
-					variant="bordered"
+					variant="solid"
 					as={Link}
 					href='/signup'
 				>
-					Gabung Sekarang
+					Join Now
 				</Button>
 			</div>
 		</div>

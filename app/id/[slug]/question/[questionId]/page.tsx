@@ -1,10 +1,10 @@
 'use client';
 
 import { CommentSection } from '@/components/profile/commentSection';
-import { QuestionActions } from '@/components/profile/questionActions';
-import { QuestionHeader } from '@/components/profile/questionHeader';
-import { ShareModal } from '@/components/profile/questionShare';
-import { QuestionStats } from '@/components/profile/questionStats';
+import { QuestionActions } from '@/components/profile/questions/questionActions';
+import { QuestionHeader } from '@/components/profile/questions/questionHeader';
+import { ShareModal } from '@/components/profile/questions/questionShare';
+import { QuestionStats } from '@/components/profile/questions/questionStats';
 import { SkeltonProfile } from '@/components/profile/skeleton';
 import { UserProfileBox } from '@/components/profile/userProfile';
 import { useQuestionData } from '@/hooks/useQuestions';
@@ -21,9 +21,9 @@ export default function QuestionPage({
 	const { user, isLoading, question, error, refetchQuestion } = useQuestionData(
 		params.questionId
 	);
+	
 	const [showComments, setShowComments] = useState(false);
 	const [isShareModalOpen, setIsShareModalOpen] = useState(false);
-	console.log(user);
 	if (isLoading) return <SkeltonProfile />;
 	if (error) return <div>Error: {(error as Error).message}</div>;
 	if (!question) return <div>Question not found</div>;
@@ -53,7 +53,8 @@ export default function QuestionPage({
 						posterUsername={question.posterUsername}
 						createdAt={question.createdAt}
 						questionId={question.questionId}
-						user={user?.username}
+						avatarUrl={question.avatarUrl}
+						user={user}
 						username={params.slug}
 					/>
 					<CardBody className="py-1 sm:py-2">

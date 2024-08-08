@@ -9,4 +9,5 @@ export type QuestionsType = {
 	commentCount: number;
 	isLiked: boolean;
 	likedUserIds: string[];
+	avatarUrl: string | null;
 };

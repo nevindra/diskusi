@@ -7,8 +7,9 @@ export const FooterComponent = () => {
 				© {new Date().getFullYear()} <Link href="https://x.com/nezhifi" isExternal className="text-primary">Nevindra</Link>. <span className="text-primary text-base">All rights reserved.</span>
 			</div>
 			<div>
-				<Link href="/terms" className="mr-4">Terms of Service</Link>
-				<Link href="/privacy">Privacy Policy</Link>
+				{/* <Link href="/terms" className="mr-4">Terms of Service</Link> */}
+				{/* <Link href="/privacy" className="mr-4">Privacy Policy</Link> */}
+				<Link href='https://komunal.featurebase.app/'>Roadmap & Request</Link>
 			</div>
 		</footer>
 	);

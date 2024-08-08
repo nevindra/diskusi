@@ -39,7 +39,6 @@ export const usePastedImages = () => {
 				if (items[i].type.indexOf('image') !== -1) {
 					const file = items[i].getAsFile();
 					if (file) {
-                        console.log(file);
 						const compressedFile = await compressImage(file);
 						setPastedImages((prevImages) => [...prevImages, compressedFile]);
 					}

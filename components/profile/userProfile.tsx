@@ -1,7 +1,26 @@
+import { getUserByUsername } from '@/handlers/userHandlers';
 import { Avatar } from '@nextui-org/avatar';
 import { Card, CardBody } from '@nextui-org/card';
+import { MapPin } from '@phosphor-icons/react/dist/ssr';
+import { useQuery } from '@tanstack/react-query';
 import Image from 'next/image';
+
 export const UserProfileBox = ({ username }: { username: string }) => {
+
+	const { data: user } = useQuery({
+		queryKey: ['userProfile', username],
+		queryFn: () => getUserByUsername(username),
+		enabled: !!username,
+		staleTime: 5 * 60 * 1000,
+		gcTime: 30 * 60 * 1000,
+		refetchOnWindowFocus: false,
+		refetchOnMount: true,
+		refetchOnReconnect: false,
+		retry: 3,
+	});
+
+	const avatar = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/${user?.avatarUrl}`;
+
 	return (
 		<Card className="w-full p-0overflow-hidden">
 			{/* Background Image */}
@@ -21,19 +40,18 @@ export const UserProfileBox = ({ username }: { username: string }) => {
 					isBordered
 					radius="full"
 					size="lg"
-					src="/user.png"
+					src={avatar}
 					className="absolute border-1 border-primary"
 				/>
 
 				{/* User Info */}
 				<div className="mt-12">
-					<h2 className="text-xl mt-4 font-bold">{username}</h2>
+					<h2 className="text-xl mt-4 font-bold">{user?.username}</h2>
 					<p className="text-sm text-default-600 mt-1">
-						Hi! Welcome to my profile. Ask me anything about my work or
-						interests.
+						{user?.bio}
 					</p>
 					<p className="text-sm text-default-500 flex items-center gap-1 mt-1">
-						<LocationIcon /> Indonesia
+						<MapPin /> Indonesia
 					</p>
 				</div>
 
@@ -60,23 +78,3 @@ export const UserProfileBox = ({ username }: { username: string }) => {
 		</Card>
 	);
 };
-
-// LocationIcon component remains unchanged
-
-// You'll need to create or import a LocationIcon component
-const LocationIcon = () => (
-	<svg
-		xmlns="http://www.w3.org/2000/svg"
-		width="16"
-		height="16"
-		viewBox="0 0 24 24"
-		fill="none"
-		stroke="currentColor"
-		strokeWidth="2"
-		strokeLinecap="round"
-		strokeLinejoin="round"
-	>
-		<path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-		<circle cx="12" cy="10" r="3"></circle>
-	</svg>
-);

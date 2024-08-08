@@ -1,4 +1,4 @@
-import { getQuestionById, getQuestions } from '@/handlers/questionHandlers';
+import { getQuestionById, getQuestionsByUsername } from '@/handlers/questionHandlers';
 import { useSession } from '@/hooks/useSession';
 import type { UserType } from '@/types/userType';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
@@ -9,14 +9,14 @@ export function useProfileData(username: string) {
 		user,
 		isLoading: isSessionLoading,
 	}: { user: UserType | null | undefined; isLoading: boolean } = useSession();
-
 	const {
 		data: questions = [],
 		refetch: refetchQuestions,
 		isLoading: isQuestionsLoading,
+		isError,
 	} = useQuery({
 		queryKey: ['questions', username],
-		queryFn: () => getQuestions(username),
+		queryFn: () => getQuestionsByUsername(username),
 		enabled: !!username,
 		staleTime: 5 * 60 * 1000,
 		gcTime: 30 * 60 * 1000,
@@ -30,19 +30,18 @@ export function useProfileData(username: string) {
 
 	// Sort questions and add isLiked property
 	const sortedQuestionsWithLikes = useMemo(() => {
-		return questions
-			.map((question) => ({
-				...question,
-				isLiked: user ? question.likedUserIds.includes(user.id) : false,
-			}))
+		return questions.map((question) => ({
+			...question,
+			isLiked: user ? question.likedUserIds.includes(user.id) : false,
+		}));
 	}, [questions, user]);
 
 	return {
 		user,
+		isError,
 		isLoading,
 		questions: sortedQuestionsWithLikes,
 		refetchQuestions,
-		username,
 	};
 }
 export function useQuestionData(questionId: string) {
@@ -51,7 +50,7 @@ export function useQuestionData(questionId: string) {
 		user,
 		isLoading: isSessionLoading,
 	}: { user: UserType | null | undefined; isLoading: boolean } = useSession();
-	
+
 	const {
 		data: question,
 		isLoading: isQuestionLoading,
@@ -86,5 +85,5 @@ export function useQuestionData(questionId: string) {
 		question: question ? { ...question, isLiked } : null,
 		error,
 		refetchQuestion,
-	  };
+	};
 }

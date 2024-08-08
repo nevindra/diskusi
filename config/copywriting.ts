@@ -1,22 +1,24 @@
+
 export const benefitsCopy = [
 	{
 		index:1,
-		header: "Komunitas Terbuka",
-		body: "Bergabunglah dengan komunitas yang selalu siap membantu menjawab pertanyaanmu.",
+		icon: "UsersFour",
+		header: "Open Community",
+		body: "Join a welcoming community always ready to help answer your questions.",
 	},
 	{
 		index:2,
-		header: "Berbagai Topik",
-		body: "Dari pertanyaan personal hingga hobi, semua topik bisa dibahas di sini.",
+		header: "Diverse Topics",
+		body: "From personal queries to hobbies, discuss a wide range of topics here.",
 	},
 	{
 		index:3,
-		header: "Anonimitas Dijaga",
-		body: "Bertanya dengan tenang tanpa khawatir identitasmu terungkap.",
+		header: "Privacy Ensured",
+		body: "Ask questions with confidence, knowing your identity is protected.",
 	},
 	{
 		index:4,
-		header: "Rating Jawaban Terbaik",
-		body: "Berikan suara positif untuk mendorong konten terbaik ke posisi teratas.",
+		header: "Top Answer Ratings",
+		body: "Upvote the best answers to highlight quality content.",
 	},
 ];

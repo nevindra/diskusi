@@ -11,7 +11,6 @@ export default function Login() {
 
 	useEffect(() => {
 		if (isAuthenticated && user && !isLoading) {
-			console.log('Redirecting to:', `/id/${user.username}`);
 			router.push(`/id/${user.username}`);
 		}
 	}, [isAuthenticated, user, isLoading, router]);

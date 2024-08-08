@@ -16,10 +16,10 @@ export const AuthenticatedNavbar = ({
 	const router = useRouter();
 	async function handleLogout() {
 		await logout();
-		// localStorage.removeItem('isAuthenticated');
-		// localStorage.removeItem('user');
 		router.push('/login');
 	}
+	const avatar = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/${user?.avatarUrl}`;
+
 	return (
 		<>
 			<NavbarContent as="div" justify="end">
@@ -30,7 +30,7 @@ export const AuthenticatedNavbar = ({
 							as="button"
 							className="transition-transform"
 							size="sm"
-							src="/user.png"
+							src={avatar || '/user.png'}
 						/>
 					</DropdownTrigger>
 					<DropdownMenu aria-label="Profile Actions" variant="flat">
@@ -48,7 +48,7 @@ export const AuthenticatedNavbar = ({
 							startContent={<UserCircle />}
 							href={`${process.env.NEXT_PUBLIC_BASE_URL}/id/${user?.username}`}
 						>
-							My Profile
+							Question Profile
 						</DropdownItem>
 						<DropdownItem key="settings" href={`${process.env.NEXT_PUBLIC_BASE_URL}/id/${user?.username}/setting`} startContent={<UserCircleGear />}>
 							My Settings

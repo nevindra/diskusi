@@ -58,7 +58,7 @@ export const Statistics = () => {
 	return (
 		<div ref={ref} className="my-8 px-4 lg:max-w-6xl mx-auto">
 			<h1 className="font-bold text-xl md:text-2xl lg:text-3xl text-center mb-8">
-				Statistik Aplikasi
+				Our Statistics
 			</h1>
 			<h1 className="font-bold text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-primary text-center">
 				<Counter
@@ -68,8 +68,8 @@ export const Statistics = () => {
 					isVisible={isVisible}
 				/>
 			</h1>
-			<h1 className="text-lg mt-4 sm:text-xl md:text-2xl lg:text-3xl font-bold text-primary text-center mb-6">
-				Pengguna Aktif
+			<h1 className="text-lg mt-4 sm:text-xl md:text-2xl lg:text-3xl font-bold text-secondary text-center mb-6">
+				Active Users
 			</h1>
 			<h1 className="font-bold text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-primary text-center">
 				<Counter
@@ -79,8 +79,8 @@ export const Statistics = () => {
 					isVisible={isVisible}
 				/>
 			</h1>
-			<h1 className="text-lg mt-4 sm:text-xl md:text-2xl lg:text-3xl font-bold text-primary text-center mb-6">
-				Jumlah Pertanyaan
+			<h1 className="text-lg mt-4 sm:text-xl md:text-2xl lg:text-3xl font-bold text-secondary text-center mb-6">
+				Total Questions
 			</h1>
 			<h1 className="font-bold text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-primary text-center">
 				<Counter
@@ -90,8 +90,8 @@ export const Statistics = () => {
 					isVisible={isVisible}
 				/>
 			</h1>
-			<h1 className="text-lg mt-4 sm:text-xl md:text-2xl lg:text-3xl font-bold text-primary text-center mb-6">
-				Pertanyaan Terjawab
+			<h1 className="text-lg mt-4 sm:text-xl md:text-2xl lg:text-3xl font-bold text-secondary text-center mb-6">
+				Total Comments
 			</h1>
 		</div>
 	);

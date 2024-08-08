@@ -31,6 +31,7 @@ export async function POST(request: Request) {
 		.from(UsersTable)
 		.where(eq(UsersTable.username, usernameId))
 		.limit(1);
+
 	try {
 		const imageUrls: string[] = [];
 		// Upload images to Supabase storage if present
@@ -53,7 +54,7 @@ export async function POST(request: Request) {
 				} = supabase.storage.from('question-images').getPublicUrl(data.path);
 
 				imageUrls.push(publicUrl);
-				console.log(publicUrl);
+
 			}
 		}
 
@@ -63,7 +64,7 @@ export async function POST(request: Request) {
 				questionId: questionId,
 				content: question,
 				userId: userId[0].id,
-				posterId: posterId,
+				posterId: posterId? posterId : null,
 				imageUrls: imageUrls.length > 0 ? imageUrls : null,
 			})
 			.returning();

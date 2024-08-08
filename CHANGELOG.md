@@ -1,3 +1,14 @@
+## 1.2.2 (02-08-2024)
+
+Updates:
+
+ - Finish the setting account page
+ - Finish the avatar feature
+ - Finish the copy+paste image feature
+
+Bug Fixes:
+ - Fix the bug that the user's name is not showing in the question page for anonymous user
+
 ## 1.2.1 (01-08-2024)
 
 Updates:

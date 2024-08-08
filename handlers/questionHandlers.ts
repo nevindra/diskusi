@@ -36,7 +36,7 @@ export async function postQuestion(
 	}
 }
 
-export async function getQuestions(username: string): Promise<QuestionsType[]> {
+export async function getQuestionsByUsername(username: string): Promise<QuestionsType[]> {
 	try {
 		const response = await fetch(`/api/users/${username}/questions`);
 

@@ -1,6 +1,5 @@
 import { getComments } from '@/handlers/commentHandlers';
 import type { CommentType } from '@/types/commentType';
-import { Avatar } from '@nextui-org/avatar';
 import { Card } from '@nextui-org/card';
 import { Spinner } from '@nextui-org/spinner';
 import { useQuery } from '@tanstack/react-query';
@@ -28,15 +27,15 @@ export const CommentBox = ({ id }: { id: string }) => {
 			) : comments.length > 0 ? (
 				comments.map((comment: CommentType) => (
 					<div key={comment.commentId} className="flex items-start space-x-2 shadow-none">
-						<Avatar
+						{/* <Avatar
 							size="sm"
-							src="/user.png"
+							src={avatar || '/user.png'}
 							radius="full"
 							isBordered
 							className="border-2 border-primary"
-						/>
+						/> */}
 						<Card className="flex flex-col items-start space-y-1 w-full h-full p-2 pb-2">
-							<p className="text-small text-primary">
+							<p className="text-small text-primary mx-2">
 								{comment.username} -{' '}
 								<span className="text-small text-default-400">
 									{formatDistanceToNow(parseISO(comment.createdAt), {
@@ -44,7 +43,7 @@ export const CommentBox = ({ id }: { id: string }) => {
 									})}
 								</span>
 							</p>
-							<p className="text-small text-secondary line-clamp-3">
+							<p className="text-small text-secondary mx-2  line-clamp-3">
 								{comment.content}
 							</p>
 						</Card>

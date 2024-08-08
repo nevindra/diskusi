@@ -1,4 +1,5 @@
 import { deleteQuestion } from '@/handlers/questionHandlers';
+import { UserType } from '@/types/userType';
 // 1. QuestionHeader: For the user avatar and post metadata
 import { Avatar } from '@nextui-org/avatar';
 import { Button } from '@nextui-org/button';
@@ -23,19 +24,22 @@ export const QuestionHeader = ({
 	username,
 	questionId,
 	user,
+	avatarUrl
 }: {
 	posterId: string | null;
 	posterUsername: string;
 	createdAt: string;
 	username: string;
-	user: string | null | undefined;
+	user: UserType | null | undefined;
 	questionId: string;
+	avatarUrl: string | null;
 }) => {
 	const { isOpen, onOpen, onOpenChange } = useDisclosure();
-	const isUser = user === username;
+	const isUser = user?.username === username;
 	const queryClient = useQueryClient();
 	const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
+	
 	const mutation = useMutation({
 		mutationFn: () => deleteQuestion(questionId),
 		onSuccess: () => {
@@ -46,15 +50,15 @@ export const QuestionHeader = ({
 			setErrorMessage(error.message);
 		},
 	});
-
 	const onDelete = () => {
 		mutation.mutate();
 	};
+	const avatar = avatarUrl ? `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/${avatarUrl}` : '/user.png';
 
 	return (
 		<CardHeader className="grid grid-cols-2 gap-2 items-center pb-2">
 			<div className="flex items-center space-x-2 xs:space-x-4">
-				<Avatar radius="full" size="sm" src="/user.png" />
+				<Avatar radius="full" size="sm" src={avatar || '/user.png'} />
 				<div>
 					<p className="font-semibold text-primary text-sm sm:text-base">
 						{posterId === null ? 'Anonymous' : posterUsername}

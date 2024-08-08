@@ -39,7 +39,7 @@ export const QuestionBox = ({
 	const {
 		control,
 		handleSubmit,
-		formState: { errors, isLoading },
+		formState: { errors },
 		setError,
 		setValue,
 		reset,
@@ -59,7 +59,7 @@ export const QuestionBox = ({
 		setValue('posterId', user?.id || '');
 	}, [user, setValue]);
 
-	const mutation = useMutation({
+	const {mutate, isPending} = useMutation({
 		mutationFn: postQuestion,
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ['questions', user?.id] });
@@ -104,7 +104,7 @@ export const QuestionBox = ({
 			})
 		);
 
-		mutation.mutate({ ...data, images: imagesData });
+		mutate({ ...data, images: imagesData });
 	};
 
 	return (
@@ -157,12 +157,11 @@ export const QuestionBox = ({
 				)}
 				<div className="flex justify-end mt-1">
 					<Button
-						isLoading={isLoading}
+						isLoading={isPending}
 						type="submit"
 						color="primary"
 						size="sm"
 						variant="bordered"
-						disabled={isLoading}
 					>
 						Send
 					</Button>

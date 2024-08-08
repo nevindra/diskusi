@@ -1,8 +1,8 @@
 import {
-    CommentsTable,
-    LikesTable,
-    QuestionsTable,
-    UsersTable,
+	CommentsTable,
+	LikesTable,
+	QuestionsTable,
+	UsersTable,
 } from '@/database/dbSchema';
 import { db } from '@/database/initDB';
 import type { QuestionsType } from '@/types/questionType';
@@ -30,6 +30,7 @@ export async function GET(
 				content: QuestionsTable.content,
 				createdAt: QuestionsTable.createdAt,
 				posterId: QuestionsTable.posterId,
+				avatarUrl: UsersTable.avatarUrl,
 				posterUsername: UsersTable.username,
 				likeCount: sql<number>`COALESCE((
                         SELECT COUNT(*)
@@ -65,7 +66,6 @@ export async function GET(
 			isLiked: false, // You'll need to implement this based on the current user
 		};
 
-        console.log ('the return is', question)
 		return NextResponse.json(question);
 	} catch (error) {
 		console.error('Error fetching question:', error);
