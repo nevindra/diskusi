@@ -70,7 +70,7 @@ export default function RootLayout({
 				)}
 			>
 				<Providers>
-					<GoogleAnalytics gaId='G-K5HHTT6L6Gpn' />
+					<GoogleAnalytics gaId='G-K5HHTT6L6G' />
 					<div className="flex flex-col min-h-screen w-full">
 						<NavigationTop />
 						<main className="flex-grow">{children}</main>
