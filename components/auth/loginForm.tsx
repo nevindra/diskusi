@@ -1,7 +1,8 @@
 'use client';
 import { Button } from '@nextui-org/button';
 import { Input } from '@nextui-org/input';
-import { GithubLogo, GoogleLogo } from '@phosphor-icons/react';
+import { Popover, PopoverContent, PopoverTrigger } from '@nextui-org/popover';
+import { GoogleLogo } from '@phosphor-icons/react';
 import { EyeFilledIcon, EyeSlashFilledIcon } from '../icons';
 
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -13,7 +14,6 @@ import { Controller, useForm } from 'react-hook-form';
 import { type LoginFormData, LoginSchema, login } from '@/actions/loginAction';
 import { useSession } from '@/hooks/useSession';
 import { useEffect } from 'react';
-
 
 export const LoginFormComponent = () => {
 	const router = useRouter();
@@ -38,23 +38,24 @@ export const LoginFormComponent = () => {
 	const mutation = useMutation({
 		mutationFn: login,
 		onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['session'] });
+			queryClient.invalidateQueries({ queryKey: ['session'] });
 
-            queryClient.refetchQueries({ queryKey: ['user'] });
+			queryClient.refetchQueries({ queryKey: ['user'] });
 		},
 		onError: (error: Error) => {
-			console.error("login failed:", error.message);
+			console.error('login failed:', error.message);
 			setError('root', { type: 'manual', message: error.message });
 		},
 	});
 
-    useEffect(() => {
-        if (user?.username && !isLoading) {
-            router.push(`/id/${user.username}`);
-        }
-    }, [user, isLoading, router]);
+	useEffect(() => {
+		if (user?.username && !isLoading) {
+			router.push(`/id/${user.username}`);
+		}
+	}, [user, isLoading, router]);
 
-	const onSubmit = (data: LoginFormData) => { // Specify the type for data
+	const onSubmit = (data: LoginFormData) => {
+		// Specify the type for data
 		mutation.mutate(data);
 	};
 
@@ -112,7 +113,7 @@ export const LoginFormComponent = () => {
 						<p className="text-red-500 text-xs">{errors.root.message}</p>
 					)}
 					<Button
-						name='login'
+						name="login"
 						type="submit"
 						color="primary"
 						variant="shadow"
@@ -127,14 +128,29 @@ export const LoginFormComponent = () => {
 						or login with
 					</p>
 					<div className="flex justify-center space-x-4">
-						<Button variant="bordered" name='github' className="w-1/2 bg-black text-white">
+						{/* <Button variant="bordered" name='github' className="w-1/2 bg-black text-white">
 							<GithubLogo className="mr-2" />
 							Github
-						</Button>
-						<Button variant="bordered" name='google' className="w-1/2 bg-[#0F9D58] text-white">
-							<GoogleLogo className="mr-2" />
-							Google
-						</Button>
+						</Button> */}
+						<Popover placement="top">
+							<PopoverTrigger>
+								<Button
+									variant="bordered"
+									name="google"
+									data-umami-event="Login:Google"
+									className="w-full bg-[#0F9D58] text-white"
+								>
+									<GoogleLogo className="mr-2" />
+									Google
+								</Button>
+							</PopoverTrigger>
+							<PopoverContent>
+								<div className="px-1 py-2">
+									<div className="text-xs text-primary font-bold">Comming soon</div>
+									<div className="text-xs">We are working on it</div>
+								</div>
+							</PopoverContent>
+						</Popover>
 					</div>
 				</div>
 				<p className="text-center mt-6 text-sm text-secondary">

@@ -3,6 +3,8 @@ Minor changes:
  - Add favicon
  - Add new banner image
  - Improve SEO and performance in landing page
+ - Add event tracking for login and signup button
+ - Add priavcy policy and terms of use
 
 ## 1.2.2 (08-08-2024)
 

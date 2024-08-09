@@ -1,11 +1,16 @@
 'use client';
+
+import { LegalModal } from '@/components/auth/legalModal';
 import { Button } from '@nextui-org/button';
 import { Checkbox } from '@nextui-org/checkbox';
 import { Input } from '@nextui-org/input';
-import { GithubLogo, GoogleLogo } from '@phosphor-icons/react';
+import { Popover, PopoverContent, PopoverTrigger } from '@nextui-org/popover';
+import { GoogleLogo } from '@phosphor-icons/react';
 import { EyeFilledIcon, EyeSlashFilledIcon } from '../icons';
 
+import { legalContent } from '@/public/legal';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useDisclosure } from '@nextui-org/modal';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -30,6 +35,25 @@ export const FormComponent: React.FC<FormComponentProps> = ({
 
 	const schema = SignupSchema;
 	const defaultValues = { username: '', email: '', password: '', terms: false };
+
+	const { isOpen, onOpen, onClose } = useDisclosure();
+	const [modalContent, setModalContent] = useState({ title: '', content: '' });
+	
+	const openModal = (type: 'terms' | 'privacy') => {
+		console.log(type);
+		if (type === 'terms') {
+			setModalContent({
+				title: 'Terms of Use',
+				content: legalContent.termsOfUse,
+			});
+		} else {
+			setModalContent({
+				title: 'Privacy Policy',
+				content: legalContent.privacyPolicy,
+			});
+		}
+		onOpen();
+	};
 
 	const {
 		control,
@@ -102,7 +126,7 @@ export const FormComponent: React.FC<FormComponentProps> = ({
 							<Input
 								{...field}
 								label="Password"
-								placeholder="Masukkan kata sandi Anda"
+								placeholder="Enter your password"
 								type={isVisible ? 'text' : 'password'}
 								variant="bordered"
 								endContent={
@@ -134,13 +158,21 @@ export const FormComponent: React.FC<FormComponentProps> = ({
 							>
 								<p className="text-xs text-gray-500">
 									By creating your account, you agree to the{' '}
-									<a href="#" className="text-blue-500">
+									<Button
+										onPress={() => openModal('terms')}
+										className="text-blue-500 text-xs p-0 min-w-fit h-auto"
+										variant="light"
+									>
 										Terms of Use
-									</a>{' '}
+									</Button>{' '}
 									and{' '}
-									<a href="#" className="text-blue-500">
+									<Button
+										onPress={() => openModal('privacy')}
+										className="text-blue-500 text-xs p-0 min-w-fit h-auto"
+										variant="light"
+									>
 										Privacy Policy
-									</a>
+									</Button>
 									.
 								</p>
 							</Checkbox>
@@ -164,17 +196,27 @@ export const FormComponent: React.FC<FormComponentProps> = ({
 						or sign up with
 					</p>
 					<div className="flex justify-center space-x-4">
-						<Button variant="bordered" className="w-1/2 bg-black text-white">
-							<GithubLogo className="mr-2" />
-							Github
-						</Button>
-						<Button
-							variant="bordered"
-							className="w-1/2 bg-[#0F9D58] text-white"
-						>
-							<GoogleLogo className="mr-2" />
-							Google
-						</Button>
+						<Popover placement="top">
+							<PopoverTrigger>
+								<Button
+									variant="bordered"
+									name="google"
+									data-umami-event="Signup:Google"
+									className="w-full bg-[#0F9D58] text-white"
+								>
+									<GoogleLogo className="mr-2" />
+									Google
+								</Button>
+							</PopoverTrigger>
+							<PopoverContent>
+								<div className="px-1 py-2">
+									<div className="text-xs text-primary font-bold">
+										Comming soon
+									</div>
+									<div className="text-xs">We are working on it</div>
+								</div>
+							</PopoverContent>
+						</Popover>
 					</div>
 				</div>
 				<p className="text-center mt-6 text-sm text-secondary">
@@ -183,6 +225,12 @@ export const FormComponent: React.FC<FormComponentProps> = ({
 						Login
 					</a>
 				</p>
+				<LegalModal
+					isOpen={isOpen}
+					onClose={onClose}
+					title={modalContent.title}
+					content={modalContent.content}
+				/>
 			</div>
 		</div>
 	);

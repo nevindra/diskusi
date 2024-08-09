@@ -25,12 +25,12 @@ export const DesktopNavContent = ({ user, isUnauthenticated, logout }: DesktopNa
 						</Button>
 					</NavbarItem>
 					<NavbarItem>
-						<Button as={Link} color="primary" href="/login" variant="bordered">
+						<Button as={Link} color="primary" href="/login" variant="bordered" data-umami-event="Login:Click">
 							Login
 						</Button>
 					</NavbarItem>
 					<NavbarItem>
-						<Button as={Link} color="primary" href="/signup" variant="solid">
+						<Button as={Link} color="primary" href="/signup" variant="solid" data-umami-event="Signup:Click">
 							Sign Up
 						</Button>
 					</NavbarItem>
