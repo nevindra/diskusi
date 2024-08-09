@@ -5,6 +5,8 @@ Minor changes:
  - Improve SEO and performance in landing page
  - Add event tracking for login and signup button
  - Add priavcy policy and terms of use
+ - Adjust the font size of the features section
+ - Improve login and signup page
 
 ## 1.2.2 (08-08-2024)
 

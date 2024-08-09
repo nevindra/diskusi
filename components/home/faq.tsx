@@ -1,6 +1,7 @@
 'use client';
 import { Accordion, AccordionItem } from '@nextui-org/accordion';
 import { Divider } from '@nextui-org/divider';
+import Link from 'next/link';
 
 export default function FAQ() {
 	return (
@@ -30,18 +31,53 @@ export default function FAQ() {
 				>
 					<p className="font-thin">
 						To ask a question, search for the user profile, enter your question
-						in the provided text box hit "Send".
+						in the provided text box hit "Send". And don't worry you don't need
+						to login to ask a question.
 					</p>
 				</AccordionItem>
-				<AccordionItem key="3" aria-label="Accordion 3" className='font-semibold' title="How can I answer a question?">
-					<p className='font-thin'>
-                    You should login to your account and click "Comments" in each question box.
-                    </p>
+				<AccordionItem
+					key="3"
+					aria-label="Accordion 3"
+					className="font-semibold"
+					title="How can I answer a question?"
+				>
+					<p className="font-thin">
+						You should login to your account and click "Comments" in each
+						question box.
+					</p>
 				</AccordionItem>
-                <AccordionItem key="4" aria-label="Accordion 4" className='font-semibold' title="Is this the final version of the application?">
-					<p className='font-thin'>
-                    No, this application is still in BETA stage. We will update the platform regularly.
-                    </p>
+				<AccordionItem
+					key="4"
+					aria-label="Accordion 4"
+					className="font-semibold"
+					title="Is this application free?"
+				>
+					<p className="font-thin">
+						Yes, Komunal is free to use. We may offer in-app purchases for
+						additional features or premium services in the future.
+					</p>
+				</AccordionItem>
+				<AccordionItem
+					key="5"
+					aria-label="Accordion 5"
+					className="font-semibold"
+					title="Is this the final version of the application?"
+				>
+					<p className="font-thin">
+						No, this application is still in BETA stage. We're actively working
+						on improving the app and adding new features based on user feedback.
+					</p>
+				</AccordionItem>
+				<AccordionItem
+					key="6"
+					aria-label="Accordion 6"
+					className="font-semibold"
+					title="How can I provide feedback on the app?"
+				>
+					<p className="font-thin">
+						We value your feedback! You can share your thoughts and suggestions
+						by check this <Link className='text-primary-400 font-medium' href='https://komunal.featurebase.app/'>here</Link> and fill your ideation.
+					</p>
 				</AccordionItem>
 			</Accordion>
 		</div>

@@ -1,8 +1,6 @@
-import { Montserrat, Roboto_Mono } from "next/font/google";
+import { Nunito_Sans, Roboto_Mono } from "next/font/google";
 
-export const MontserratFont = Montserrat({
-  weight: "500",
-  style: "normal",
+export const MontserratFont = Nunito_Sans({
   subsets: ["latin"],
   variable: "--font-montserrat",
 });

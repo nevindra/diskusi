@@ -3,9 +3,7 @@ import Image from "next/image";
 export const LeftSideComponent = () => {
 	return (
 		<div className="hidden lg:flex lg:w-1/2 flex-col justify-center p-12 text-white">
-			<h1 className="text-3xl xl:text-5xl font-bold mb-6">
-				Ask. Learn. Grow Together.
-			</h1>
+			
 			<div className="space-y-6">
 				<div className="flex items-start space-x-4">
 					<div className="text-3xl">🧠</div>

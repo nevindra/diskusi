@@ -1,11 +1,11 @@
 'use client';
-
 import { LegalModal } from '@/components/auth/legalModal';
 import { Button } from '@nextui-org/button';
 import { Checkbox } from '@nextui-org/checkbox';
 import { Input } from '@nextui-org/input';
 import { Popover, PopoverContent, PopoverTrigger } from '@nextui-org/popover';
 import { GoogleLogo } from '@phosphor-icons/react';
+import Image from 'next/image';
 import { EyeFilledIcon, EyeSlashFilledIcon } from '../icons';
 
 import { legalContent } from '@/public/legal';
@@ -84,8 +84,11 @@ export const FormComponent: React.FC<FormComponentProps> = ({
 	};
 
 	return (
-		<div className="w-full lg:w-1/2 flex items-center justify-center mr-5">
+		<div className="w-full  flex items-center justify-center mr-5">
 			<div className="w-full max-w-md bg-white p-8 rounded-lg shadow-lg">
+				<div className="flex justify-center">
+					<Image className="" src="/komunal.png" width={100} height={100} alt="Komunal App" />
+				</div>
 				<h2 className="text-2xl font-bold mb-6 text-center">
 					Create an Account
 				</h2>
@@ -211,7 +214,7 @@ export const FormComponent: React.FC<FormComponentProps> = ({
 							<PopoverContent>
 								<div className="px-1 py-2">
 									<div className="text-xs text-primary font-bold">
-										Comming soon
+										Coming soon!
 									</div>
 									<div className="text-xs">We are working on it</div>
 								</div>
