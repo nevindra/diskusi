@@ -1,3 +1,11 @@
+## 1.2.4 (10-08-2024)
+Minor changes:
+ - Add footer
+ - Add terms of use and privacy policy page
+
+Bug Fixes:
+ - Fix CORS issue
+ - 
 ## 1.2.3 (09-08-2024)
 Minor changes:
  - Add favicon

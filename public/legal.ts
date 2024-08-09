@@ -1,5 +1,5 @@
 export const legalContent = {
-    termsOfUse: `
+	termsOfUse: `
     1. Introduction
     Welcome to Komunal App (the "Website"). By accessing or using our Website, you agree to comply with and be bound by these Terms of Use. If you do not agree with these Terms, please do not use our Website.
 
@@ -49,8 +49,8 @@ export const legalContent = {
     If you have any questions about these Terms of Use, please contact us at X (@nezhifi).
     `,
 
-    privacyPolicy:`
-    This Privacy Policy outlines how Komunal App ("we," "our," "us") collects, uses, and protects your information when you use our Q&A Website (the "Website").
+	privacyPolicy: `
+    1. This Privacy Policy outlines how Komunal App ("we," "our," "us") collects, uses, and protects your information when you use our Q&A Website (the "Website").
 
     2. Information We Collect
 
@@ -90,5 +90,5 @@ export const legalContent = {
     9. Contact Us
 
     If you have any questions or concerns about this Privacy Policy, please contact us at X (@nezhifi).
-    `
-}
+    `,
+};
