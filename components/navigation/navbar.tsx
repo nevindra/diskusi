@@ -1,18 +1,16 @@
 'use client';
-import { Navbar as NextUINavbar } from '@nextui-org/navbar';
-
-import { AuthenticatedNavbar } from './authNavbar';
-import { HomeNavbar } from './homeNavbar';
-import { NavbarLeftComponent } from './navbar-left';
-
 import { useSession } from '@/hooks/useSession';
+import { Navbar as NextUINavbar } from '@nextui-org/navbar';
 import { useState } from 'react';
+import { DesktopNavContent } from './desktopNavContent';
+import { MobileNavContent } from './mobileNavContent';
+import { NavbarBrand } from './navbarBrand';
+import { NavbarMenu } from './navbarMenu';
 
 export const NavigationTop = () => {
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
-	const closeMenu = () => setIsMenuOpen(false);
-
 	const { user, isUnauthenticated, logout } = useSession();
+
 	return (
 		<NextUINavbar
 			position="sticky"
@@ -20,12 +18,20 @@ export const NavigationTop = () => {
 			isMenuOpen={isMenuOpen}
 			onMenuOpenChange={setIsMenuOpen}
 		>
-			<NavbarLeftComponent isMenuOpen={isMenuOpen} closeMenu={closeMenu} />
-			{isUnauthenticated ? (
-				<HomeNavbar />
-			) : (
-				<AuthenticatedNavbar user={user} logout={logout} />
-			)}
+			<MobileNavContent isMenuOpen={isMenuOpen} />
+			<NavbarBrand />
+			<NavbarMenu
+				isMenuOpen={isMenuOpen}
+				setIsMenuOpen={setIsMenuOpen}
+				user={user}
+				isUnauthenticated={isUnauthenticated}
+				logout={logout}
+			/>
+			<DesktopNavContent
+				user={user}
+				isUnauthenticated={isUnauthenticated}
+				logout={logout}
+			/>
 		</NextUINavbar>
 	);
 };

@@ -39,7 +39,7 @@ export default function QuestionPage({
 					className="text-primary text-left text-sm lg:text-base font-thin my-3 px-4 py-2 rounded-lg"
 					type="button"
 				>
-					<Link href={`${process.env.NEXT_PUBLIC_BASE_URL}/id/${params.slug}`}>
+					<Link href={`/id/${params.slug}`}>
 						Back
 					</Link>
 				</button>

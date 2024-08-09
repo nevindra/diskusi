@@ -62,7 +62,7 @@ export const LoginFormComponent = () => {
 		<div className="w-full lg:w-1/2 flex items-center justify-center mr-5">
 			<div className="w-full max-w-md bg-white p-8 rounded-lg shadow-lg">
 				<h2 className="text-2xl font-bold mb-6 text-center">
-					Login ke Akun Anda
+					Login to your account
 				</h2>
 				<form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
 					<Controller

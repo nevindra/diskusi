@@ -11,7 +11,11 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
-import { type SignupFormData, SignupSchema, signUp } from '@/actions/signupAction';
+import {
+	type SignupFormData,
+	SignupSchema,
+	signUp,
+} from '@/actions/signupAction';
 
 type FormComponentProps = {
 	redirectPath: string;
@@ -41,7 +45,7 @@ export const FormComponent: React.FC<FormComponentProps> = ({
 	const mutation = useMutation({
 		mutationFn: signUp,
 		onSuccess: () => {
-			queryClient.invalidateQueries({queryKey: ['user']}); // Updated to use queryKey
+			queryClient.invalidateQueries({ queryKey: ['user'] }); // Updated to use queryKey
 			router.push(redirectPath);
 		},
 		onError: (error: Error) => {
@@ -50,7 +54,8 @@ export const FormComponent: React.FC<FormComponentProps> = ({
 		},
 	});
 
-	const onSubmit = (data: SignupFormData) => { // Specify the type for data
+	const onSubmit = (data: SignupFormData) => {
+		// Specify the type for data
 		mutation.mutate(data);
 	};
 
@@ -163,7 +168,10 @@ export const FormComponent: React.FC<FormComponentProps> = ({
 							<GithubLogo className="mr-2" />
 							Github
 						</Button>
-						<Button variant="bordered" className="w-1/2 bg-[#0F9D58] text-white">
+						<Button
+							variant="bordered"
+							className="w-1/2 bg-[#0F9D58] text-white"
+						>
 							<GoogleLogo className="mr-2" />
 							Google
 						</Button>

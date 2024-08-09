@@ -4,7 +4,7 @@ export const MontserratFont = Montserrat({
   weight: "500",
   style: "normal",
   subsets: ["latin"],
-  variable: "--font-poppins",
+  variable: "--font-montserrat",
 });
 
 export const RobotoMonoFont = Roboto_Mono({
