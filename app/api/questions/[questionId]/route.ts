@@ -30,8 +30,6 @@ export async function GET(
 				content: QuestionsTable.content,
 				createdAt: QuestionsTable.createdAt,
 				posterId: QuestionsTable.posterId,
-				avatarUrl: UsersTable.avatarUrl,
-				posterUsername: UsersTable.username,
 				likeCount: sql<number>`COALESCE((
                         SELECT COUNT(*)
                         FROM ${LikesTable}
@@ -49,7 +47,6 @@ export async function GET(
                     )`,
 			})
 			.from(QuestionsTable)
-			.innerJoin(UsersTable, eq(QuestionsTable.userId, UsersTable.id))
 			.where(eq(QuestionsTable.questionId, questionId))
 			.limit(1);
 
@@ -59,10 +56,24 @@ export async function GET(
 				{ status: 404 }
 			);
 		}
+		const posterData = questionResult[0]?.posterId
+			? await db
+					.select({
+						username: UsersTable.username,
+						avatarUrl: UsersTable.avatarUrl,
+					})
+					.from(UsersTable)
+					.where(eq(UsersTable.id, questionResult[0].posterId))
+					.limit(1)
+			: [];
 
 		const question: QuestionsType = {
 			...questionResult[0],
-			createdAt: questionResult[0].createdAt ? questionResult[0].createdAt.toISOString() : '',
+			posterUsername: posterData[0]?.username,
+			avatarUrl: posterData[0]?.avatarUrl,
+			createdAt: questionResult[0].createdAt
+				? questionResult[0].createdAt.toISOString()
+				: '',
 			isLiked: false, // You'll need to implement this based on the current user
 		};
 

@@ -58,7 +58,7 @@ export function useQuestionData(questionId: string) {
 		refetch,
 	} = useQuery({
 		queryKey: ['question', questionId],
-		queryFn: () => getQuestionById(questionId),
+		queryFn: async () => getQuestionById(questionId),
 		enabled: !!questionId,
 		staleTime: 5 * 60 * 1000,
 		gcTime: 30 * 60 * 1000,
