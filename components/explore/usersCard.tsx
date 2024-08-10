@@ -15,7 +15,7 @@ export const UsersCard = ({
 					{/* <Image/> */}
 					<div className="flex justify-center r">
 						<Avatar
-							src={avatarUrl ? avatar : null}
+							src={avatarUrl ? avatar : undefined}
 							className="w-12 h-12 items-center justify-center rounded-full"
 							size="sm"
 							alt="Profile"

@@ -41,9 +41,6 @@ export const DesktopNavContent = ({
 						</Button>
 					</NavbarItem>
 					<NavbarItem>
-<<<<<<< Updated upstream
-						<Button as={Link} color="primary" href="/login" variant="bordered">
-=======
 						<Button
 							as={Link}
 							color="primary"
@@ -51,14 +48,10 @@ export const DesktopNavContent = ({
 							variant="bordered"
 							data-umami-event="Login:Click"
 						>
->>>>>>> Stashed changes
 							Login
 						</Button>
 					</NavbarItem>
 					<NavbarItem>
-<<<<<<< Updated upstream
-						<Button as={Link} color="primary" href="/signup" variant="solid">
-=======
 						<Button
 							as={Link}
 							color="primary"
@@ -66,7 +59,6 @@ export const DesktopNavContent = ({
 							variant="solid"
 							data-umami-event="Signup:Click"
 						>
->>>>>>> Stashed changes
 							Sign Up
 						</Button>
 					</NavbarItem>
