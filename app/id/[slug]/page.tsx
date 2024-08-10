@@ -135,7 +135,7 @@ export default function ProfilePage({ params }: { params: { slug: string } }) {
 								onClose={() => toggleShareModal(question.questionId)}
 								questionId={question.questionId}
 								questionContent={question.content}
-								username={question.posterUsername}
+								username={currentUsername}
 							/>
 						</Card>
 					))

@@ -26,7 +26,7 @@ export async function GET(req: Request) {
 					padding: '40px',
 				}}
 			>
-				<div style={{ fontSize: '64px', marginBottom: '30px' }}>⚡</div>
+				<div style={{ fontSize: '64px', marginBottom: '30px' }}>❓</div>
 				<h1
 					style={{
 						fontSize: '44px',
@@ -37,7 +37,7 @@ export async function GET(req: Request) {
 						borderRadius: '15px',
 					}}
 				>
-					Pertanyaan
+					Question
 				</h1>
 				<p
 					style={{

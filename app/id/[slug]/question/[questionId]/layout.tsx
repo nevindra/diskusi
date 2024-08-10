@@ -1,4 +1,6 @@
-import { getQuestionById } from '@/handlers/questionHandlers';
+import { QuestionsTable, UsersTable } from '@/database/dbSchema';
+import { db } from '@/database/initDB';
+import { eq } from 'drizzle-orm';
 import type { Metadata } from 'next';
 
 type Props = {
@@ -6,11 +8,21 @@ type Props = {
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-	const question = await getQuestionById(params.questionId);
-	const title = `${question.posterUsername}'s question`;
-	const description = `Someone asked ${question.posterUsername} a question: ${question.content}`;
-	const image = `${process.env.NEXT_PUBLIC_BASE_URL}/og?question=${encodeURIComponent(question.content)}`;
-	const url = `${process.env.NEXT_PUBLIC_BASE_URL}/id/${question.posterUsername}/question/${question.questionId}`;
+	const question = await db
+	.select({
+		questionId: QuestionsTable.questionId,
+		content: QuestionsTable.content,
+		posterUsername: UsersTable.username,
+	})
+	.from(QuestionsTable)
+	.innerJoin(UsersTable, eq(QuestionsTable.userId, UsersTable.id))
+	.where(eq(QuestionsTable.questionId, params.questionId))
+	.limit(1);
+
+	const title = `${question[0].posterUsername}'s question`;
+	const description = `Someone asked ${question[0].posterUsername} a question: ${question[0].content}`;
+	const image = `${process.env.NEXT_PUBLIC_BASE_URL}/og?question=${encodeURIComponent(question[0].content)}`;
+	const url = `${process.env.NEXT_PUBLIC_BASE_URL}/id/${question[0].posterUsername}/question/${question[0].questionId}`;
 	return {
 		title,
 		description,

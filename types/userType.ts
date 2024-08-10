@@ -8,3 +8,10 @@ export type UserType = {
     bio: string;
     avatarUrl: string;
 }
+
+export type UsersExplore = {
+    username: string;
+    avatarUrl: string;
+    bio: string;
+    questionCount: number;
+}

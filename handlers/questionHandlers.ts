@@ -56,9 +56,7 @@ export async function getQuestionById(
 	questionId: string
 ): Promise<QuestionsType> {
 	try {
-		const baseUrl = process.env.NEXT_PUBLIC_API_URL || '';
-
-		const response = await fetch(`${baseUrl}/api/questions/${questionId}`);
+		const response = await fetch(`/api/questions/${questionId}`);
 
 		if (!response.ok) {
 			const errorData = await response.json();

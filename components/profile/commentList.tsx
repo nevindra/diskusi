@@ -35,7 +35,7 @@ export const CommentBox = ({ id }: { id: string }) => {
 							className="border-2 border-primary"
 						/> */}
 						<Card className="flex flex-col items-start space-y-1 w-full h-full p-2 pb-2">
-							<p className="text-small text-primary mx-2">
+							<p className="text-small font-semibold text-primary mx-2">
 								{comment.username} -{' '}
 								<span className="text-small text-default-400">
 									{formatDistanceToNow(parseISO(comment.createdAt), {
@@ -43,7 +43,7 @@ export const CommentBox = ({ id }: { id: string }) => {
 									})}
 								</span>
 							</p>
-							<p className="text-small text-secondary mx-2  line-clamp-3">
+							<p className="text-small font-normal text-secondary mx-2  line-clamp-3">
 								{comment.content}
 							</p>
 						</Card>
