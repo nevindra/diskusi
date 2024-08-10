@@ -4,10 +4,28 @@ import { Card } from '@nextui-org/card';
 import { Spinner } from '@nextui-org/spinner';
 import { useQuery } from '@tanstack/react-query';
 import { formatDistanceToNow, parseISO } from 'date-fns';
+import React from 'react';
 
-export const CommentBox = ({ id }: { id: string }) => {
+const formatCommentContent = (content: string) => {
+	return content.split('\n').map((line, index) => (
+		// biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+		<React.Fragment key={index}>
+			{line}
+			{index < content.split('\n').length - 1 && <br />}
+		</React.Fragment>
+	));
+};
+
+export const CommentBox = ({
+	id,
+	isSingleQuestion,
+}: { id: string; isSingleQuestion: boolean }) => {
 	// Query the comment data from the backend
-	const { data: comments = [], isLoading, isError } = useQuery({
+	const {
+		data: comments = [],
+		isLoading,
+		isError,
+	} = useQuery({
 		queryKey: ['comments', id],
 		queryFn: () => getComments(id),
 		staleTime: 60000, // Data will be considered fresh for 1 minute
@@ -26,7 +44,10 @@ export const CommentBox = ({ id }: { id: string }) => {
 				</div>
 			) : comments.length > 0 ? (
 				comments.map((comment: CommentType) => (
-					<div key={comment.commentId} className="flex items-start space-x-2 shadow-none">
+					<div
+						key={comment.commentId}
+						className="flex items-start space-x-2 shadow-none"
+					>
 						{/* <Avatar
 							size="sm"
 							src={avatar || '/user.png'}
@@ -43,17 +64,21 @@ export const CommentBox = ({ id }: { id: string }) => {
 									})}
 								</span>
 							</p>
-							<p className="text-small font-normal text-secondary mx-2  line-clamp-3">
-								{comment.content}
-							</p>
+							<div
+								className={`w-full overflow-y-auto ${isSingleQuestion ? 'max-h-30' : 'max-h-12'}`}
+							>
+								<p className="text-small font-normal text-secondary mx-2 whitespace-pre-wrap">
+									{formatCommentContent(comment.content)}
+								</p>
+							</div>
 						</Card>
 					</div>
 				))
 			) : (
 				<div className="flex items-center justify-center my-3">
-					<p className='text-secondary/70'>No comments yet</p>
+					<p className="text-secondary/70">No comments yet</p>
 				</div>
 			)}
-			</>
+		</>
 	);
 };

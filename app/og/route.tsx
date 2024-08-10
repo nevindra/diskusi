@@ -7,14 +7,14 @@ export async function GET(req: Request) {
 		const { searchParams } = new URL(req.url);
 		const question = (searchParams.get('question') || 'Default Question').slice(
 			0,
-			100
+			200
 		);
 
 		const image = new ImageResponse(
 			<div
 				style={{
-					width: '1200px',
-					height: '630px',
+					width: '1920px',
+					height: '1080px',
 					backgroundColor: '#6246ea',
 					display: 'flex',
 					flexDirection: 'column',
@@ -41,7 +41,7 @@ export async function GET(req: Request) {
 				</h1>
 				<p
 					style={{
-						fontSize: '58px',
+						fontSize: `${Math.max(30, 78 - Math.floor(question.length / 30))}px`,
 						textAlign: 'center',
 						maxWidth: '90%',
 						lineHeight: '1.3',
@@ -62,8 +62,8 @@ export async function GET(req: Request) {
 				</div>
 			</div>,
 			{
-				width: 1200,
-				height: 630,
+				width: 1920,
+				height: 1080,
 			}
 		);
 		return image;

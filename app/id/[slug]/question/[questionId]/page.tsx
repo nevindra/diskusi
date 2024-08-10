@@ -76,7 +76,7 @@ export default function QuestionPage({
 							username={params.slug}
 						/>
 						<CardBody className="py-1 sm:py-2">
-							<p className="text-sm sm:text-base line-clamp-3">
+							<p className="text-sm sm:text-base">
 								{question.content}
 							</p>
 						</CardBody>
@@ -87,6 +87,7 @@ export default function QuestionPage({
 								commentCount={question.commentCount}
 								questionId={question.questionId}
 								username={question.posterUsername}
+								isSingleQuestion={true}
 							/>
 							<Divider className="my-1 sm:my-2" />
 							{/* Question Actions is for the like, comment, and share buttons. In this file, Like is handled. */}
@@ -103,7 +104,7 @@ export default function QuestionPage({
 							<CommentSection
 								questionId={question.questionId}
 								user={user}
-								refetchQuestion={refetchQuestion}
+								isSingleQuestion={true}
 							/>
 						</CardFooter>
 						{/* Share Modal is for the share button */}

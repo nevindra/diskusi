@@ -22,12 +22,15 @@ export default function Page() {
 			return users.sort((a, b) => b.questionCount - a.questionCount);
 		},
 	});
+
+    const filteredUsers = data?.filter((user) => !user.username.includes("testingunit"));
 	return (
 		<div className="flex flex-col items-center justify-center mt-3">
 			<div className="flex flex-col my-10 items-center justify-center gap-3">
 				<h1 className="text-4xl font-bold text-center">Explore</h1>
 				<p className="text-center text-secondary text-base">
-					Check all people that create profile in Komunal and see their profile.
+					Check all people who create profiles in Komunal and see their
+					profiles.
 				</p>
 			</div>
 			{isError ? (
@@ -82,8 +85,8 @@ export default function Page() {
 					</Card>
 				</div>
 			) : (
-				<div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4 lg:max-w-[60%]">
-					{data?.map((item, _index) => (
+				<div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4 lg:max-w-[75%]">
+					{filteredUsers?.map((item, _index) => (
 						<UsersCard
 							key={item.username}
 							username={item.username}

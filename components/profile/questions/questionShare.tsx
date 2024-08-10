@@ -1,4 +1,5 @@
 import { Button } from '@nextui-org/button';
+import { Divider } from '@nextui-org/divider';
 import { Image } from '@nextui-org/image';
 import { Input } from '@nextui-org/input';
 import {
@@ -8,6 +9,7 @@ import {
 	ModalFooter,
 	ModalHeader,
 } from '@nextui-org/modal';
+import { Download } from '@phosphor-icons/react';
 import { useEffect, useState } from 'react';
 
 export const ShareModal = ({
@@ -16,7 +18,13 @@ export const ShareModal = ({
 	questionId,
 	questionContent,
 	username,
-}: {isOpen: boolean, onClose: () => void, questionId: string, questionContent: string, username: string | undefined}) => {
+}: {
+	isOpen: boolean;
+	onClose: () => void;
+	questionId: string;
+	questionContent: string;
+	username: string | undefined;
+}) => {
 	console.log('username', username);
 	const [shareUrl, setShareUrl] = useState('');
 	const [ogImageUrl, setOgImageUrl] = useState('');
@@ -36,6 +44,23 @@ export const ShareModal = ({
 			await navigator.clipboard.writeText(shareUrl);
 		} catch (error) {
 			console.error('Failed to copy link:', error);
+		}
+	};
+
+	const handleDownloadImage = async () => {
+		try {
+			const response = await fetch(ogImageUrl);
+			const blob = await response.blob();
+			const url = window.URL.createObjectURL(blob);
+			const a = document.createElement('a');
+			a.href = url;
+			a.download = `question_${questionId}_preview.png`;
+			document.body.appendChild(a);
+			a.click();
+			window.URL.revokeObjectURL(url);
+			document.body.removeChild(a);
+		} catch (error) {
+			console.error('Failed to download image:', error);
 		}
 	};
 
@@ -62,7 +87,19 @@ export const ShareModal = ({
 							</Button>
 						}
 					/>
-					<p className="text-xs sm:text-sm text-default-500 mt-2">Preview:</p>
+					<Divider />
+					<div className="flex flex-row justify-between">
+						<p className="text-xs sm:text-sm text-default-500 mt-2">Preview:</p>
+						<Button
+							color="primary"
+							size="sm"
+							onClick={handleDownloadImage}
+							className="mt-2"
+							variant='light'
+						>
+							<Download size={15} />
+						</Button>
+					</div>
 					<div className="mt-2 border rounded-lg overflow-hidden">
 						<Image
 							src={ogImageUrl}

@@ -15,11 +15,9 @@ import { Controller, useForm } from 'react-hook-form';
 export const CommentInput = ({
 	question_id,
 	user,
-	onCommentAdded,
 }: {
 	question_id: string;
 	user: UserType | null | undefined;
-	onCommentAdded: () => void;
 }) => {
 	const defaultValues = {
 		content: '',
@@ -54,7 +52,6 @@ export const CommentInput = ({
 			queryClient.invalidateQueries({ queryKey: ['questions'] });
 			queryClient.invalidateQueries({ queryKey: ['comments', question_id] });
 			reset(defaultValues);
-			onCommentAdded();
 		},
 		onError: (error: AxiosError) => {
 			console.error('error:', error.message);

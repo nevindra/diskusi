@@ -111,6 +111,7 @@ export default function ProfilePage({ params }: { params: { slug: string } }) {
 									commentCount={question.commentCount}
 									questionId={question.questionId}
 									username={currentUsername}
+									isSingleQuestion={false}
 								/>
 								<Divider className="my-1 sm:my-2" />
 								<QuestionActions
@@ -126,7 +127,7 @@ export default function ProfilePage({ params }: { params: { slug: string } }) {
 									<CommentSection
 										questionId={question.questionId}
 										user={user}
-										refetchQuestion={() => refetchQuestion(question.questionId)}
+										isSingleQuestion={false}
 									/>
 								)}
 							</CardFooter>
