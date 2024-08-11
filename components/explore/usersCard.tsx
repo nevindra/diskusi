@@ -6,7 +6,7 @@ export const UsersCard = ({
 	username,
 	avatarUrl,
 	bio,
-}: { username: string; avatarUrl: string; bio: string }) => {
+}: { username: string; avatarUrl: string | null; bio: string | null}) => {
 	const avatar = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/${avatarUrl}`;
 	return (
 		<>

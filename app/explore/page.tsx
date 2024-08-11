@@ -1,29 +1,29 @@
-'use client';
 import { UsersCard } from '@/components/explore/usersCard';
+import { QuestionsTable, UsersTable } from '@/database/dbSchema';
+import { db } from '@/database/initDB';
 import type { UsersExplore } from '@/types/userType';
-import { Card, CardBody } from '@nextui-org/card';
-import { Skeleton } from '@nextui-org/skeleton';
-import { useQuery } from '@tanstack/react-query';
+import { eq, sql } from 'drizzle-orm';
 
-export default function Page() {
-	const {
-		data,
-		isLoading,
-		isError,
-	}: {
-		data: UsersExplore[] | undefined;
-		isLoading: boolean;
-		isError: boolean;
-	} = useQuery({
-		queryKey: ['explore'],
-		queryFn: async () => {
-			const res = await fetch('/api/users');
-			const users: UsersExplore[] = await res.json();
-			return users.sort((a, b) => b.questionCount - a.questionCount);
-		},
-	});
+async function getUsers(): Promise<UsersExplore[]> {
+	const usersData: UsersExplore[] = await db
+		.select({
+			username: UsersTable.username,
+			avatarUrl: UsersTable.avatarUrl,
+			bio: UsersTable.bio,
+			questionCount: sql<number>`COALESCE(COUNT(DISTINCT ${QuestionsTable.questionId}), 0)`,
+		})
+		.from(UsersTable)
+		.leftJoin(QuestionsTable, eq(UsersTable.id, QuestionsTable.userId))
+		.groupBy(UsersTable.username, UsersTable.avatarUrl, UsersTable.bio)
+		.orderBy(
+			sql`COALESCE(COUNT(DISTINCT ${QuestionsTable.questionId}), 0) DESC`
+		);
 
-    const filteredUsers = data?.filter((user) => !user.username.includes("testingunit"));
+	return usersData;
+}
+
+export default async function Page() {
+	const users = await getUsers();
 	return (
 		<div className="flex flex-col items-center justify-center mt-3">
 			<div className="flex flex-col my-10 items-center justify-center gap-3">
@@ -33,69 +33,16 @@ export default function Page() {
 					profiles.
 				</p>
 			</div>
-			{isError ? (
-				<Card className="flex flex-col items-center justify-center py-4 px-4">
-					<p className="text-secondary text-center text-lg font-semibold mb-2">
-						Error loading users
-					</p>
-					<p className="text-secondary text-center text-sm">
-						Please try again later or contact the administrator.
-					</p>
-				</Card>
-			) : isLoading ? (
-				<div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-					<Card className="w-full p-5 bg-gray-100 rounded-lg shadow-md">
-						<CardBody>
-							<div className="flex items-center space-x-4">
-								<div className="flex-shrink-0">
-									<Skeleton className="w-12 h-12" />
-								</div>
-								<div className="flex-1 space-y-2">
-									<Skeleton className="h-4 w-3/4" />
-									<Skeleton className="h-4 w-1/2" />
-								</div>
-							</div>
-						</CardBody>
-					</Card>
-					<Card className="w-full p-5 bg-gray-100 rounded-lg shadow-md">
-						<CardBody>
-							<div className="flex items-center space-x-4">
-								<div className="flex-shrink-0">
-									<Skeleton className="w-12 h-12" />
-								</div>
-								<div className="flex-1 space-y-2">
-									<Skeleton className="h-4 w-3/4" />
-									<Skeleton className="h-4 w-1/2" />
-								</div>
-							</div>
-						</CardBody>
-					</Card>
-					<Card className="w-full p-5 bg-gray-100 rounded-lg shadow-md">
-						<CardBody>
-							<div className="flex items-center space-x-4">
-								<div className="flex-shrink-0">
-									<Skeleton className="w-12 h-12" />
-								</div>
-								<div className="flex-1 space-y-2">
-									<Skeleton className="h-4 w-3/4" />
-									<Skeleton className="h-4 w-1/2" />
-								</div>
-							</div>
-						</CardBody>
-					</Card>
-				</div>
-			) : (
-				<div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4 lg:max-w-[75%]">
-					{filteredUsers?.map((item, _index) => (
-						<UsersCard
-							key={item.username}
-							username={item.username}
-							avatarUrl={item.avatarUrl}
-							bio={item.bio}
-						/>
-					))}
-				</div>
-			)}
+			<div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4 lg:max-w-[75%]">
+				{users?.map((item, _index) => (
+					<UsersCard
+						key={item.username}
+						username={item.username}
+						avatarUrl={item.avatarUrl || null}
+						bio={item.bio || null}
+					/>
+				))}
+			</div>
 		</div>
 	);
 }
