@@ -9,6 +9,7 @@ import { useTempQuestionStore } from '@/state/questionState';
 import type { UserType } from '@/types/userType';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from '@nextui-org/button';
+import { Card } from '@nextui-org/card';
 import { Textarea } from '@nextui-org/input';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import type { AxiosError } from 'axios';
@@ -18,11 +19,9 @@ import { Controller, useForm } from 'react-hook-form';
 
 export const QuestionBox = ({
 	username,
-	onQuestionAdded,
 	user,
 }: {
 	username: string;
-	onQuestionAdded: () => void;
 	user: UserType | null | undefined;
 }) => {
 	const queryClient = useQueryClient();
@@ -70,7 +69,6 @@ export const QuestionBox = ({
 				posterId: user?.id || '',
 				images: [],
 			});
-			onQuestionAdded();
 		},
 		onError: (error: AxiosError) => {
 			console.error('error:', error.message);
@@ -108,9 +106,9 @@ export const QuestionBox = ({
 	};
 
 	return (
-		<div className="w-full py-2">
+		<Card className="w-full py-2">
 			<form onSubmit={handleSubmit(onSubmit)}>
-				<div className="mb-3">
+				<div className="p-4 mb-1">
 					<Controller
 						name="question"
 						control={control}
@@ -118,8 +116,8 @@ export const QuestionBox = ({
 							<Textarea
 								{...field}
 								variant={'bordered'}
-								label="Question"
-								labelPlacement="inside"
+								label="Ask your question"
+								labelPlacement="outside"
 								placeholder="Enter your question"
 								disableAnimation
 								disableAutosize
@@ -155,7 +153,7 @@ export const QuestionBox = ({
 						))}
 					</div>
 				)}
-				<div className="flex justify-end mt-1">
+				<div className="flex justify-end px-4 py-1">
 					<Button
 						isLoading={isPending}
 						type="submit"
@@ -167,6 +165,6 @@ export const QuestionBox = ({
 					</Button>
 				</div>
 			</form>
-		</div>
+		</Card>
 	);
 };

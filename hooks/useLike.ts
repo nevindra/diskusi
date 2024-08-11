@@ -6,19 +6,19 @@ export const useLikeMutation = (
 	user: UserType | null | undefined,
 	questionId: string,
 	isLiked: boolean,
-	refetchQuestion: () => void
+	username: string
 ) => {
 	const queryClient = useQueryClient();
-
+	console.log('questionid',questionId);
+	
 	const likeMutation = useMutation({
 		mutationFn: () =>
 			isLiked
 				? deleteLike(questionId, user?.id ?? '')
 				: postLike({ userId: user?.id ?? '', questionId }),
 		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: ['questions'] });
-			queryClient.invalidateQueries({ queryKey: ['likes', user?.id] });
-			refetchQuestion();
+			queryClient.invalidateQueries({ queryKey: ['questions', username] });
+			queryClient.invalidateQueries({ queryKey: ['question', questionId] });
 		},
 		onError: (error) => {
 			console.error('Error liking/unliking:', error);

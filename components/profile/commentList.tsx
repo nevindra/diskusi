@@ -58,7 +58,7 @@ export const CommentBox = ({
 						<Card className="flex flex-col items-start space-y-1 w-full h-full p-2 pb-2">
 							<p className="text-small font-semibold text-primary mx-2">
 								{comment.username} -{' '}
-								<span className="text-small text-default-400">
+								<span className="text-xs text-default-400">
 									{formatDistanceToNow(parseISO(comment.createdAt), {
 										addSuffix: true,
 									})}

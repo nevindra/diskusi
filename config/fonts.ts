@@ -1,6 +1,6 @@
-import { Nunito_Sans, Roboto_Mono } from "next/font/google";
+import { Mulish, Roboto_Mono } from "next/font/google";
 
-export const MontserratFont = Nunito_Sans({
+export const MontserratFont = Mulish({
   subsets: ["latin"],
   variable: "--font-montserrat",
 });

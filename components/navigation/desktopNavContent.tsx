@@ -96,7 +96,7 @@ export const DesktopNavContent = ({
 							startContent={<MagnifyingGlass />}
 							href={'/explore'}
 						>
-							Search Users
+							Explore Users
 						</DropdownItem>
 						<DropdownItem
 							key="settings"

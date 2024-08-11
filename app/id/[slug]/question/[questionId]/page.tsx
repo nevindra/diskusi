@@ -20,19 +20,21 @@ export default function QuestionPage({
 }: {
 	params: { questionId: string; slug: string };
 }) {
-	const { user, isLoading, question, error, refetchQuestion } = useQuestionData(
+	const { user, isLoading, question, error } = useQuestionData(
 		params.questionId
 	);
-
 	const [showComments, setShowComments] = useState(false);
 	const [isShareModalOpen, setIsShareModalOpen] = useState(false);
+
+	const toggleQuestionBox = () => {}
+
 	if (isLoading) return <SkeltonProfile />;
 	
 	return (
 		<div className="flex flex-col items-center justify-center md:m-8 lg:m-10">
 			{/* Main Card */}
 			<div className="w-full xl:w-[70%] px-3 lg:px-0">
-				<UserProfileBox username={params.slug} />
+				<UserProfileBox username={params.slug} onToggleQuestionBox={toggleQuestionBox} isSingleQuestion={true} />
 			</div>
 			<div className="w-full xl:w-[70%] px-3 lg:px-0 flex justify-start">
 				<button
@@ -97,8 +99,8 @@ export default function QuestionPage({
 								user={user}
 								onCommentToggle={() => setShowComments(!showComments)}
 								onShare={() => setIsShareModalOpen(true)}
-								refetchQuestion={refetchQuestion}
 								isCommentsShown={true}
+								currentUsername={params.slug}
 							/>
 
 							<CommentSection

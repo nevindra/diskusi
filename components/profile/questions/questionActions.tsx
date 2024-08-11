@@ -9,22 +9,22 @@ export const QuestionActions = ({
 	user,
 	onCommentToggle,
 	onShare,
-	refetchQuestion,
 	isCommentsShown,
+	currentUsername,
 }: {
 	questionId: string;
 	isLiked: boolean;
 	user: UserType | null | undefined;
 	onCommentToggle: () => void;
 	onShare: () => void;
-	refetchQuestion: () => void;
 	isCommentsShown: boolean;
+	currentUsername: string;
 }) => {
 	const { handleLike, isLoggedIn } = useLikeMutation(
 		user,
 		questionId,
 		isLiked,
-		refetchQuestion
+		currentUsername
 	);
 
 	return (
@@ -65,7 +65,7 @@ export const QuestionActions = ({
 			<Button
 				size="sm"
 				variant="light"
-				startContent={isCommentsShown ? <Chats weight="fill" /> : <Chats />}
+				startContent={isCommentsShown ? <Chats className='text-primary' weight="fill" /> : <Chats className='text-default-500' />}
 				onClick={onCommentToggle}
 				className="text-xs sm:text-sm"
 			>

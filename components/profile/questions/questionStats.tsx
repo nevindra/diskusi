@@ -19,7 +19,7 @@ export const QuestionStats = ({
 		</div>
 		{isSingleQuestion ? null : (
 			<div>
-			<Button as={Link} color="primary" href={`/id/${username}/question/${questionId}`} variant="light" className='text-xs sm:text-sm'>
+			<Button as={Link} color="primary" href={`/id/${username}/question/${questionId}`} variant="light" className='text-xs font-semibold sm:text-sm'>
 				See More
 			</Button>
 		</div>

@@ -10,64 +10,64 @@ import { UserProfileBox } from '@/components/profile/userProfile';
 import { Card, CardBody, CardFooter } from '@nextui-org/card';
 import { Divider } from '@nextui-org/divider';
 import { Skeleton } from '@nextui-org/skeleton';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 
 import { SkeltonProfile } from '@/components/profile/skeleton';
 import { useProfileData } from '@/hooks/useQuestions';
 import type { QuestionsType } from '@/types/questionType';
-import { useQueryClient } from '@tanstack/react-query';
 
 export default function ProfilePage({ params }: { params: { slug: string } }) {
 	const currentUsername = params.slug;
-	const queryClient = useQueryClient();
-	const { user, isLoading, questions, refetchQuestions, isError } =
+	const { user, isLoading, questions, isError } =
 		useProfileData(currentUsername);
-	const [showComments, setShowComments] = useState<{ [key: string]: boolean }>(
-		{}
+	const [isQuestionBoxOpen, setIsQuestionBoxOpen] = useState(false);
+	const [showComments, setShowComments] = useState<Record<string, boolean>>({});
+	const [isShareModalOpen, setIsShareModalOpen] = useState<
+		Record<string, boolean>
+	>({});
+
+	const toggleQuestionBox = useCallback(
+		() => setIsQuestionBoxOpen((prev) => !prev),
+		[]
 	);
-	
-	const [isShareModalOpen, setIsShareModalOpen] = useState<{
-		[key: string]: boolean;
-	}>({});
-
-	const toggleComments = (questionId: string) => {
+	const toggleComments = useCallback((questionId: string) => {
 		setShowComments((prev) => ({ ...prev, [questionId]: !prev[questionId] }));
-	};
-
-	const toggleShareModal = (questionId: string) => {
+	}, []);
+	const toggleShareModal = useCallback((questionId: string) => {
 		setIsShareModalOpen((prev) => ({
 			...prev,
 			[questionId]: !prev[questionId],
 		}));
-	};
-	const refetchQuestion = (questionId: string) => {
-		queryClient.invalidateQueries({ queryKey: ['questions', questionId] });
-		refetchQuestions();
-	};
+	}, []);
+
 	if (isLoading) {
 		<SkeltonProfile />;
 	}
 
 	return (
-		<div className="flex flex-col items-center justify-center md:m-8 lg:m-10">
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
 			{/* Main Card */}
-			<div className="w-full xl:w-[70%] 2xs:mt-1 px-3 lg:px-0">
-				<UserProfileBox username={currentUsername} />
-			</div>
-			<div className="w-full xl:w-[70%] px-3 lg:px-0">
-				<QuestionBox
-					onQuestionAdded={refetchQuestions}
+      <div className="mt-4">
+				<UserProfileBox
 					username={currentUsername}
-					user={user}
+					onToggleQuestionBox={toggleQuestionBox}
+          isSingleQuestion={false}
 				/>
 			</div>
-			<div className="w-full xl:w-[70%] px-3 lg:px-0 flex justify-center">
-				<p className="text-white bg-primary text-left text-sm lg:text-base font-semibold mb-3 px-4 py-2 rounded-lg">
-					Questions List
-				</p>
-			</div>
+			{/* Question Box */}
+			{isQuestionBoxOpen && (
+        <div className="mt-4">
+					<QuestionBox username={currentUsername} user={user} />
+				</div>
+			)}
+			{/* Question List Header */}
+      <div className="w-full bg-primary rounded-lg flex justify-center mt-4">
+        <p className="text-white text-sm lg:text-base font-semibold py-2 rounded-lg">
+          Questions List
+        </p>
+      </div>
 			{/* Question List Box */}
-			<div className="flex flex-col w-full xl:w-[70%] space-y-4 px-2 mt-1">
+      <div className="flex flex-col w-full space-y-4 mt-4">
 				{isError ? (
 					<Card className="flex flex-col items-center justify-center py-4 px-4">
 						<p className="text-secondary text-center text-lg font-semibold mb-2">
@@ -96,7 +96,7 @@ export default function ProfilePage({ params }: { params: { slug: string } }) {
 								questionId={question.questionId}
 								posterUsername={question.posterUsername}
 								createdAt={question.createdAt}
-								avatarUrl={question.avatarUrl}	
+								avatarUrl={question.avatarUrl}
 								username={currentUsername}
 								user={user}
 							/>
@@ -120,7 +120,7 @@ export default function ProfilePage({ params }: { params: { slug: string } }) {
 									user={user}
 									onCommentToggle={() => toggleComments(question.questionId)}
 									onShare={() => toggleShareModal(question.questionId)}
-									refetchQuestion={() => refetchQuestion(question.questionId)}
+									currentUsername={currentUsername}
 									isCommentsShown={showComments[question.questionId] || false}
 								/>
 								{showComments[question.questionId] && (
@@ -142,6 +142,6 @@ export default function ProfilePage({ params }: { params: { slug: string } }) {
 					))
 				)}
 			</div>
-		</div>
+    </div>
 	);
 }

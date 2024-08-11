@@ -1,3 +1,13 @@
+## 1.2.5 (11-08-2024)
+Features:
+ - Add share button for profile card
+ - 
+Minor changes:
+ - Add footer
+ - Add new banner image
+ - Improve SEO and performance in landing page
+ - Change layout for profile card
+  
 ## 1.2.4 (10-08-2024)
 
 Features:

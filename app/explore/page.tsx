@@ -28,8 +28,8 @@ export default async function Page() {
 		<div className="flex flex-col items-center justify-center mt-3">
 			<div className="flex flex-col my-10 items-center justify-center gap-3">
 				<h1 className="text-4xl font-bold text-center">Explore</h1>
-				<p className="text-center text-secondary text-base">
-					Check all people who create profiles in Komunal and see their
+				<p className="text-center text-secondary text-base px-4">
+					Check all people who create profiles in <span className='text-primary font-bold'>Komunal</span> and see their
 					profiles.
 				</p>
 			</div>
