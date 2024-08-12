@@ -17,9 +17,9 @@ export const legalContent = {
     By submitting any content to the Website, you grant us a non-exclusive, royalty-free, worldwide license to use, reproduce, and distribute your content in connection with the operation of the Website.
     You retain all ownership rights in your content.
 
-    5. Data Collection in BETA Mode
+    5. Data Collection
 
-    While in BETA mode, we will collect data from users to improve the application. The data collected will include your personal informaton, your patterns of use, and your interactions with the Website.
+    We will collect data from users to improve the application. The data collected will include your personal informaton, your patterns of use, and your interactions with the Website.
     We will not sell your data to any third party. The data will be used solely for the purpose of enhancing the user experience and refining our application.
 
     6. Intellectual Property
@@ -54,13 +54,13 @@ export const legalContent = {
 
     2. Information We Collect
 
-    Personal Information: While in BETA mode, we may collect personal information such as your name, email address, and any other information you provide when you register or interact with the Website.
+    Personal Information: We may collect personal information such as your name, email address, and any other information you provide when you register or interact with the Website.
     Usage Data: We may collect data on how you use the Website, including pages visited, time spent on pages, and other related metrics.
     Cookies and Tracking Technologies: We may use cookies and similar tracking technologies to enhance your experience on our Website.
 
     3. How We Use Your Information
 
-    To improve and develop our Website and services during the BETA phase.
+    To improve and develop our Website and services.
     To respond to your inquiries and provide customer support.
     To communicate with you about updates, offers, and other information related to the Website.
 

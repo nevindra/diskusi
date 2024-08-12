@@ -16,23 +16,10 @@ if (!process.env.SUPABASE_SERVICE_ROLE_KEY) {
 
 const connectionString = `postgresql://${process.env.NEXT_SUPABASE_USERNAME}:${process.env.NEXT_SUPABASE_PASSWORD}@${process.env.NEXT_SUPABASE_HOST}/${process.env.NEXT_SUPABASE_DBNAME}`
 // Disable prefetch as it is not supported for "Transaction" pool mode 
-export const client = postgres(connectionString, { prepare: false })
+export const client = postgres(connectionString, { prepare: true })
 export const db = drizzle(client);
 
 export const supabase = createClient(
 	process.env.NEXT_PUBLIC_SUPABASE_URL,
 	process.env.SUPABASE_SERVICE_ROLE_KEY
 );
-export async function checkSupabaseConnection() {
-	try {
-		const { data, error } = await supabase.auth.getSession();
-		if (error) {
-			console.error('Error fetching session:', error);
-			return false;
-		}
-		return true;
-	} catch (error) {
-		console.error('Error checking Supabase connection:', error);
-		return false;
-	}
-}

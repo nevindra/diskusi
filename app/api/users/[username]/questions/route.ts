@@ -33,6 +33,7 @@ export async function GET(
       content: QuestionsTable.content,
       createdAt: QuestionsTable.createdAt,
       avatarUrl: PosterUsers.avatarUrl,
+      isAnon: QuestionsTable.isAnon,
       likeCount: sql<number>`COALESCE(COUNT(DISTINCT ${LikesTable.userId}), 0)`,
       commentCount: sql<number>`COALESCE(COUNT(DISTINCT ${CommentsTable.commentId}), 0)`,
       likedUserIds: sql<string[]>`ARRAY_REMOVE(ARRAY_AGG(DISTINCT ${LikesTable.userId}), NULL)`,

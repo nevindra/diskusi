@@ -1,6 +1,6 @@
 {
-  "id": "3aa3dfc6-251e-489c-9579-875a2942c72c",
-  "prevId": "b7c4510a-e457-485b-ac3c-e16252fa7bf6",
+  "id": "059f62b9-eaaf-4ab5-8868-c3f98671a886",
+  "prevId": "6349377e-a6e4-47ed-8540-356325d4094b",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -25,6 +25,12 @@
           "type": "uuid",
           "primaryKey": false,
           "notNull": true
+        },
+        "poster_id": {
+          "name": "poster_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
         },
         "content": {
           "name": "content",
@@ -52,8 +58,8 @@
           "columnsTo": [
             "question_id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
         },
         "comments_user_id_users_id_fk": {
           "name": "comments_user_id_users_id_fk",
@@ -65,8 +71,21 @@
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        },
+        "comments_poster_id_users_id_fk": {
+          "name": "comments_poster_id_users_id_fk",
+          "tableFrom": "comments",
+          "tableTo": "users",
+          "columnsFrom": [
+            "poster_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
         }
       },
       "compositePrimaryKeys": {},
@@ -91,7 +110,7 @@
         },
         "question_id": {
           "name": "question_id",
-          "type": "varchar(21)",
+          "type": "varchar(36)",
           "primaryKey": false,
           "notNull": false
         },
@@ -175,7 +194,7 @@
         },
         "poster_id": {
           "name": "poster_id",
-          "type": "varchar(36)",
+          "type": "uuid",
           "primaryKey": false,
           "notNull": false
         },
@@ -185,12 +204,11 @@
           "primaryKey": false,
           "notNull": true
         },
-        "is_anonymous": {
-          "name": "is_anonymous",
-          "type": "boolean",
+        "image_urls": {
+          "name": "image_urls",
+          "type": "jsonb",
           "primaryKey": false,
-          "notNull": true,
-          "default": false
+          "notNull": false
         },
         "created_at": {
           "name": "created_at",
@@ -198,6 +216,13 @@
           "primaryKey": false,
           "notNull": false,
           "default": "now()"
+        },
+        "is_anon": {
+          "name": "is_anon",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false,
+          "default": true
         }
       },
       "indexes": {},
@@ -212,71 +237,21 @@
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
-    },
-    "public.shares": {
-      "name": "shares",
-      "schema": "",
-      "columns": {
-        "share_id": {
-          "name": "share_id",
-          "type": "uuid",
-          "primaryKey": true,
-          "notNull": true,
-          "default": "gen_random_uuid()"
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
         },
-        "user_id": {
-          "name": "user_id",
-          "type": "uuid",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "question_id": {
-          "name": "question_id",
-          "type": "varchar(21)",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "created_at": {
-          "name": "created_at",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": false,
-          "default": "now()"
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {
-        "shares_user_id_users_id_fk": {
-          "name": "shares_user_id_users_id_fk",
-          "tableFrom": "shares",
+        "questions_poster_id_users_id_fk": {
+          "name": "questions_poster_id_users_id_fk",
+          "tableFrom": "questions",
           "tableTo": "users",
           "columnsFrom": [
-            "user_id"
+            "poster_id"
           ],
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        },
-        "shares_question_id_questions_question_id_fk": {
-          "name": "shares_question_id_questions_question_id_fk",
-          "tableFrom": "shares",
-          "tableTo": "questions",
-          "columnsFrom": [
-            "question_id"
-          ],
-          "columnsTo": [
-            "question_id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
         }
       },
       "compositePrimaryKeys": {},
@@ -310,9 +285,9 @@
           "primaryKey": false,
           "notNull": false
         },
-        "avatar_url": {
-          "name": "avatar_url",
-          "type": "varchar(36)",
+        "avatarUrl": {
+          "name": "avatarUrl",
+          "type": "varchar(64)",
           "primaryKey": false,
           "notNull": false
         }

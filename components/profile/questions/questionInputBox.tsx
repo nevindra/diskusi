@@ -1,16 +1,19 @@
 'use client';
+import { Button } from '@nextui-org/button';
+import { Card } from '@nextui-org/card';
+import { Textarea } from '@nextui-org/input';
+
 import {
 	type QuestionFormData,
 	QuestionSchema,
 	postQuestion,
 } from '@/handlers/questionHandlers';
+import { useAnon } from '@/hooks/useAnon';
 import { usePastedImages } from '@/hooks/usePasteImage';
 import { useTempQuestionStore } from '@/state/questionState';
 import type { UserType } from '@/types/userType';
+
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Button } from '@nextui-org/button';
-import { Card } from '@nextui-org/card';
-import { Textarea } from '@nextui-org/input';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import type { AxiosError } from 'axios';
 import Image from 'next/image';
@@ -27,12 +30,14 @@ export const QuestionBox = ({
 	const queryClient = useQueryClient();
 	const { setQuestion, getQuestion, clearQ } = useTempQuestionStore();
 	const { pastedImages, handlePaste, removeImage } = usePastedImages();
+	const { isAnon } = useAnon();
 
 	const defaultValues = {
 		question: getQuestion(username) || '',
-		usernameId: username,
+		usernameId: username, // this is for the user id who being asked the question
 		posterId: '',
 		images: [],
+		isAnon: isAnon ?? true,
 	};
 
 	const {
@@ -55,13 +60,15 @@ export const QuestionBox = ({
 	}, [username, questionValue, setQuestion]);
 
 	useEffect(() => {
-		setValue('posterId', user?.id || '');
-	}, [user, setValue]);
+		if (user?.id !== watch('posterId')) {
+			setValue('posterId', user?.id || '');
+		}
+	}, [user, setValue, watch]);
 
-	const {mutate, isPending} = useMutation({
+	const { mutate, isPending } = useMutation({
 		mutationFn: postQuestion,
 		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: ['questions', user?.id] });
+			queryClient.invalidateQueries({ queryKey: ['questions', username] });
 			clearQ(username);
 			reset({
 				question: '',
@@ -107,8 +114,8 @@ export const QuestionBox = ({
 
 	return (
 		<Card className="w-full py-2">
-			<form onSubmit={handleSubmit(onSubmit)}>
-				<div className="p-4 mb-1">
+			<form onSubmit={handleSubmit(onSubmit, (errors) => console.log(errors))}>
+				<div className="p-4">
 					<Controller
 						name="question"
 						control={control}
@@ -127,6 +134,12 @@ export const QuestionBox = ({
 							/>
 						)}
 					/>
+				</div>
+				<div className="text-sm 2xs:text-xs text-secondary/80 px-5 italic">
+					<span className="font-bold">Note: </span>
+					{isAnon
+						? 'Anonymous mode is enabled. Your question will not be visible to other users.'
+						: 'Anonymous mode is disabled. Your question will be visible to other users.'}
 				</div>
 				{errors.root && (
 					<div className="text-red-500 mb-3">{errors.root.message}</div>

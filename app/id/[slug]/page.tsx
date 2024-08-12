@@ -20,7 +20,8 @@ export default function ProfilePage({ params }: { params: { slug: string } }) {
 	const currentUsername = params.slug;
 	const { user, isLoading, questions, isError } =
 		useProfileData(currentUsername);
-	const [isQuestionBoxOpen, setIsQuestionBoxOpen] = useState(false);
+	
+  const [isQuestionBoxOpen, setIsQuestionBoxOpen] = useState(false);
 	const [showComments, setShowComments] = useState<Record<string, boolean>>({});
 	const [isShareModalOpen, setIsShareModalOpen] = useState<
 		Record<string, boolean>
@@ -60,12 +61,7 @@ export default function ProfilePage({ params }: { params: { slug: string } }) {
 					<QuestionBox username={currentUsername} user={user} />
 				</div>
 			)}
-			{/* Question List Header */}
-      <div className="w-full bg-primary rounded-lg flex justify-center mt-4">
-        <p className="text-white text-sm lg:text-base font-semibold py-2 rounded-lg">
-          Questions List
-        </p>
-      </div>
+
 			{/* Question List Box */}
       <div className="flex flex-col w-full space-y-4 mt-4">
 				{isError ? (
@@ -92,6 +88,7 @@ export default function ProfilePage({ params }: { params: { slug: string } }) {
 					questions.map((question: QuestionsType) => (
 						<Card key={question.questionId} className="p-2 sm:p-4">
 							<QuestionHeader
+                isAnon={question.isAnon}  
 								posterId={question.posterId}
 								questionId={question.questionId}
 								posterUsername={question.posterUsername}
@@ -128,6 +125,7 @@ export default function ProfilePage({ params }: { params: { slug: string } }) {
 										questionId={question.questionId}
 										user={user}
 										isSingleQuestion={false}
+                    username={currentUsername}
 									/>
 								)}
 							</CardFooter>

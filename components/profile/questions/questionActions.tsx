@@ -3,6 +3,7 @@ import type { UserType } from '@/types/userType';
 import { Button } from '@nextui-org/button';
 import { Popover, PopoverContent, PopoverTrigger } from '@nextui-org/popover';
 import { Chats, Share, ThumbsUp } from '@phosphor-icons/react/dist/ssr';
+
 export const QuestionActions = ({
 	questionId,
 	isLiked,
@@ -26,7 +27,7 @@ export const QuestionActions = ({
 		isLiked,
 		currentUsername
 	);
-
+	
 	return (
 		<div className="flex items-center justify-around w-full">
 			{isLoggedIn ? (

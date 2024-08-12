@@ -7,6 +7,7 @@ export const QuestionSchema = z.object({
 	usernameId: z.string(),
 	posterId: z.string().optional(),
 	images: z.array(z.string()).optional(),
+	isAnon: z.boolean(),
 });
 
 export type QuestionFormData = z.infer<typeof QuestionSchema>;

@@ -225,10 +225,7 @@ export default function AccountSettings({
 										)}
 									/>
 									<div className="flex justify-end mt-6 space-x-4">
-										<Button color="primary" type="button" variant="bordered">
-											Cancel
-										</Button>
-										<Button color="primary" type="submit">
+										<Button color="primary" type="submit" startContent={<FloppyDisk />}>
 											Save
 										</Button>
 									</div>

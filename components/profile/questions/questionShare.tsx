@@ -25,7 +25,6 @@ export const ShareModal = ({
 	questionContent: string;
 	username: string | undefined;
 }) => {
-	console.log('username', username);
 	const [shareUrl, setShareUrl] = useState('');
 	const [ogImageUrl, setOgImageUrl] = useState('');
 

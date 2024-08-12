@@ -3,15 +3,14 @@ import type { CommentType } from '@/types/commentType';
 import { Card } from '@nextui-org/card';
 import { Spinner } from '@nextui-org/spinner';
 import { useQuery } from '@tanstack/react-query';
-import { formatDistanceToNow, parseISO } from 'date-fns';
+import { formatDistanceToNow } from 'date-fns';
 import React from 'react';
 
-const formatCommentContent = (content: string) => {
-	return content.split('\n').map((line, index) => (
-		// biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+const formatCommentContent = (content: string | null) => {
+	return (content || '').split('\n').map((line, index) => (
 		<React.Fragment key={index}>
 			{line}
-			{index < content.split('\n').length - 1 && <br />}
+			{index < (content || '').split('\n').length - 1 && <br />}
 		</React.Fragment>
 	));
 };
@@ -31,7 +30,6 @@ export const CommentBox = ({
 		staleTime: 60000, // Data will be considered fresh for 1 minute
 		refetchOnWindowFocus: false, // Disable refetch on window focus
 	});
-
 	return (
 		<>
 			{isLoading ? (
@@ -57,17 +55,20 @@ export const CommentBox = ({
 						/> */}
 						<Card className="flex flex-col items-start space-y-1 w-full h-full p-2 pb-2">
 							<p className="text-small font-semibold text-primary mx-2">
-								{comment.username} -{' '}
+								{comment.posterUsername ? comment.posterUsername : 'Anonymous'}{' '}
+								-{' '}
 								<span className="text-xs text-default-400">
-									{formatDistanceToNow(parseISO(comment.createdAt), {
-										addSuffix: true,
-									})}
+									{comment.createdAt
+										? formatDistanceToNow(new Date(comment.createdAt), {
+												addSuffix: true,
+											})
+										: 'Unknown'}
 								</span>
 							</p>
 							<div
-								className={`w-full overflow-y-auto ${isSingleQuestion ? 'max-h-30' : 'max-h-12'}`}
+								className={`w-full overflow-y-scroll ${isSingleQuestion ? 'max-h-40' : 'max-h-20'}`}
 							>
-								<p className="text-small font-normal text-secondary mx-2 whitespace-pre-wrap">
+								<p className="text-small font-normal text-secondary mx-2">
 									{formatCommentContent(comment.content)}
 								</p>
 							</div>

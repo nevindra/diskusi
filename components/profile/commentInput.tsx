@@ -15,14 +15,17 @@ import { Controller, useForm } from 'react-hook-form';
 export const CommentInput = ({
 	question_id,
 	user,
+	username,
 }: {
 	question_id: string;
 	user: UserType | null | undefined;
+	username: string;
 }) => {
 	const defaultValues = {
 		content: '',
-		question_id: question_id,
-		poster_id: user?.id || '',
+		question_id: undefined,
+		username: undefined,
+		poster_id: '',
 	};
 
 	const queryClient = useQueryClient();
@@ -39,17 +42,15 @@ export const CommentInput = ({
 	});
 
 	useEffect(() => {
-		if (user && question_id) {
-			// Check if user and questionId exists before setting values
-			setValue('poster_id', user.id);
-			setValue('question_id', question_id);
-		}
-	}, [user, question_id, setValue]);
-
+		setValue('username', username);
+		setValue('poster_id', user?.id ?? undefined);
+		setValue('question_id', question_id);
+	}, [user, question_id, username, setValue]);
+	console.log('UserID, QuestionID, Username', user?.id, question_id, username);
 	const mutation = useMutation({
 		mutationFn: postComment,
 		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: ['questions'] });
+			queryClient.invalidateQueries({ queryKey: ['questions', username] });
 			queryClient.invalidateQueries({ queryKey: ['comments', question_id] });
 			reset(defaultValues);
 		},
@@ -68,41 +69,27 @@ export const CommentInput = ({
 	return (
 		<form
 			className="flex items-center space-x-2 mt-2"
-			onSubmit={handleSubmit(onSubmit)}
+			onSubmit={handleSubmit(onSubmit, (errors) => console.log(errors))}
 		>
 			{/* <Avatar size="sm" src={'/user.png'} className="hidden xs:flex" /> */}
-			{!user ? (
-				<Textarea
-					variant={'bordered'}
-					label="Comment"
-					labelPlacement="inside"
-					placeholder="Please login/register to comment"
-					disableAnimation
-					disableAutosize
-					isInvalid={!!errors.content}
-					errorMessage={errors.content?.message}
-					isDisabled
-				/>
-			) : (
-				<Controller
-					name="content"
-					control={control}
-					render={({ field }) => (
-						<Textarea
-							{...field}
-							variant="bordered"
-							color="primary"
-							label="Comment"
-							labelPlacement="inside"
-							placeholder="Write a comment..."
-							disableAnimation
-							disableAutosize
-							isInvalid={!!errors.content}
-							errorMessage={errors.content?.message}
-						/>
-					)}
-				/>
-			)}
+			<Controller
+				name="content"
+				control={control}
+				render={({ field }) => (
+					<Textarea
+						{...field}
+						variant="bordered"
+						color="primary"
+						label="Comment"
+						labelPlacement="inside"
+						placeholder="Write a comment..."
+						disableAnimation
+						disableAutosize
+						isInvalid={!!errors.content}
+						errorMessage={errors.content?.message}
+					/>
+				)}
+			/>
 			{errors.root && (
 				<div className="text-red-500 mb-3">{errors.root.message}</div>
 			)}

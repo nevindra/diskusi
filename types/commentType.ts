@@ -1,10 +1,10 @@
 export type CommentType = {
 	commentId: string;
-	questionId: string;
-	userId: string;
-	posterId: string;
-	username: string;
-	content: string;
-	createdAt: string;
+	questionId: string | null;
+	userId: string | null;
+	posterId: string | null;
+	createdAt: Date | null;
+	posterUsername: string | null;
+	content: string | null;
 };
 

@@ -40,7 +40,6 @@ export const FormComponent: React.FC<FormComponentProps> = ({
 	const [modalContent, setModalContent] = useState({ title: '', content: '' });
 	
 	const openModal = (type: 'terms' | 'privacy') => {
-		console.log(type);
 		if (type === 'terms') {
 			setModalContent({
 				title: 'Terms of Use',

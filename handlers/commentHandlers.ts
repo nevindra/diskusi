@@ -3,7 +3,8 @@ import { z } from 'zod';
 export const commentSchema = z.object({
 	content: z.string().min(5, 'Comment must be at least 5 characters'),
     poster_id: z.string().optional(),
-    question_id: z.string().optional(),
+    question_id: z.string(),
+	username: z.string(),
 });
 
 export type CommentFormData = z.infer<typeof commentSchema>;
@@ -36,7 +37,6 @@ export async function postComment(
 export async function getComments(question_id: string) {
     try {
         const response = await fetch(`/api/comments?question_id=${question_id}`);
-
         if (!response.ok) {
             const errorData = await response.json();
             throw new Error(errorData.message || 'Failed to fetch comments');

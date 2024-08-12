@@ -30,6 +30,7 @@ export async function GET(
 				content: QuestionsTable.content,
 				createdAt: QuestionsTable.createdAt,
 				posterId: QuestionsTable.posterId,
+				isAnon: QuestionsTable.isAnon,
 				likeCount: sql<number>`COALESCE((
                         SELECT COUNT(*)
                         FROM ${LikesTable}
@@ -74,7 +75,7 @@ export async function GET(
 			createdAt: questionResult[0].createdAt
 				? questionResult[0].createdAt.toISOString()
 				: '',
-			isLiked: false, // You'll need to implement this based on the current user
+			isLiked: false,
 		};
 
 		return NextResponse.json(question);

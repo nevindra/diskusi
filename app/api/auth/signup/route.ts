@@ -1,15 +1,6 @@
-import { checkSupabaseConnection, supabase } from '@/database/initDB';
+import { supabase } from '@/database/initDB';
 import { NextResponse } from 'next/server';
 
-export async function GET() {
-	const isConnected = checkSupabaseConnection();
-	if (!isConnected) {
-		console.log('Supabase connection not established');
-	} else {
-		console.log('Supabase connection established');
-	}
-	return NextResponse.json({ message: 'API is working' }, { status: 200 });
-}
 
 export async function POST(request: Request) {
 	try {

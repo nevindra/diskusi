@@ -69,6 +69,7 @@ export default function QuestionPage({
 					<Card key={question.questionId} className="p-2 sm:p-4">
 						{/* Question Header is for the user avatar and post metadata */}
 						<QuestionHeader
+							isAnon={question.isAnon}
 							posterId={question.posterId}
 							posterUsername={question.posterUsername}
 							createdAt={question.createdAt}
@@ -107,6 +108,7 @@ export default function QuestionPage({
 								questionId={question.questionId}
 								user={user}
 								isSingleQuestion={true}
+								username={params.slug}
 							/>
 						</CardFooter>
 						{/* Share Modal is for the share button */}

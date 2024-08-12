@@ -24,7 +24,8 @@ export const QuestionHeader = ({
 	username,
 	questionId,
 	user,
-	avatarUrl
+	avatarUrl,
+	isAnon
 }: {
 	posterId: string | null;
 	posterUsername: string;
@@ -33,12 +34,12 @@ export const QuestionHeader = ({
 	user: UserType | null | undefined;
 	questionId: string;
 	avatarUrl: string | null;
+	isAnon: boolean | null;
 }) => {
 	const { isOpen, onOpen, onOpenChange } = useDisclosure();
 	const isUser = user?.username === username;
 	const queryClient = useQueryClient();
 	const [errorMessage, setErrorMessage] = useState<string | null>(null);
-
 	
 	const mutation = useMutation({
 		mutationFn: () => deleteQuestion(questionId),
@@ -58,10 +59,10 @@ export const QuestionHeader = ({
 	return (
 		<CardHeader className="grid grid-cols-2 gap-2 items-center pb-2">
 			<div className="flex items-center space-x-2 xs:space-x-4">
-				<Avatar radius="full" size="sm" src={avatar || '/user.png'} />
+				<Avatar radius="full" size="sm" src={isAnon ? '/user.png' : avatar || '/user.png'} />
 				<div>
 					<p className="font-semibold text-primary text-sm sm:text-base">
-						{posterId === null ? 'Anonymous' : posterUsername}
+						{posterId === null ? 'Anonymous' : isAnon ? 'Anonymous' : posterUsername}
 					</p>
 					<p className="text-xs sm:text-sm text-default-500">
 						{formatDistanceToNow(parseISO(createdAt), {

@@ -32,10 +32,10 @@ export default function TermsOfUsePage() {
 					Website. You retain all ownership rights in your content.
 				</p>
 				<p className="mt-4 text-sm text-secondary">
-					5. Data Collection in BETA Mode
+					5. Data Collection
 				</p>
 				<p className="mt-4 text-sm text-secondary">
-					While in BETA mode, we will collect data from users to improve the
+					We will collect data from users to improve the
 					application. The data collected will include your personal informaton,
 					your patterns of use, and your interactions with the Website. We will
 					not sell your data to any third party. The data will be used solely

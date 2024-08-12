@@ -21,7 +21,6 @@ export const NavigationTop = () => {
 			<MobileNavContent isMenuOpen={isMenuOpen} />
 			<NavbarBrand />
 			<NavbarMenu
-				isMenuOpen={isMenuOpen}
 				setIsMenuOpen={setIsMenuOpen}
 				user={user}
 				isUnauthenticated={isUnauthenticated}

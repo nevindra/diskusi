@@ -13,7 +13,7 @@ export default function PrivacyPolicyPage() {
 					2. Information We Collect
 				</p>
 				<p className="mt-4 text-sm text-secondary">
-					Personal Information: While in BETA mode, we may collect personal
+					Personal Information: We may collect personal
 					information such as your name, email address, and any other
 					information you provide when you register or interact with the
 					Website.
@@ -31,8 +31,7 @@ export default function PrivacyPolicyPage() {
 					3. How We Use Your Information
 				</p>
 				<p className="mt-4 text-sm text-secondary">
-					To improve and develop our Website and services during the BETA
-					phase.
+					To improve and develop our Website and services.
 				</p>
 				<p className="mt-4 text-sm text-secondary">
 					To respond to your inquiries and provide customer support.

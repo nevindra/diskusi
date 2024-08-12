@@ -9,7 +9,6 @@ export const useLikeMutation = (
 	username: string
 ) => {
 	const queryClient = useQueryClient();
-	console.log('questionid',questionId);
 	
 	const likeMutation = useMutation({
 		mutationFn: () =>

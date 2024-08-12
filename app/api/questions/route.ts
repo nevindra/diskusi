@@ -12,7 +12,7 @@ import { NextResponse } from 'next/server';
 // POST API to create a new question
 // The Url is /api/questions
 export async function POST(request: Request) {
-	const { question, usernameId, posterId, images } = await request.json();
+	const { question, usernameId, posterId, images, isAnon } = await request.json();
 
 	if (!question) {
 		return NextResponse.json(
@@ -66,6 +66,7 @@ export async function POST(request: Request) {
 				userId: userId[0].id,
 				posterId: posterId? posterId : null,
 				imageUrls: imageUrls.length > 0 ? imageUrls : null,
+				isAnon: isAnon,
 			})
 			.returning();
 

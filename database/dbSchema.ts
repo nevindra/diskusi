@@ -1,17 +1,21 @@
 import {
+	boolean,
 	jsonb,
 	pgTable,
 	text,
 	timestamp,
 	uniqueIndex,
 	uuid,
-	varchar
+	varchar,
 } from 'drizzle-orm/pg-core';
 
 export const UsersTable = pgTable('users', {
 	id: uuid('id')
 		.primaryKey()
-		.references(() => authUsers.id),
+		.references(() => authUsers.id, {
+			onDelete: 'cascade',
+			onUpdate: 'cascade',
+		}),
 	username: varchar('username', { length: 21 }).notNull(),
 	email: varchar('email', { length: 36 }).notNull(),
 	bio: text('bio'),
@@ -22,21 +26,36 @@ export const QuestionsTable = pgTable('questions', {
 	questionId: varchar('question_id', { length: 36 }).primaryKey(), // nanoid default length
 	userId: uuid('user_id')
 		.notNull()
-		.references(() => UsersTable.id),
-	posterId: uuid('poster_id').references(() => UsersTable.id),
+		.references(() => UsersTable.id, {
+			onUpdate: 'cascade',
+			onDelete: 'cascade',
+		}),
+	posterId: uuid('poster_id').references(() => UsersTable.id, {
+		onUpdate: 'cascade',
+		onDelete: 'cascade',
+	}),
 	content: text('content').notNull(),
 	imageUrls: jsonb('image_urls'),
 	createdAt: timestamp('created_at').defaultNow(),
+	isAnon: boolean('is_anon').default(true),
 });
 
 export const CommentsTable = pgTable('comments', {
 	commentId: varchar('comment_id', { length: 36 }).primaryKey(), // nanoid default length
 	questionId: varchar('question_id', { length: 36 }).references(
-		() => QuestionsTable.questionId
+		() => QuestionsTable.questionId,
+		{ onDelete: 'cascade', onUpdate: 'cascade' }
 	),
 	userId: uuid('user_id')
 		.notNull()
-		.references(() => UsersTable.id),
+		.references(() => UsersTable.id, {
+			onUpdate: 'cascade',
+			onDelete: 'cascade',
+		}),
+	posterId: uuid('poster_id').references(() => UsersTable.id, {
+		onUpdate: 'cascade',
+		onDelete: 'cascade',
+	}),
 	content: text('content').notNull(),
 	createdAt: timestamp('created_at').defaultNow(),
 });
@@ -47,9 +66,13 @@ export const LikesTable = pgTable(
 		likeId: uuid('like_id').defaultRandom().primaryKey(),
 		userId: uuid('user_id')
 			.notNull()
-			.references(() => UsersTable.id),
+			.references(
+				() => UsersTable.id,
+				{ onDelete: 'cascade', onUpdate: 'cascade' }
+			),
 		questionId: varchar('question_id', { length: 36 }).references(
-			() => QuestionsTable.questionId
+			() => QuestionsTable.questionId,
+			{ onDelete: 'cascade', onUpdate: 'cascade' }
 		),
 		createdAt: timestamp('created_at').defaultNow(),
 	},
@@ -63,26 +86,13 @@ export const LikesTable = pgTable(
 	}
 );
 
-export const SharesTable = pgTable('shares', {
-	shareId: uuid('share_id').defaultRandom().primaryKey(),
-	userId: uuid('user_id')
-		.notNull()
-		.references(() => UsersTable.id),
-	questionId: varchar('question_id', { length: 21 }).references(
-		() => QuestionsTable.questionId
-	),
-	createdAt: timestamp('created_at').defaultNow(),
-});
-
 export type InsertQuestion = typeof QuestionsTable.$inferInsert;
 export type InsertComment = typeof CommentsTable.$inferInsert;
 export type InsertLike = typeof LikesTable.$inferInsert;
-export type InsertShare = typeof SharesTable.$inferInsert;
 
 export type SelectQuestion = typeof QuestionsTable.$inferSelect;
 export type SelectComment = typeof CommentsTable.$inferSelect;
 export type SelectLike = typeof LikesTable.$inferSelect;
-export type SelectShare = typeof SharesTable.$inferSelect;
 
 // This represents the Supabase Auth users table
 // Note: This is for reference only and won't be used for direct queries

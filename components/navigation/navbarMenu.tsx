@@ -1,3 +1,4 @@
+import { useAnon } from '@/hooks/useAnon';
 import type { UserType } from '@/types/userType';
 import { Divider } from '@nextui-org/divider';
 import { Link } from '@nextui-org/link';
@@ -5,9 +6,9 @@ import {
 	NavbarMenuItem,
 	NavbarMenu as NextUINavbarMenu,
 } from '@nextui-org/navbar';
+import { Switch } from '@nextui-org/switch';
 
 type NavbarMenuProps = {
-	isMenuOpen: boolean;
 	setIsMenuOpen: (isOpen: boolean) => void;
 	user: UserType | null | undefined;
 	isUnauthenticated: boolean;
@@ -15,13 +16,13 @@ type NavbarMenuProps = {
 };
 
 export const NavbarMenu = ({
-	isMenuOpen,
 	setIsMenuOpen,
 	user,
 	isUnauthenticated,
 	logout,
 }: NavbarMenuProps) => {
 	const closeMenu = () => setIsMenuOpen(false);
+	const { isAnon, toggleAnon } = useAnon();
 
 	return (
 		<NextUINavbarMenu>
@@ -69,6 +70,16 @@ export const NavbarMenu = ({
 			) : (
 				<>
 					<NavbarMenuItem>
+						<Switch
+							aria-label="Hide Profile"
+							isSelected={isAnon}
+							onChange={toggleAnon}
+						>
+							<p className="text-sm">Hide Profile</p>
+						</Switch>
+					</NavbarMenuItem>
+					<Divider />
+					<NavbarMenuItem>
 						<Link
 							className="w-full"
 							href="/explore"
@@ -86,7 +97,7 @@ export const NavbarMenu = ({
 							size="lg"
 							onPress={closeMenu}
 						>
-							Question Profile
+							My Questions
 						</Link>
 					</NavbarMenuItem>
 					<Divider />

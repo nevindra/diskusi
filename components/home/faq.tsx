@@ -64,8 +64,9 @@ export default function FAQ() {
 					title="Is this the final version of the application?"
 				>
 					<p className="font-thin">
-						No, this application is still in BETA stage. We're actively working
-						on improving the app and adding new features based on user feedback.
+						No, this application will continue to evolve and improve based on
+						user feedback. We're actively working on adding new features and
+						enhancing the user experience.
 					</p>
 				</AccordionItem>
 				<AccordionItem
