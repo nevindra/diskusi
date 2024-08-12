@@ -68,10 +68,9 @@ export const CommentInput = ({
 	};
 	return (
 		<form
-			className="flex items-center space-x-2 mt-2"
+			className="flex flex-col space-y-2 mt-2"
 			onSubmit={handleSubmit(onSubmit, (errors) => console.log(errors))}
 		>
-			{/* <Avatar size="sm" src={'/user.png'} className="hidden xs:flex" /> */}
 			<Controller
 				name="content"
 				control={control}
@@ -93,11 +92,7 @@ export const CommentInput = ({
 			{errors.root && (
 				<div className="text-red-500 mb-3">{errors.root.message}</div>
 			)}
-			{user ? (
-				<Button type="submit" variant="bordered" color="primary" size="sm">
-					Post
-				</Button>
-			) : (
+			<div className="flex justify-end">
 				<Button
 					isLoading={isSubmitting}
 					type="submit"
@@ -108,7 +103,7 @@ export const CommentInput = ({
 				>
 					Post
 				</Button>
-			)}
+			</div>
 		</form>
 	);
 };

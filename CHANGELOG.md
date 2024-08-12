@@ -2,10 +2,13 @@
 Features:
  - Add hide my profile switch in the navbar
  - Add feature to hide profile when user logged in and ask questions
+ - Add button for upload image
   
 Minor changes:
  - Add id for the profile user when someone is commenting
  - Minor improvement in the profile section
+ - Move the question box to always show
+  
 ## 1.2.5 (11-08-2024)
 Features:
  - Add share button for profile card

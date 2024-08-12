@@ -21,16 +21,13 @@ export default function ProfilePage({ params }: { params: { slug: string } }) {
 	const { user, isLoading, questions, isError } =
 		useProfileData(currentUsername);
 	
-  const [isQuestionBoxOpen, setIsQuestionBoxOpen] = useState(false);
+  
 	const [showComments, setShowComments] = useState<Record<string, boolean>>({});
 	const [isShareModalOpen, setIsShareModalOpen] = useState<
 		Record<string, boolean>
 	>({});
 
-	const toggleQuestionBox = useCallback(
-		() => setIsQuestionBoxOpen((prev) => !prev),
-		[]
-	);
+
 	const toggleComments = useCallback((questionId: string) => {
 		setShowComments((prev) => ({ ...prev, [questionId]: !prev[questionId] }));
 	}, []);
@@ -51,16 +48,12 @@ export default function ProfilePage({ params }: { params: { slug: string } }) {
       <div className="mt-4">
 				<UserProfileBox
 					username={currentUsername}
-					onToggleQuestionBox={toggleQuestionBox}
           isSingleQuestion={false}
 				/>
 			</div>
-			{/* Question Box */}
-			{isQuestionBoxOpen && (
-        <div className="mt-4">
+      <div className="mt-4">
 					<QuestionBox username={currentUsername} user={user} />
 				</div>
-			)}
 
 			{/* Question List Box */}
       <div className="flex flex-col w-full space-y-4 mt-4">

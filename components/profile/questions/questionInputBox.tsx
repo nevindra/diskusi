@@ -12,8 +12,8 @@ import { useAnon } from '@/hooks/useAnon';
 import { usePastedImages } from '@/hooks/usePasteImage';
 import { useTempQuestionStore } from '@/state/questionState';
 import type { UserType } from '@/types/userType';
-
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Image as ImageIcon } from '@phosphor-icons/react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import type { AxiosError } from 'axios';
 import Image from 'next/image';
@@ -123,7 +123,6 @@ export const QuestionBox = ({
 							<Textarea
 								{...field}
 								variant={'bordered'}
-								label="Ask your question"
 								labelPlacement="outside"
 								placeholder="Enter your question"
 								disableAnimation
@@ -166,7 +165,15 @@ export const QuestionBox = ({
 						))}
 					</div>
 				)}
-				<div className="flex justify-end px-4 py-1">
+				<div className="flex justify-end px-4 py-1 gap-1">
+					<Button
+						type="button"
+						variant="light"
+						color="primary"
+						size="sm"
+					>
+						<ImageIcon />
+					</Button>
 					<Button
 						isLoading={isPending}
 						type="submit"

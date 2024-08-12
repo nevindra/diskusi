@@ -1,17 +1,21 @@
 import { z } from 'zod';
 
 export const commentSchema = z.object({
-	content: z.string().min(5, 'Comment must be at least 5 characters'),
-    poster_id: z.string().optional(),
-    question_id: z.string(),
+	content: z
+		.string()
+		.min(5, 'Comment must be at least 5 characters')
+		.refine(
+			(val) => val.trim().length > 0,
+			'Question cannot be just whitespace'
+		),
+	poster_id: z.string().optional(),
+	question_id: z.string(),
 	username: z.string(),
 });
 
 export type CommentFormData = z.infer<typeof commentSchema>;
 
-export async function postComment(
-	data: CommentFormData,
-): Promise<void> {
+export async function postComment(data: CommentFormData): Promise<void> {
 	try {
 		const response = await fetch(
 			`/api/comments?question_id=${data.question_id}`,
@@ -30,19 +34,23 @@ export async function postComment(
 		}
 		return await response.json(); // Assuming the response contains data
 	} catch (error) {
-		throw error instanceof Error ? error : new Error('An unknown error occurred');
+		throw error instanceof Error
+			? error
+			: new Error('An unknown error occurred');
 	}
 }
 
 export async function getComments(question_id: string) {
-    try {
-        const response = await fetch(`/api/comments?question_id=${question_id}`);
-        if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.message || 'Failed to fetch comments');
-        }
-        return await response.json();
-    } catch (error) {
-        throw error instanceof Error ? error : new Error('An unknown error occurred');
-    }
+	try {
+		const response = await fetch(`/api/comments?question_id=${question_id}`);
+		if (!response.ok) {
+			const errorData = await response.json();
+			throw new Error(errorData.message || 'Failed to fetch comments');
+		}
+		return await response.json();
+	} catch (error) {
+		throw error instanceof Error
+			? error
+			: new Error('An unknown error occurred');
+	}
 }

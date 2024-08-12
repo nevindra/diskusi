@@ -1,19 +1,22 @@
 import { getUserByUsername } from '@/handlers/userHandlers';
 import { Avatar } from '@nextui-org/avatar';
-import { Button } from '@nextui-org/button';
 import { Card, CardBody } from '@nextui-org/card';
 import { MapPin } from '@phosphor-icons/react/dist/ssr';
 import { useQuery } from '@tanstack/react-query';
 import Image from 'next/image';
 
 import dynamic from 'next/dynamic';
-const ShareButton = dynamic(() => import('@/components/profile/shareProfileModal'), { ssr: false });
+const ShareButton = dynamic(
+	() => import('@/components/profile/shareProfileModal'),
+	{ ssr: false }
+);
 
 export const UserProfileBox = ({
 	username,
-	onToggleQuestionBox,
-	isSingleQuestion,
-}: { username: string; onToggleQuestionBox: () => void, isSingleQuestion: boolean }) => {
+}: {
+	username: string;
+	isSingleQuestion: boolean;
+}) => {
 	const { data: user } = useQuery({
 		queryKey: ['userProfile', username],
 		queryFn: () => getUserByUsername(username),
@@ -56,29 +59,19 @@ export const UserProfileBox = ({
 
 				<CardBody className="px-4 pt-10 pb-4">
 					{/* User Info */}
-					<div>
-						<h2 className="text-xl font-bold">{user?.username}</h2>
-						<p className="text-sm text-default-600 mt-1">{user?.bio}</p>
-						<p className="text-sm text-default-500 flex items-center gap-1 mt-1">
-							<MapPin /> Indonesia
-						</p>
-					</div>
+					<div className="flex justify-between">
+						<div>
+							<h2 className="text-xl font-bold">{user?.username}</h2>
 
-					{/* Buttons */}
-					{!isSingleQuestion ? (
-						<div className="flex gap-2 mt-4">
-						<Button
-							color="primary"
-							variant="solid"
-							fullWidth
-							onClick={onToggleQuestionBox}
-							className="text-sm w-3/4"
-						>
-							Ask Question
-						</Button>
+							<p className="text-sm text-default-600 mt-1">
+								{user?.bio || 'No bio yet, here to answer your questions!'}
+							</p>
+							<p className="text-sm text-default-500 flex items-center gap-1 mt-1">
+								<MapPin /> Indonesia
+							</p>
+						</div>
 						<ShareButton username={username} />
 					</div>
-					) : ''}
 				</CardBody>
 			</Card>
 		</>

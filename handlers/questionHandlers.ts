@@ -3,7 +3,8 @@ import { z } from 'zod';
 
 export const QuestionSchema = z.object({
 	questionId: z.string().optional(),
-	question: z.string().min(5, 'Question must be at least 5 characters'),
+	question: z.string().min(5, 'Question must be at least 5 characters')
+	.refine((val) => val.trim().length > 0, 'Question cannot be just whitespace'),
 	usernameId: z.string(),
 	posterId: z.string().optional(),
 	images: z.array(z.string()).optional(),

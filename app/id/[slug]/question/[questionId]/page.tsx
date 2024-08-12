@@ -26,7 +26,7 @@ export default function QuestionPage({
 	const [showComments, setShowComments] = useState(false);
 	const [isShareModalOpen, setIsShareModalOpen] = useState(false);
 
-	const toggleQuestionBox = () => {}
+	
 
 	if (isLoading) return <SkeltonProfile />;
 	
@@ -34,7 +34,7 @@ export default function QuestionPage({
 		<div className="flex flex-col items-center justify-center md:m-8 lg:m-10">
 			{/* Main Card */}
 			<div className="w-full xl:w-[70%] px-3 lg:px-0">
-				<UserProfileBox username={params.slug} onToggleQuestionBox={toggleQuestionBox} isSingleQuestion={true} />
+				<UserProfileBox username={params.slug} isSingleQuestion={true} />
 			</div>
 			<div className="w-full xl:w-[70%] px-3 lg:px-0 flex justify-start">
 				<button

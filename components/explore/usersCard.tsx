@@ -25,7 +25,7 @@ export const UsersCard = ({
 						<Link href={`/id/${username}`}>{username}</Link>
 					</p>
 					<p className="text-sm text-secondary text-center">
-						{bio ? bio : 'No bio provided'}
+						{bio ? bio : 'No bio yet, here to answer your questions!'}
 					</p>
 				</CardBody>
 			</Card>
