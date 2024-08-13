@@ -3,8 +3,13 @@ import { z } from 'zod';
 
 export const QuestionSchema = z.object({
 	questionId: z.string().optional(),
-	question: z.string().min(5, 'Question must be at least 5 characters')
-	.refine((val) => val.trim().length > 0, 'Question cannot be just whitespace'),
+	question: z
+		.string()
+		.min(5, 'Question must be at least 5 characters')
+		.refine(
+			(val) => val.trim().length > 0,
+			'Question cannot be just whitespace'
+		),
 	usernameId: z.string(),
 	posterId: z.string().optional(),
 	images: z.array(z.string()).optional(),
@@ -13,32 +18,27 @@ export const QuestionSchema = z.object({
 
 export type QuestionFormData = z.infer<typeof QuestionSchema>;
 
-export async function postQuestion(
-	data: Omit<QuestionFormData, 'question_id'>
-): Promise<void> {
+export async function postQuestion(data: FormData): Promise<void> {
 	try {
 		const response = await fetch('/api/questions', {
 			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify(data),
+			body: data,
 		});
 
-		// Check if the response status is not 2xx
 		if (!response.ok) {
 			const errorData = await response.json();
 			throw new Error(errorData.message || 'Failed to post question');
 		}
-		return await response.json(); // Assuming the response contains data
+		return await response.json();
 	} catch (error) {
 		throw error instanceof Error
 			? error
 			: new Error('An unknown error occurred');
 	}
 }
-
-export async function getQuestionsByUsername(username: string): Promise<QuestionsType[]> {
+export async function getQuestionsByUsername(
+	username: string
+): Promise<QuestionsType[]> {
 	try {
 		const response = await fetch(`/api/users/${username}/questions`);
 

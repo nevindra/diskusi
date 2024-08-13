@@ -31,6 +31,7 @@ export async function GET(
 				createdAt: QuestionsTable.createdAt,
 				posterId: QuestionsTable.posterId,
 				isAnon: QuestionsTable.isAnon,
+				imageUrls: QuestionsTable.imageUrls,
 				likeCount: sql<number>`COALESCE((
                         SELECT COUNT(*)
                         FROM ${LikesTable}

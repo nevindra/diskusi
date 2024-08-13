@@ -2,6 +2,7 @@
 
 import { CommentSection } from '@/components/profile/commentSection';
 import { QuestionActions } from '@/components/profile/questions/questionActions';
+import { QuestionBody } from '@/components/profile/questions/questionBody';
 import { QuestionHeader } from '@/components/profile/questions/questionHeader';
 import { ShareModal } from '@/components/profile/questions/questionShare';
 import { QuestionStats } from '@/components/profile/questions/questionStats';
@@ -11,6 +12,8 @@ import { useQuestionData } from '@/hooks/useQuestions';
 import { Button } from '@nextui-org/button';
 import { Card, CardBody, CardFooter } from '@nextui-org/card';
 import { Divider } from '@nextui-org/divider';
+import { Image } from '@nextui-org/image';
+import { Modal, ModalBody, ModalContent } from '@nextui-org/modal'; // Import a modal component from your UI library
 import { Rewind } from '@phosphor-icons/react';
 import Link from 'next/link';
 import { useState } from 'react';
@@ -25,8 +28,15 @@ export default function QuestionPage({
 	);
 	const [showComments, setShowComments] = useState(false);
 	const [isShareModalOpen, setIsShareModalOpen] = useState(false);
-
+	const [selectedImage, setSelectedImage] = useState<string | null>(null);
 	
+	const handleImageClick = (imageUrl: string) => {
+		setSelectedImage(imageUrl);
+	};
+
+	const handleCloseModal = () => {
+		setSelectedImage(null);
+	};
 
 	if (isLoading) return <SkeltonProfile />;
 	
@@ -79,9 +89,11 @@ export default function QuestionPage({
 							username={params.slug}
 						/>
 						<CardBody className="py-1 sm:py-2">
-							<p className="text-sm sm:text-base">
-								{question.content}
-							</p>
+							<QuestionBody
+								content={question.content}
+								imageUrls={question.imageUrls || []}
+								onImageClick={handleImageClick}
+							/>
 						</CardBody>
 						<CardFooter className="flex flex-col items-start pt-1 sm:pt-2">
 							{/* Question Stats is for the likes and comments */}
@@ -122,6 +134,29 @@ export default function QuestionPage({
 					</Card>
 				)}
 			</div>
+			{selectedImage && (
+				<Modal
+					isOpen={!!selectedImage}
+					onClose={handleCloseModal}
+					backdrop="blur"
+					size="xl"
+					className="bg-transparent flex items-center shadow-none"
+					placement="center"
+				>
+					<ModalContent>
+						{(onClose) => (
+							<ModalBody className="p-0 overflow-hidden rounded-lg">
+								<Image
+									src={selectedImage || ''}
+									alt="Zoomed Image"
+									className="max-w-full max-h-[80vh] object-contain"
+									onClick={onClose}
+								/>
+							</ModalBody>
+						)}
+					</ModalContent>
+				</Modal>
+			)}
 		</div>
 	);
 }

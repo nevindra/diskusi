@@ -45,11 +45,15 @@ export const usePastedImages = () => {
 				}
 			}
 		}
+		
 	}, []);
-
+	
+	const clearPastedImages = () => {
+		setPastedImages([]);
+	};
 	const removeImage = useCallback((index: number) => {
 		setPastedImages((prevImages) => prevImages.filter((_, i) => i !== index));
 	}, []);
 
-	return { pastedImages, handlePaste, removeImage };
+	return { pastedImages, handlePaste, removeImage, clearPastedImages };
 };

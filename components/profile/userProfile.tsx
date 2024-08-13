@@ -59,10 +59,9 @@ export const UserProfileBox = ({
 
 				<CardBody className="px-4 pt-10 pb-4">
 					{/* User Info */}
-					<div className="flex justify-between">
-						<div>
+					<div className="flex">
+						<div className="flex-grow">
 							<h2 className="text-xl font-bold">{user?.username}</h2>
-
 							<p className="text-sm text-default-600 mt-1">
 								{user?.bio || 'No bio yet, here to answer your questions!'}
 							</p>
@@ -70,7 +69,9 @@ export const UserProfileBox = ({
 								<MapPin /> Indonesia
 							</p>
 						</div>
-						<ShareButton username={username} />
+						<div className="flex-shrink-0 ml-4">
+							<ShareButton username={username} />
+						</div>
 					</div>
 				</CardBody>
 			</Card>

@@ -2,7 +2,9 @@
 Features:
  - Add hide my profile switch in the navbar
  - Add feature to hide profile when user logged in and ask questions
- - Add button for upload image
+ - Add feature to upload image and paste image from clipboard to question
+ - Add feature to comment as anonymous user when user is logged in
+ - Add feature to click image to see the full image
   
 Minor changes:
  - Add id for the profile user when someone is commenting
@@ -12,7 +14,7 @@ Minor changes:
 ## 1.2.5 (11-08-2024)
 Features:
  - Add share button for profile card
- - 
+  
 Minor changes:
  - Add footer
  - Add new banner image

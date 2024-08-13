@@ -29,6 +29,9 @@ const nextConfig = {
       },
     ];
   },
+  images: {
+    domains: ["acbxjfkgfvesimpavkio.supabase.co"],
+  },
 };
 
 module.exports = nextConfig;

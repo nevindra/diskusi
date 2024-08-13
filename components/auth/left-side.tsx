@@ -38,7 +38,7 @@ export const LeftSideComponent = () => {
 				</div>
 			</div>
 			<div className="mt-12">
-				<h2 className="text-3xl font-bold"><Image src="/komunal.png" width={100} height={100} alt="Komunal App" /></h2>
+				<h2 className="text-3xl font-bold"><Image src="/komunal.png" width={100} height={100} alt="Komunal App" priority /></h2>
 			</div>
 		</div>
 	);

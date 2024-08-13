@@ -13,12 +13,12 @@ export function generateSEOMetadata({
 	title,
 	description,
 	keywords = [],
-    robots = {},
+	robots = {},
 }: {
 	title: string;
 	description: string;
 	keywords?: string[];
-    robots?: RobotsOptions;
+	robots?: RobotsOptions;
 }): Metadata {
 	const defaultKeywords = [
 		'Anonymous Q&A',
@@ -37,13 +37,28 @@ export function generateSEOMetadata({
 		'Express yourself freely',
 		'Gain new perspectives',
 		'Build online connections',
-		'YourAppName Q&A',
-		'YourAppName community',
-		'YourAppName social platform',
+		'Komunal Q&A',
+		'Tanya jawab anonim',
+		'Platform pertanyaan',
+		'Tanya jawab anonim',
+		'Platform pertanyaan',
+		'Tanyakan apa saja',
+		'Pengakuan rahasia',
+		'Anonimitas online',
+		'Jejaring sosial',
+		'Tanya jawab interaktif',
+		'Pesan pribadi',
+		'Platform berbasis rasa ingin tahu',
+		'Umpan balik jujur',
+		'Pertanyaan personal',
+		'Media sosial anonim',
+		'Pertanyaan terbuka',
+		'Tanya jawab privat',
+		'Pengakuan digital',
 	];
 
 	const allKeywords = [...new Set([...defaultKeywords, ...keywords])];
-    const robotsContent = generateRobotsContent(robots)
+	const robotsContent = generateRobotsContent(robots);
 
 	return {
 		title,
@@ -56,26 +71,26 @@ export function generateSEOMetadata({
 			siteName: 'Komunal Club - Anonymous Q&A Platform',
 			locale: 'en_US',
 			type: 'website',
-            images: [
-                {
-                    url: '/banner.png',
-                    width: 1200,
-                    height: 630,
-                },
-            ],
+			images: [
+				{
+					url: '/banner.png',
+					width: 1200,
+					height: 630,
+				},
+			],
 		},
 		twitter: {
 			card: 'summary_large_image',
 			title,
 			description,
-            images: ['https://komunal.club/banner.png'],
+			images: ['https://komunal.club/banner.png'],
 			creator: '@nezhifi',
 		},
-        icons: {
-            apple: '/apple-touch-icon.png',
-            icon: '/favicon.ico',
-        },
-        robots: robotsContent,
+		icons: {
+			apple: '/apple-touch-icon.png',
+			icon: '/favicon.ico',
+		},
+		robots: robotsContent,
 	};
 }
 

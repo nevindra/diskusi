@@ -2,12 +2,12 @@ import { Button } from '@nextui-org/button';
 import { Divider } from '@nextui-org/divider';
 import { Input } from '@nextui-org/input';
 import {
-    Modal,
-    ModalBody,
-    ModalContent,
-    ModalFooter,
-    ModalHeader,
-    useDisclosure,
+	Modal,
+	ModalBody,
+	ModalContent,
+	ModalFooter,
+	ModalHeader,
+	useDisclosure,
 } from '@nextui-org/modal';
 import { Copy, Export } from '@phosphor-icons/react/dist/ssr';
 import { useCallback } from 'react';
@@ -23,12 +23,13 @@ const ShareButton = ({ username }: { username: string }) => {
 	return (
 		<>
 			<Button
-				color="secondary"
+				color="primary"
+				size='sm'
 				onPress={onOpenChange}
 				variant="light"
-				className="text-sm w-1/4"
+				className="text-sm"
 			>
-				<Export size={15} className="text-primary" />
+				<Export size={17} className="text-primary" />
 			</Button>
 			<Modal
 				isOpen={isOpen}

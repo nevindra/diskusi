@@ -35,7 +35,7 @@ export const QuestionsTable = pgTable('questions', {
 		onDelete: 'cascade',
 	}),
 	content: text('content').notNull(),
-	imageUrls: jsonb('image_urls'),
+	imageUrls: jsonb('image_urls').$type<string[] | null>(), // Update this line
 	createdAt: timestamp('created_at').defaultNow(),
 	isAnon: boolean('is_anon').default(true),
 });

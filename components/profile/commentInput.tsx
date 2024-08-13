@@ -3,6 +3,7 @@ import {
 	commentSchema,
 	postComment,
 } from '@/handlers/commentHandlers';
+import { useAnon } from '@/hooks/useAnon';
 import type { UserType } from '@/types/userType';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from '@nextui-org/button';
@@ -27,7 +28,7 @@ export const CommentInput = ({
 		username: undefined,
 		poster_id: '',
 	};
-
+	const {isAnon} = useAnon();
 	const queryClient = useQueryClient();
 	const {
 		control,
@@ -43,10 +44,11 @@ export const CommentInput = ({
 
 	useEffect(() => {
 		setValue('username', username);
-		setValue('poster_id', user?.id ?? undefined);
 		setValue('question_id', question_id);
-	}, [user, question_id, username, setValue]);
-	console.log('UserID, QuestionID, Username', user?.id, question_id, username);
+		!isAnon ? setValue('poster_id', user?.id ?? undefined) : setValue('poster_id', '');
+	}, [isAnon, user, question_id, username, setValue]);
+
+
 	const mutation = useMutation({
 		mutationFn: postComment,
 		onSuccess: () => {

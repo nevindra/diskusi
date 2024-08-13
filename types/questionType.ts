@@ -7,6 +7,7 @@ export type QuestionsType = {
 	createdAt: string;
 	likeCount: number;
 	commentCount: number;
+	imageUrls: string[] | null;
 	isLiked: boolean;
 	isAnon: boolean | null;
 	likedUserIds: string[];

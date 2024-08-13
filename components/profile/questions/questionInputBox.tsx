@@ -17,7 +17,7 @@ import { Image as ImageIcon } from '@phosphor-icons/react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import type { AxiosError } from 'axios';
 import Image from 'next/image';
-import { useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
 export const QuestionBox = ({
@@ -29,7 +29,9 @@ export const QuestionBox = ({
 }) => {
 	const queryClient = useQueryClient();
 	const { setQuestion, getQuestion, clearQ } = useTempQuestionStore();
-	const { pastedImages, handlePaste, removeImage } = usePastedImages();
+	const { pastedImages, handlePaste, removeImage, clearPastedImages } =
+		usePastedImages();
+	const [uploadedImages, setUploadedImages] = useState<File[]>([]);
 	const { isAnon } = useAnon();
 
 	const defaultValues = {
@@ -40,6 +42,23 @@ export const QuestionBox = ({
 		isAnon: isAnon ?? true,
 	};
 
+	const fileInputRef = useRef<HTMLInputElement>(null);
+	const handleFileUpload = () => {
+		if (fileInputRef.current) {
+			fileInputRef.current.click();
+		}
+	};
+
+	const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const files = event.target.files;
+		if (files && files.length > 0) {
+			setUploadedImages((prev) => [...prev, ...Array.from(files)]);
+		}
+	};
+
+	const removeUploadedImage = (index: number) => {
+		setUploadedImages((prev) => prev.filter((_, i) => i !== index));
+	};
 	const {
 		control,
 		handleSubmit,
@@ -76,6 +95,8 @@ export const QuestionBox = ({
 				posterId: user?.id || '',
 				images: [],
 			});
+			clearPastedImages();
+			setUploadedImages([]);
 		},
 		onError: (error: AxiosError) => {
 			console.error('error:', error.message);
@@ -87,29 +108,32 @@ export const QuestionBox = ({
 	});
 
 	const onSubmit = async (data: QuestionFormData) => {
-		// Convert pasted images to base64 strings
+		// Combine pastedImages and uploadedImages
+		const allImages = [...pastedImages, ...uploadedImages];
+
+		// Convert all images to base64 strings
 		const imagesData = await Promise.all(
-			pastedImages.map(async (file) => {
+			allImages.map(async (file) => {
 				return new Promise<string>((resolve, reject) => {
-					// Create a new FileReader instance
 					const reader = new FileReader();
-
-					// Set up the onloadend event handler
-					reader.onloadend = () => {
-						// When the file is read, resolve the promise with the result (base64 string)
-						resolve(reader.result as string);
-					};
-
-					// Set up the onerror event handler
+					reader.onloadend = () => resolve(reader.result as string);
 					reader.onerror = reject;
-
-					// Start reading the file as a data URL (base64)
 					reader.readAsDataURL(file);
 				});
 			})
 		);
 
-		mutate({ ...data, images: imagesData });
+		// Create FormData object
+		const formData = new FormData();
+		formData.append('question', data.question);
+		formData.append('usernameId', data.usernameId);
+		formData.append('posterId', data.posterId || '');
+		formData.append('isAnon', data.isAnon.toString());
+		imagesData.forEach((base64Image, index) => {
+			formData.append(`image${index}`, base64Image);
+		});
+
+		mutate(formData);
 	};
 
 	return (
@@ -143,20 +167,25 @@ export const QuestionBox = ({
 				{errors.root && (
 					<div className="text-red-500 mb-3">{errors.root.message}</div>
 				)}
-				{pastedImages.length > 0 && (
-					<div className="mb-3 flex flex-wrap gap-2">
-						{pastedImages.map((file, index) => (
+				{(pastedImages.length > 0 || uploadedImages.length > 0) && (
+					<div className="m-3 flex flex-wrap gap-2 ">
+						{[...pastedImages, ...uploadedImages].map((file, index) => (
 							<div key={index} className="relative">
 								<Image
 									src={URL.createObjectURL(file)}
-									alt={`Pasted image ${index + 1}`}
+									alt={`Image ${index + 1}`}
 									width={100}
 									height={100}
-									objectFit="cover"
 								/>
 								<button
 									type="button"
-									onClick={() => removeImage(index)}
+									onClick={() => {
+										if (index < pastedImages.length) {
+											removeImage(index);
+										} else {
+											removeUploadedImage(index - pastedImages.length);
+										}
+									}}
 									className="absolute top-0 right-0 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center"
 								>
 									×
@@ -165,12 +194,19 @@ export const QuestionBox = ({
 						))}
 					</div>
 				)}
+				<input
+					type="file"
+					ref={fileInputRef}
+					style={{ display: 'none' }}
+					onChange={handleFileChange}
+				/>
 				<div className="flex justify-end px-4 py-1 gap-1">
 					<Button
 						type="button"
 						variant="light"
 						color="primary"
 						size="sm"
+						onClick={handleFileUpload}
 					>
 						<ImageIcon />
 					</Button>

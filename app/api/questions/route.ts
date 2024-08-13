@@ -12,7 +12,11 @@ import { NextResponse } from 'next/server';
 // POST API to create a new question
 // The Url is /api/questions
 export async function POST(request: Request) {
-	const { question, usernameId, posterId, images, isAnon } = await request.json();
+	const formData = await request.formData();
+	const question = formData.get('question') as string;
+	const usernameId = formData.get('usernameId') as string;
+	const posterId = formData.get('posterId') as string;
+	const isAnon = formData.get('isAnon') === 'true';
 
 	if (!question) {
 		return NextResponse.json(
@@ -35,27 +39,25 @@ export async function POST(request: Request) {
 	try {
 		const imageUrls: string[] = [];
 		// Upload images to Supabase storage if present
-		if (images && images.length > 0) {
-			for (const image of images) {
-				const { data, error } = await supabase.storage
-					.from('question-images')
-					.upload(
-						`${questionId}/${nanoid()}.jpg`,
-						Buffer.from(image.split(',')[1], 'base64'),
-						{
-							contentType: 'image/jpeg',
-						}
-					);
+		for (let i = 0; formData.get(`image${i}`); i++) {
+			const base64Image = formData.get(`image${i}`) as string;
+			const { data, error } = await supabase.storage
+				.from('question-images')
+				.upload(
+					`${questionId}/${nanoid()}.jpg`,
+					Buffer.from(base64Image.split(',')[1], 'base64'),
+					{
+						contentType: 'image/jpeg',
+					}
+				);
 
-				if (error) throw error;
+			if (error) throw error;
 
-				const {
-					data: { publicUrl },
-				} = supabase.storage.from('question-images').getPublicUrl(data.path);
+			const {
+				data: { publicUrl },
+			} = supabase.storage.from('question-images').getPublicUrl(data.path);
 
-				imageUrls.push(publicUrl);
-
-			}
+			imageUrls.push(publicUrl);
 		}
 
 		const newQuestion = await db
@@ -64,7 +66,7 @@ export async function POST(request: Request) {
 				questionId: questionId,
 				content: question,
 				userId: userId[0].id,
-				posterId: posterId? posterId : null,
+				posterId: posterId ? posterId : null,
 				imageUrls: imageUrls.length > 0 ? imageUrls : null,
 				isAnon: isAnon,
 			})
@@ -102,14 +104,33 @@ export async function DELETE(request: Request) {
 		// Start a transaction
 		await db.transaction(async (trx) => {
 			// Check if the question exists
-			const questionExists = await trx
-				.select({ id: QuestionsTable.questionId })
+			const question = await trx
+				.select({
+					id: QuestionsTable.questionId,
+					imageUrls: QuestionsTable.imageUrls,
+				})
 				.from(QuestionsTable)
 				.where(eq(QuestionsTable.questionId, questionId))
 				.limit(1);
 
-			if (questionExists.length === 0) {
+			if (question.length === 0) {
 				throw new Error('Question not found');
+			}
+
+			// Delete images from Supabase storage
+			if (question[0].imageUrls) {
+				const imagePaths = question[0].imageUrls.map((url) => {
+					const parts = url.split('/');
+					return `${questionId}/${parts[parts.length - 1]}`;
+				});
+
+				const { data, error } = await supabase.storage
+					.from('question-images')
+					.remove(imagePaths);
+
+				if (error) {
+					console.error('Error deleting images from storage:', error);
+				}
 			}
 
 			// Delete related comments and likes

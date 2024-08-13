@@ -16,7 +16,6 @@ export async function POST(request: Request) {
 			{ status: 400 }
 		);
 	}
-	console.log('Data from FE', content, poster_id, username);
 	const userId = await db
 		.select()
 		.from(UsersTable)
@@ -79,7 +78,6 @@ export async function GET(request: Request) {
 			.leftJoin(PosterUsers, eq(CommentsTable.posterId, PosterUsers.id))
 			.where(eq(CommentsTable.questionId, questionId))
 			.orderBy(asc(CommentsTable.createdAt));
-			console.log(comments)
 		return NextResponse.json(comments);
 	} catch (error) {
 		console.error('Error fetching comments:', error);

@@ -10,9 +10,9 @@ import Script from 'next/script';
 import { Providers } from './providers';
 
 export const metadata = generateSEOMetadata({
-	title: 'Komunal - Anonymous Q&A Platform',
+	title: 'Komunal - Ask and get answers on various topics',
 	description:
-		'Platform to ask and get answers on various topics. Explore new knowledge every day.',
+		'Platform to ask and get answers on various topics. Explore new knowledge every day. Ask questions anonymously.',
     robots: {
         index: true,
         follow: true,
