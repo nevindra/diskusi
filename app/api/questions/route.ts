@@ -1,10 +1,10 @@
 import {
 	CommentsTable,
 	LikesTable,
-	QuestionsTable,
-	UsersTable,
+	QuestionsTable
 } from '@/database/dbSchema';
-import { db, supabase } from '@/database/initDB';
+import { db } from '@/database/initDB';
+import { createClient } from '@/database/server';
 import { eq } from 'drizzle-orm';
 import { customAlphabet } from 'nanoid';
 import { NextResponse } from 'next/server';
@@ -17,7 +17,7 @@ export async function POST(request: Request) {
 	const usernameId = formData.get('usernameId') as string;
 	const posterId = formData.get('posterId') as string;
 	const isAnon = formData.get('isAnon') === 'true';
-
+	
 	if (!question) {
 		return NextResponse.json(
 			{ message: 'Missing required fields' },
@@ -30,18 +30,13 @@ export async function POST(request: Request) {
 	);
 	const questionId = nanoid();
 
-	const userId = await db
-		.select()
-		.from(UsersTable)
-		.where(eq(UsersTable.username, usernameId))
-		.limit(1);
-
 	try {
 		const imageUrls: string[] = [];
 		// Upload images to Supabase storage if present
 		for (let i = 0; formData.get(`image${i}`); i++) {
 			const base64Image = formData.get(`image${i}`) as string;
-			const { data, error } = await supabase.storage
+			const supabase_server = createClient()
+			const { data, error } = await supabase_server.storage
 				.from('question-images')
 				.upload(
 					`${questionId}/${nanoid()}.jpg`,
@@ -55,7 +50,7 @@ export async function POST(request: Request) {
 
 			const {
 				data: { publicUrl },
-			} = supabase.storage.from('question-images').getPublicUrl(data.path);
+			} = supabase_server.storage.from('question-images').getPublicUrl(data.path);
 
 			imageUrls.push(publicUrl);
 		}
@@ -65,7 +60,7 @@ export async function POST(request: Request) {
 			.values({
 				questionId: questionId,
 				content: question,
-				userId: userId[0].id,
+				userId: usernameId,
 				posterId: posterId ? posterId : null,
 				imageUrls: imageUrls.length > 0 ? imageUrls : null,
 				isAnon: isAnon,
@@ -123,8 +118,8 @@ export async function DELETE(request: Request) {
 					const parts = url.split('/');
 					return `${questionId}/${parts[parts.length - 1]}`;
 				});
-
-				const { data, error } = await supabase.storage
+				const supabase_server = createClient()
+				const { data, error } = await supabase_server.storage
 					.from('question-images')
 					.remove(imagePaths);
 

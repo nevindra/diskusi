@@ -27,10 +27,10 @@ export const DesktopNavContent = ({
 }: DesktopNavContentProps) => {
 	const avatar = user?.avatarUrl
 		? `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/${user.avatarUrl}`
-		: '/user.png';
+		: '/unknown.png';
 
-    const { isAnon, toggleAnon } = useAnon();
-
+    const {toggleAnon, isAnon} = useAnon();
+	
 	return (
 		<NavbarContent className="hidden sm:flex" justify="end">
 			{isUnauthenticated ? (
@@ -93,7 +93,7 @@ export const DesktopNavContent = ({
 						</DropdownItem>
 						<DropdownItem
 							key="settings"
-							href={`/id/${user?.username}/setting`}
+							href='/setting'
 							startContent={<Gear />}
 						>
 							Settings

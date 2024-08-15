@@ -1,3 +1,14 @@
+## 1.2.7 (15-08-2024)
+Features:
+ - Add onboarding page
+ - Add Google Auth for login and signup
+ - Add onboarding feature for user
+ - Add new image for anonymous user
+
+Bug Fixes:
+ - Fix the bug that the user's anonymouse state is not saved
+ - Add user profile state for profile page so it improve performance
+
 ## 1.2.6 (12-08-2024)
 Features:
  - Add hide my profile switch in the navbar

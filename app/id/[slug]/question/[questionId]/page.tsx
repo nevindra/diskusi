@@ -44,7 +44,7 @@ export default function QuestionPage({
 		<div className="flex flex-col items-center justify-center md:m-8 lg:m-10">
 			{/* Main Card */}
 			<div className="w-full xl:w-[70%] px-3 lg:px-0">
-				<UserProfileBox username={params.slug} isSingleQuestion={true} />
+				<UserProfileBox />
 			</div>
 			<div className="w-full xl:w-[70%] px-3 lg:px-0 flex justify-start">
 				<button
@@ -86,7 +86,6 @@ export default function QuestionPage({
 							questionId={question.questionId}
 							avatarUrl={question.avatarUrl}
 							user={user}
-							username={params.slug}
 						/>
 						<CardBody className="py-1 sm:py-2">
 							<QuestionBody

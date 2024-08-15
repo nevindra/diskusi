@@ -5,10 +5,10 @@ import { Button } from '@nextui-org/button';
 import { Card, CardBody, CardHeader } from '@nextui-org/card';
 import { Checkbox } from '@nextui-org/checkbox';
 import { Input } from '@nextui-org/input';
-import { Popover, PopoverContent, PopoverTrigger } from '@nextui-org/popover';
 import { GoogleLogo } from '@phosphor-icons/react';
 import Image from 'next/image';
 
+import { signUpWithGoogle } from '@/actions/signupAction';
 import { legalContent } from '@/public/legal';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useDisclosure } from '@nextui-org/modal';
@@ -33,6 +33,11 @@ export default function SignupPage() {
 
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const [modalContent, setModalContent] = useState({ title: '', content: '' });
+	const queryClient = useQueryClient();
+
+	const onGoogleSignup = async () => {
+		await signUpWithGoogle();
+	};
 
 	const openModal = (type: 'terms' | 'privacy') => {
 		if (type === 'terms') {
@@ -58,7 +63,6 @@ export default function SignupPage() {
 		resolver: zodResolver(schema),
 		defaultValues,
 	});
-	const queryClient = useQueryClient();
 
 	const mutation = useMutation({
 		mutationFn: signUp,
@@ -194,27 +198,16 @@ export default function SignupPage() {
 							or sign up with
 						</p>
 						<div className="flex justify-center space-x-4 px-4">
-							<Popover placement="top">
-								<PopoverTrigger>
-									<Button
-										variant="bordered"
-										name="google"
-										data-umami-event="Signup:Google"
-										className="w-full bg-[#0F9D58] text-white"
-									>
-										<GoogleLogo className="mr-2" />
-										Google
-									</Button>
-								</PopoverTrigger>
-								<PopoverContent>
-									<div className="px-1 py-2">
-										<div className="text-xs text-primary font-bold">
-											Coming soon!
-										</div>
-										<div className="text-xs">We are working on it</div>
-									</div>
-								</PopoverContent>
-							</Popover>
+							<Button
+								variant="bordered"
+								name="google"
+								data-umami-event="Signup:Google"
+								className="w-full bg-[#0F9D58] text-white"
+								onClick={onGoogleSignup}
+							>
+								<GoogleLogo className="mr-2" />
+								Google
+							</Button>
 						</div>
 					</div>
 					<p className="text-center mt-6 text-sm text-secondary">

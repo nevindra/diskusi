@@ -10,6 +10,7 @@ import {
 } from '@/handlers/questionHandlers';
 import { useAnon } from '@/hooks/useAnon';
 import { usePastedImages } from '@/hooks/usePasteImage';
+import { useProfileStore } from '@/state/profileState';
 import { useTempQuestionStore } from '@/state/questionState';
 import type { UserType } from '@/types/userType';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -29,20 +30,22 @@ export const QuestionBox = ({
 }) => {
 	const queryClient = useQueryClient();
 	const { setQuestion, getQuestion, clearQ } = useTempQuestionStore();
+	const { profileUser } = useProfileStore();
+	const { isAnon } = useAnon();
 	const { pastedImages, handlePaste, removeImage, clearPastedImages } =
 		usePastedImages();
 	const [uploadedImages, setUploadedImages] = useState<File[]>([]);
-	const { isAnon } = useAnon();
 
 	const defaultValues = {
 		question: getQuestion(username) || '',
-		usernameId: username, // this is for the user id who being asked the question
+		usernameId: profileUser.id, // this is for the user id who being asked the question
 		posterId: '',
 		images: [],
-		isAnon: isAnon ?? true,
+		isAnon: isAnon,
 	};
 
 	const fileInputRef = useRef<HTMLInputElement>(null);
+
 	const handleFileUpload = () => {
 		if (fileInputRef.current) {
 			fileInputRef.current.click();
@@ -52,7 +55,8 @@ export const QuestionBox = ({
 	const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const files = event.target.files;
 		if (files && files.length > 0) {
-			setUploadedImages((prev) => [...prev, ...Array.from(files)]);
+			const imageFiles = Array.from(files).filter(file => file.type.startsWith('image/'));
+			setUploadedImages((prev) => [...prev, ...imageFiles]);
 		}
 	};
 
@@ -87,13 +91,16 @@ export const QuestionBox = ({
 	const { mutate, isPending } = useMutation({
 		mutationFn: postQuestion,
 		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: ['questions', username] });
+			queryClient.invalidateQueries({
+				queryKey: ['questions', profileUser.username],
+			});
 			clearQ(username);
 			reset({
 				question: '',
-				usernameId: username,
+				usernameId: profileUser.id,
 				posterId: user?.id || '',
 				images: [],
+				isAnon: isAnon,
 			});
 			clearPastedImages();
 			setUploadedImages([]);
@@ -126,9 +133,9 @@ export const QuestionBox = ({
 		// Create FormData object
 		const formData = new FormData();
 		formData.append('question', data.question);
-		formData.append('usernameId', data.usernameId);
+		formData.append('usernameId', data.usernameId || profileUser.id);
 		formData.append('posterId', data.posterId || '');
-		formData.append('isAnon', data.isAnon.toString());
+		formData.append('isAnon', isAnon ? 'true' : 'false');
 		imagesData.forEach((base64Image, index) => {
 			formData.append(`image${index}`, base64Image);
 		});
@@ -160,9 +167,10 @@ export const QuestionBox = ({
 				</div>
 				<div className="text-sm 2xs:text-xs text-secondary/80 px-5 italic">
 					<span className="font-bold">Note: </span>
-					{isAnon
+					{profileUser.id === null || isAnon
 						? 'Anonymous mode is enabled. Your question will not be visible to other users.'
-						: 'Anonymous mode is disabled. Your question will be visible to other users.'}
+						: 'Anonymous mode is disabled. Your question will be visible to other users.'
+					}
 				</div>
 				{errors.root && (
 					<div className="text-red-500 mb-3">{errors.root.message}</div>
@@ -199,6 +207,7 @@ export const QuestionBox = ({
 					ref={fileInputRef}
 					style={{ display: 'none' }}
 					onChange={handleFileChange}
+					accept='image/*'
 				/>
 				<div className="flex justify-end px-4 py-1 gap-1">
 					<Button

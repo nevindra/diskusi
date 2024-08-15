@@ -1,7 +1,9 @@
 import { supabase_client } from '@/database/client';
+import { useAnonStore } from '@/state/anonState';
 import { useTempQuestionStore } from '@/state/questionState';
 import type { UserType } from '@/types/userType';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useEffect } from 'react';
 
 export function useSession() {
 	const queryClient = useQueryClient();
@@ -56,6 +58,13 @@ export function useSession() {
 
 	const isLoading = isSessionLoading || isUserLoading;
 	const isError = isSessionError || isUserError;
+	const {setIsAnon} = useAnonStore();
+
+	useEffect(() => {
+		if (user?.id === undefined) {
+			setIsAnon(true);
+		} 
+	}, [user, setIsAnon]);
 
 	return {
 		isLoading,

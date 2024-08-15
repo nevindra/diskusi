@@ -10,8 +10,15 @@ export type UserType = {
 }
 
 export type UsersExplore = {
+    id: string;
     username: string;
     avatarUrl: string | null;
     bio: string | null
-    questionCount: number;
+}
+
+export type UserProfile = {
+    id: string;
+    username: string;
+    avatarUrl: string;
+    bio: string;
 }

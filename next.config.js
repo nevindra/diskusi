@@ -30,7 +30,12 @@ const nextConfig = {
     ];
   },
   images: {
-    domains: ["acbxjfkgfvesimpavkio.supabase.co"],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "**.supabase.com",
+      },
+    ],
   },
 };
 

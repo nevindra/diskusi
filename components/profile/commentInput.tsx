@@ -28,7 +28,7 @@ export const CommentInput = ({
 		username: undefined,
 		poster_id: '',
 	};
-	const {isAnon} = useAnon();
+	const { isAnon } = useAnon();
 	const queryClient = useQueryClient();
 	const {
 		control,
@@ -49,7 +49,7 @@ export const CommentInput = ({
 	}, [isAnon, user, question_id, username, setValue]);
 
 
-	const mutation = useMutation({
+	const {mutate, isPending} = useMutation({
 		mutationFn: postComment,
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ['questions', username] });
@@ -66,7 +66,7 @@ export const CommentInput = ({
 	});
 
 	const onSubmit = (data: CommentFormData) => {
-		mutation.mutate(data);
+		mutate(data);
 	};
 	return (
 		<form
@@ -96,7 +96,7 @@ export const CommentInput = ({
 			)}
 			<div className="flex justify-end">
 				<Button
-					isLoading={isSubmitting}
+					isLoading={isSubmitting || isPending}
 					type="submit"
 					color="primary"
 					size="sm"

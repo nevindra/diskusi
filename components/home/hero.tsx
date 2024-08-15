@@ -1,8 +1,5 @@
 import { Button } from '@nextui-org/button';
 import { Link } from '@nextui-org/link';
-import dynamic from 'next/dynamic';
-
-const Image = dynamic(() => import('next/image'), { ssr: false });
 
 export const HeroComponent = () => {
 	return (
@@ -18,6 +15,9 @@ export const HeroComponent = () => {
 				<Button className='mt-4 text-md  lg:text-lg px-4 py-2 md:px-6 md:py-3' color='primary' variant='solid' as={Link} href='/signup'>
 					Join Now
 				</Button>
+				<p className='mt-4 text-xs lg:text-sm px-4 py-2 md:px-6 md:py-3 font-bold'>
+					No need to download anything! Just ask your friends and get the answers.
+				</p>
 			</div>
 		</div>
 	);

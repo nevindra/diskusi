@@ -7,17 +7,17 @@ import { eq, sql } from 'drizzle-orm';
 async function getUsers(): Promise<UsersExplore[]> {
 	const usersData: UsersExplore[] = await db
 		.select({
+			id: UsersTable.id,
 			username: UsersTable.username,
 			avatarUrl: UsersTable.avatarUrl,
 			bio: UsersTable.bio,
-			questionCount: sql<number>`COALESCE(COUNT(DISTINCT ${QuestionsTable.questionId}), 0)`,
 		})
 		.from(UsersTable)
 		.leftJoin(QuestionsTable, eq(UsersTable.id, QuestionsTable.userId))
-		.groupBy(UsersTable.username, UsersTable.avatarUrl, UsersTable.bio)
+		.groupBy(UsersTable.username, UsersTable.avatarUrl, UsersTable.bio, UsersTable.id)
 		.orderBy(
 			sql`COALESCE(COUNT(DISTINCT ${QuestionsTable.questionId}), 0) DESC`
-		);
+		)
 
 	return usersData;
 }

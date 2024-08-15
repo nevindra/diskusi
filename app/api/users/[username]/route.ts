@@ -1,5 +1,6 @@
 import { UsersTable } from '@/database/dbSchema';
-import { db, supabase } from '@/database/initDB';
+import { db } from '@/database/initDB';
+import { createClient } from '@/database/server';
 import { eq } from 'drizzle-orm';
 import { NextResponse } from 'next/server';
 
@@ -76,7 +77,8 @@ export async function PATCH(
 		if (avatarFile) {
 			const fileExt = avatarFile.name.split('.').pop();
 			const fileName = `${username}-${Date.now()}.${fileExt}`;
-			const { data, error } = await supabase.storage
+			const supabase_server = createClient()
+			const { data, error } = await supabase_server.storage
 				.from('profile-images')
 				.upload(fileName, avatarFile);
 
@@ -89,7 +91,7 @@ export async function PATCH(
 			if (user[0].avatarUrl) {
 				const oldFileName = user[0].avatarUrl.split('/').pop();
 				if (oldFileName) {
-					await supabase.storage
+					await supabase_server.storage
 						.from('profile-images')
 						.remove([oldFileName]);
 				}

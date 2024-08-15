@@ -7,7 +7,7 @@ type Props = {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const slug = params.slug;
-    const title = `Komunal - ${slug.charAt(0).toUpperCase() + slug.slice(1)}`;
+    const title = `${slug}'s profile`;
     return generateSEOMetadata({
       title,
       description:
@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         nocache: true,
       }
     });
-  }
+}
 
 
 export default function Layout({

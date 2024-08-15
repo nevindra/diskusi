@@ -1,13 +1,13 @@
 'use client';
 
-import { type LoginFormData, LoginSchema, login } from '@/actions/loginAction';
+import { type LoginFormData, LoginSchema, login, loginWithGoogle } from '@/actions/loginAction';
+
 import { EyeFilledIcon, EyeSlashFilledIcon } from '@/components/icons';
 import { useSession } from '@/hooks/useSession';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from '@nextui-org/button';
 import { Card, CardBody, CardHeader } from '@nextui-org/card';
 import { Input } from '@nextui-org/input';
-import { Popover, PopoverContent, PopoverTrigger } from '@nextui-org/popover';
 import { GoogleLogo } from '@phosphor-icons/react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import Image from 'next/image';
@@ -18,18 +18,17 @@ import { Controller, useForm } from 'react-hook-form';
 export default function Login() {
 	const { isAuthenticated, user, isLoading } = useSession();
 	const router = useRouter();
+	const [isVisible, setIsVisible] = useState(false);
+	const toggleVisibility = () => setIsVisible(!isVisible);
+
+	const schema = LoginSchema;
+	const defaultValues = { email: '', password: '' };
 
 	useEffect(() => {
 		if (isAuthenticated && user && !isLoading) {
 			router.push(`/id/${user.username}`);
 		}
 	}, [isAuthenticated, user, isLoading, router]);
-
-	const [isVisible, setIsVisible] = useState(false);
-	const toggleVisibility = () => setIsVisible(!isVisible);
-
-	const schema = LoginSchema;
-	const defaultValues = { email: '', password: '' };
 
 	const {
 		control,
@@ -143,27 +142,16 @@ export default function Login() {
 							<GithubLogo className="mr-2" />
 							Github
 						</Button> */}
-							<Popover placement="top">
-								<PopoverTrigger>
-									<Button
-										variant="bordered"
-										name="google"
-										data-umami-event="Login:Google"
-										className="w-full bg-[#0F9D58] text-white"
-									>
-										<GoogleLogo className="mr-2" />
-										Google
-									</Button>
-								</PopoverTrigger>
-								<PopoverContent>
-									<div className="px-1 py-2">
-										<div className="text-xs text-primary font-bold">
-											Coming soon!
-										</div>
-										<div className="text-xs">We are working on it</div>
-									</div>
-								</PopoverContent>
-							</Popover>
+							<Button
+								variant="bordered"
+								name="google"
+								data-umami-event="Login:Google"
+								className="w-full bg-[#0F9D58] text-white"
+								onClick={loginWithGoogle}
+							>
+								<GoogleLogo className="mr-2" />
+								Google
+							</Button>
 						</div>
 					</div>
 					<p className="text-center mt-6 text-sm text-secondary">

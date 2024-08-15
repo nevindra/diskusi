@@ -1,4 +1,4 @@
-import { supabase } from '@/database/initDB';
+import { createClient } from "@/database/server";
 import { NextResponse } from 'next/server';
 
 
@@ -12,8 +12,8 @@ export async function POST(request: Request) {
 				{ status: 400 }
 			);
 		}
-
-		const { data, error } = await supabase.auth.signUp({
+		const supabase_server = createClient()
+		const { data, error } = await supabase_server.auth.signUp({
 			email,
 			password,
 			options: {

@@ -22,7 +22,8 @@ export const NavbarMenu = ({
 	logout,
 }: NavbarMenuProps) => {
 	const closeMenu = () => setIsMenuOpen(false);
-	const { isAnon, toggleAnon } = useAnon();
+	const {toggleAnon, isAnon} = useAnon();
+
 
 	return (
 		<NextUINavbarMenu>
@@ -104,7 +105,7 @@ export const NavbarMenu = ({
 					<NavbarMenuItem>
 						<Link
 							className="w-full"
-							href={`/id/${user?.username}/setting`}
+							href='/setting'
 							size="lg"
 							onPress={closeMenu}
 						>

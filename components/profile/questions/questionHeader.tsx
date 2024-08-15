@@ -1,5 +1,6 @@
 import { deleteQuestion } from '@/handlers/questionHandlers';
-import { UserType } from '@/types/userType';
+import { useProfileStore } from '@/state/profileState';
+import type { UserType } from '@/types/userType';
 // 1. QuestionHeader: For the user avatar and post metadata
 import { Avatar } from '@nextui-org/avatar';
 import { Button } from '@nextui-org/button';
@@ -21,7 +22,6 @@ export const QuestionHeader = ({
 	posterId,
 	posterUsername,
 	createdAt,
-	username,
 	questionId,
 	user,
 	avatarUrl,
@@ -30,14 +30,14 @@ export const QuestionHeader = ({
 	posterId: string | null;
 	posterUsername: string;
 	createdAt: string;
-	username: string;
 	user: UserType | null | undefined;
 	questionId: string;
 	avatarUrl: string | null;
 	isAnon: boolean | null;
 }) => {
+	const {profileUser} = useProfileStore();
 	const { isOpen, onOpen, onOpenChange } = useDisclosure();
-	const isUser = user?.username === username;
+	const isUser = user?.username === profileUser.username;
 	const queryClient = useQueryClient();
 	const [errorMessage, setErrorMessage] = useState<string | null>(null);
 	
@@ -45,7 +45,7 @@ export const QuestionHeader = ({
 		mutationFn: () => deleteQuestion(questionId),
 		onSuccess: () => {
 			onOpenChange();
-			queryClient.invalidateQueries({ queryKey: ['questions', username] });
+			queryClient.invalidateQueries({ queryKey: ['questions', profileUser.username] });
 		},
 		onError: (error) => {
 			setErrorMessage(error.message);
@@ -54,12 +54,12 @@ export const QuestionHeader = ({
 	const onDelete = () => {
 		mutation.mutate();
 	};
-	const avatar = avatarUrl ? `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/${avatarUrl}` : '/user.png';
+	const avatar = avatarUrl ? `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/${avatarUrl}` : '/unknown.png';
 
 	return (
 		<CardHeader className="grid grid-cols-2 gap-2 items-center pb-2">
 			<div className="flex items-center space-x-2 xs:space-x-4">
-				<Avatar radius="full" size="sm" src={isAnon ? '/user.png' : avatar || '/user.png'} />
+				<Avatar radius="full" size="sm" src={isAnon ? '/unknown.png' : avatar || '/unknown.png'} />
 				<div>
 					<p className="font-semibold text-primary text-sm sm:text-base">
 						{posterId === null ? 'Anonymous' : isAnon ? 'Anonymous' : posterUsername}

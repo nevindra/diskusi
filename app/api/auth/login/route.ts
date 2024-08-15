@@ -1,4 +1,4 @@
-import { supabase } from "@/database/initDB";
+import { createClient } from "@/database/server";
 import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
@@ -10,7 +10,8 @@ export async function POST(request: Request) {
         );
     }
     try {
-        const { data, error } = await supabase.auth.signInWithPassword({
+        const supabase_server = createClient()
+        const { data, error } = await supabase_server.auth.signInWithPassword({
             email,
             password,
         });

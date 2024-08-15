@@ -5,10 +5,8 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useMemo } from 'react';
 
 export function useProfileData(username: string) {
-	const {
-		user,
-		isLoading: isSessionLoading,
-	}: { user: UserType | null | undefined; isLoading: boolean } = useSession();
+	const {user, isLoading: isSessionLoading}: { user: UserType | null | undefined; isLoading: boolean } = useSession();
+
 	const {
 		data: questions = [],
 		refetch: refetchQuestions,

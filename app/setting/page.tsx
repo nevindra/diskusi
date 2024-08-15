@@ -15,11 +15,13 @@ import { Controller, useForm } from 'react-hook-form';
 
 import { type UserFormData, patchUser } from '@/handlers/userHandlers';
 import { useSession } from '@/hooks/useSession';
+import { useProfileStore } from '@/state/profileState';
 
 export default function AccountSettings({
 	params,
 }: { params: { slug: string } }) {
-	const username = params.slug;
+	const {profileUser} = useProfileStore()
+	const username = profileUser?.username;
 	const { user } = useSession();
 	const fileInputRef = useRef<HTMLInputElement>(null);
 	const [tempAvatarUrl, setTempAvatarUrl] = useState<string | null>(null);
@@ -34,7 +36,7 @@ export default function AccountSettings({
 		avatarUrl: user?.avatarUrl || '',
 	};
 
-	const avatar = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/${user?.avatarUrl}`;
+	const avatar = user?.avatarUrl ? `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/${user?.avatarUrl}` : '/unknown.png';
 
 	const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const file = event.target.files?.[0];
@@ -119,7 +121,7 @@ export default function AccountSettings({
 								<div className="flex flex-col">
 									<div className="flex flex-col items-center justify-center">
 										<Avatar
-											src={tempAvatarUrl || avatar || '/user.png'}
+											src={tempAvatarUrl || avatar }
 											className="w-32 h-32 text-large"
 										/>
 										<input
